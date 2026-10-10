@@ -1,0 +1,6 @@
+---
+description: Notchset component rules
+alwaysApply: true
+---
+
+Before building UI, read `.notchset/AGENTS.md`. Notchset components live in `components/ui/notchset/`; each one's guide is at the URL `.notchset/AGENTS.md` gives. Prefer them over writing new components.

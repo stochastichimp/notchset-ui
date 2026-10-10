@@ -1,0 +1,85 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "notchset-skill",
+  "type": "registry:file",
+  "title": "Notchset agent skill",
+  "description": "Teaches Claude Code and other agents to find, install and compose Notchset items with the library's design, motion and copy rules.",
+  "files": [
+    {
+      "path": "registry/skill/SKILL.md",
+      "type": "registry:file",
+      "target": "~/.claude/skills/notchset/SKILL.md",
+      "content": "---\nname: notchset\ndescription: Build interfaces with Notchset components and blocks for shadcn/ui. Use when creating or editing UI in a project that has Notchset installed, or when asked for buttons, fields, pickers, charts, pricing, auth, calendars, boards or other app screens built from Notchset.\n---\n\n# Notchset\n\nNotchset is one design system for shadcn/ui: components that answer as people use them, and blocks that\ncompose them into whole tasks. It installs as source through the\nshadcn CLI and sits on the project's own shadcn tokens.\n\nBefore writing UI, read in this order:\n\n1. `components.md`: find the item before inventing one.\n2. `composition.md`: how blocks and screens are put together; `app-pages.md`: the app shell, page\n   header, collection pages and settings forms every app screen follows.\n3. `design.md`: the foundation roles (sizes, type, corners, depth) and the rules for colour.\n4. `motion.md`: the motion vocabulary and what stays signature.\n5. `accessibility.md`, `responsive.md`, `copy.md`.\n6. `checklist.md` before you say you're done.\n\nWorked examples: `example-settings.md`, `example-dashboard.md`.\n\n## Install\n\n- Free items: `npx shadcn@latest add https://notchset.dev/r/<id>.json`, or `@notchset/<id>` once the registry is in\n  components.json.\n- Pro items: `@notchset-pro/<id>` with the `NOTCHSET_TOKEN` key in `.env.local`. Never recreate Pro source.\n- Every item's guide: `https://notchset.dev/md/<id>.md` (props, keyboard, motion, mistakes). Read it before using it.\n"
+    },
+    {
+      "path": "registry/skill/accessibility.md",
+      "type": "registry:file",
+      "target": "~/.claude/skills/notchset/accessibility.md",
+      "content": "# Accessibility\n\n- The right semantics: radiogroup for one-of-a-few, tabs for panels, switch for on/off settings,\n  checkbox for independent options. Label every control; a decorative mark is `aria-hidden`.\n- Keyboard reaches every outcome the pointer does. Arrow keys inside groups (mirrored in right-to-left),\n  Home/End to the ends, Escape closes, focus returns to the control that opened something.\n- Focus is always visible (the shared focus ring or the family's documented indicator).\n- Announce outcomes politely (saved, verified, failed) with a live region; never only with colour,\n  motion or sound.\n- Touch targets are at least 44px on coarse pointers. Text meets contrast on the project's tokens.\n"
+    },
+    {
+      "path": "registry/skill/app-pages.md",
+      "type": "registry:file",
+      "target": "~/.claude/skills/notchset/app-pages.md",
+      "content": "# App pages: shell, header, collections, settings\n\nEvery app screen follows these four patterns, so seventy pages read as one product. Compose stock shadcn\npieces and Notchset items; don't invent new spacing, headings or table states per page.\n\n## Shell and page header\n\n- Shell: stock shadcn `Sidebar` (or a top bar on small apps) with the project's tokens; the content area\n  scrolls, the shell doesn't.\n- Content width: `mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8`; forms and settings\n  `max-w-[720px]`. Section gap `gap-8`; inside a section `gap-4`.\n- Page header: title (`text-2xl font-semibold tracking-tight`), one line under it in muted foreground,\n  and at most one primary action at the end (Button). Secondary actions go in a menu. On phones the\n  action drops under the title, full width.\n\n## Collection pages (records, customers, invoices)\n\n- Table: stock shadcn `Table` with `Pagination` for general records. Notchset's Service Table is for\n  operational service lists (health, latency, uptime) only.\n- Toolbar above the table, aligned to its edges: search (Input), filters (Select / Segmented), then the\n  primary action. Filters change the URL so a filtered view can be shared.\n- Every state, in the same frame as the table so nothing jumps:\n  - Loading: skeleton rows the height of real rows (`--ns-row-height`).\n  - First use (no records yet): one sentence on what goes here and the action that creates the first one.\n  - Filtered empty: \"No results for …\" and a Clear filters button.\n  - Load failure: what failed, a Retry button, and the error announced (`role=\"alert\"`).\n- Selection and bulk actions: selection only holds ids still in the table; a failed action keeps the\n  selection and says what failed (Service Table and Arrow CTA do this already).\n\n## Settings forms\n\n- Sections as boxes (`rounded-[var(--ns-corner-box,min(26px,calc(var(--radius,999px)*2.6)))]`, `border`, `bg-[var(--card)]`), each with a title\n  and one line saying what it controls.\n- Labels `text-[length:var(--ns-type-label)]`, notes under fields `text-[length:var(--ns-type-note)]`.\n- Validation is per field (inline message, `aria-invalid`), checked on submit and as the person fixes it.\n- A failed save is not a validation result: keep the values, say what failed next to the save action\n  and announce it. Never show \"saved\" or \"looks good\" after a failed request.\n- Async callbacks fail by throwing or by resolving `false`, a failed `Response` (`!res.ok`) or\n  `{ error }`; check `res.ok` before treating a request as done.\n\n## Phones\n\nOrder on a phone: header, the primary task, then supporting panels. Tables scroll inside their own\nregion; toolbars wrap. Check 390px and 1280px.\n"
+    },
+    {
+      "path": "registry/skill/checklist.md",
+      "type": "registry:file",
+      "target": "~/.claude/skills/notchset/checklist.md",
+      "content": "# Before you say it's done\n\n- [ ] Every control comes from a catalogue item or a shared helper, or the gap is named in your reply.\n- [ ] Colours read shadcn tokens; sizes, type, corners, depth and motion use the foundation roles.\n- [ ] Classes are literal (className / cn / cva), logical, ES2022.\n- [ ] Every state the task has is there: loading, empty, error, disabled, done.\n- [ ] Keyboard, labels, focus ring, announcements, 44px targets on touch.\n- [ ] Reduced motion and motion off reach the final state; sound is opt-in.\n- [ ] Works at 390 and 1280, in light and dark, left-to-right and right-to-left.\n- [ ] Pro items installed with the key, never recreated.\n"
+    },
+    {
+      "path": "registry/skill/components.md",
+      "type": "registry:file",
+      "target": "~/.claude/skills/notchset/components.md",
+      "content": "# Finding the right item\n\nSearch first: `https://notchset.dev/llms.txt` lists every item with one line on when to use it; the MCP server\n(`search_components`, `get_component`) answers the same questions with install commands.\n\n- Use an item when its job matches. Read its \"Use it when\" and \"Not when\" lines: a Billing Switch is not\n  a tab bar, a Settings Switch has async confirm-or-roll-back behaviour a plain checkbox doesn't.\n- Install it; don't copy its look into a new component. Override with `className` and the foundation\n  roles (design.md), not by forking the file.\n- Families: Actions (Button, Save Button, Split Button, hold and pay actions), Fields (Input, Password,\n  Verification Code, Email, Tag Input), Date and time, Selection and navigation (tabs, switches,\n  segmented), Overlays and feedback (dialogs, toasts, alerts, progress), Data (tables, charts, metrics),\n  Agent UI, and Blocks (whole tasks: sign in, pricing, checkout, calendar, board, availability, release).\n- No item fits? In this order: (1) the project's stock shadcn component (Table, Sidebar, Pagination,\n  Dialog, Form, Select…), themed by the same tokens; (2) a composition of Notchset items and stock ones;\n  (3) only then a new piece, built from the foundation roles and the shared helpers (`lib/`: Segmented\n  choice, Verification code controller, Field family, Number Flow, Arrow CTA, Avatar Face). Keep it in\n  the project and say in your reply which gap it fills.\n"
+    },
+    {
+      "path": "registry/skill/composition.md",
+      "type": "registry:file",
+      "target": "~/.claude/skills/notchset/composition.md",
+      "content": "# Composition: blocks and screens\n\nA block is a whole task (sign in, check out, plan a week) built from catalogue items and shared helpers.\n\n- Compose items; don't restyle copies of them. A block's own folder holds only its task-specific parts\n  (a plan card, a slot grid, a task card).\n- A piece two blocks need goes to a shared helper, then to a published item.\n- Lay out by container: blocks render inside any width, from a phone column to a wide dashboard.\n- Expose data and callbacks as props; keep sample data in the demo. Every state the task has: loading,\n  empty, error (a message the person can act on), disabled, done.\n- A screen is blocks plus layout: an app shell, a page header, a toolbar, the task blocks, and the\n  states between them. Keep one primary action per region.\n"
+    },
+    {
+      "path": "registry/skill/copy.md",
+      "type": "registry:file",
+      "target": "~/.claude/skills/notchset/copy.md",
+      "content": "# Copy\n\n- Plain, specific and short. Say what happened and what to do: \"That code is not right. Try again.\"\n- Name actions by their outcome (\"Save changes\", \"Send invite\"), not by the control (\"Submit\").\n- No hype, no claims the product can't back. Numbers and dates come from the data, never invented.\n- Errors keep what the person typed and offer the next step.\n"
+    },
+    {
+      "path": "registry/skill/design.md",
+      "type": "registry:file",
+      "target": "~/.claude/skills/notchset/design.md",
+      "content": "# Design rules\n\n## Colour comes from the project\n\nComponents read the project's shadcn tokens: `--background`, `--foreground`, `--muted`,\n`--muted-foreground`, `--border`, `--input`, `--ring`, `--primary`, `--success`, `--warning`,\n`--destructive`, `--chart-1…5`. Never hard-code a hex colour in a component. Mix tokens instead:\n`color-mix(in oklab, var(--success,var(--foreground)) 70%, var(--foreground))`. Tints of a block's accent use\n`--ns-tint-panel` / `-card` / `-band` / `-band-strong`.\n\n## Foundation roles\n\nUse the role, not its raw value (the values are the defaults):\n\n| Job | Role |\n| --- | --- |\n| Control height compact / regular / roomy | `h-[var(--ns-control-compact)]` 32px, `-regular` 40px, `-roomy` 48px |\n| Control padding | `px-[var(--ns-inset-compact)]` 12px, `-regular` 18px, `-roomy` 24px |\n| Box and frame corners in blocks | `rounded-[var(--ns-corner-box,min(26px,calc(var(--radius,999px)*2.6)))]` 26px, `rounded-[var(--ns-corner-frame,min(34px,calc(var(--radius,999px)*3.4)))]` 34px |\n| Note / label / copy text | `text-[length:var(--ns-type-note)]` 12px, `-label` 13px, `-copy` 14px |\n| Prose leading, note leading | `leading-[var(--ns-leading-prose)]`, `leading-[var(--ns-leading-note)]` |\n| Control label tracking | `tracking-[var(--ns-tracking-control)]` |\n| Floating layer | `shadow-[var(--ns-shadow-layer)]` |\n| Focus ring | `focus-visible:ring-[length:var(--ns-focus-width,2px)] focus-visible:ring-[color:var(--ns-focus-color,var(--ring))]` |\n| Supporting text | `text-[color:var(--ns-ink-support,color-mix(in_oklab,var(--muted-foreground)_85%,var(--foreground)))]` |\n\nControls keep the project's `--radius`; pills are `rounded-full`. Fields are their own family (44px).\nA display number, an art-directed width or a hero title is not a role: keep it local.\n\n## Writing classes\n\n- Literal strings inside `className`, `cn()` or `cva()` only. Never a class in a constant, an array or a\n  nested ternary (the project's Tailwind prefix can't rewrite those).\n- Logical directions: `ps`/`pe`/`ms`/`me`/`start`/`end`; arbitrary radii (`rounded-[8px]`).\n- ES2022 only (no `toSorted`, `findLast`, `.with`).\n"
+    },
+    {
+      "path": "registry/skill/example-dashboard.md",
+      "type": "registry:file",
+      "target": "~/.claude/skills/notchset/example-dashboard.md",
+      "content": "# Example: a team dashboard\n\nFollows `app-pages.md` (shell, header, widths, states).\n\n1. Shell: stock shadcn Sidebar; content `max-w-[1200px]`, `gap-8` between sections.\n2. Page header: \"Overview\", one muted line with the date range, one primary action (Button \"Invite\").\n3. Metrics row: Metric Sparkline tiles (`grid gap-4 sm:grid-cols-2 lg:grid-cols-4`), each saying what\n   changed and over what period.\n4. Trend: a chart from the catalogue (Composed Chart or Focus Lines) in a box.\n5. Records: stock shadcn Table + Pagination with the collection states from `app-pages.md` (loading,\n   first use, filtered empty, load failure with Retry). Use Service Table only if the records are\n   services with health and latency.\n6. Activity: Nested Changelog or a list beside the table on wide screens, below it on phones.\n7. Check the page against `checklist.md`.\n"
+    },
+    {
+      "path": "registry/skill/example-settings.md",
+      "type": "registry:file",
+      "target": "~/.claude/skills/notchset/example-settings.md",
+      "content": "# Example: an account settings page\n\nFollows `app-pages.md` (shell, header, widths, settings forms).\n\n1. Content `max-w-[720px]`; page header \"Settings\" with one muted line; no extra actions.\n2. Profile box: Input for name, Email Field for email. Save Button saves the section: it rolls to Saving\n   and Saved only after `res.ok`; on a failure it shakes and the message stays beside it.\n3. Security box: Password Input with Password Strength for a new password.\n4. Preferences box: Settings Switch for each on/off (it confirms with the server and rolls back on\n   failure).\n5. Plan box: Billing Switch for Monthly / Yearly and Billing Period for the plan list.\n6. Danger zone box: Hold-to-Delete for the account, with the consequence written next to it.\n7. Check the page against `checklist.md`.\n"
+    },
+    {
+      "path": "registry/skill/motion.md",
+      "type": "registry:file",
+      "target": "~/.claude/skills/notchset/motion.md",
+      "content": "# Motion\n\nMotion says what happened: a press compresses, content settles, a shape reshapes, a mark pops. Ordinary\nmotion uses the roles below and nothing else; a component's signature choreography (Save Button's morph,\nthe call to action's sweep, hold-to-delete, chart transitions) stays inside that component with its own\ntiming, and is not copied into new work.\n\n| Job | Curve | Time |\n| --- | --- | --- |\n| Press (compress and spring back) | `var(--ns-ease-press)` | `var(--ns-time-press)`, depth `scale-[var(--ns-press-depth)]` |\n| Settle (content arrives, no overshoot) | `var(--ns-ease-settle)` | `var(--ns-time-state)` |\n| Reshape (width, thumb, rolling label) | `var(--ns-ease-reshape)` | `var(--ns-time-reflow)` |\n| Pop (a glyph or mark appears) | `var(--ns-ease-pop)` | `var(--ns-time-state)` |\n| Rebound (a stronger glyph response) | `var(--ns-ease-rebound)` | `var(--ns-time-state)` |\n| Hover feedback, colour, state, fold | default ease | `var(--ns-time-response)`, `-color`, `-state`, `-reflow` |\n\nWrite transitions as literal arbitrary properties, listing `scale`, `translate` and `rotate` whenever\n`transform` is listed: `[transition:scale_var(--ns-time-press)_var(--ns-ease-press)]`.\n\nNever put an overshooting curve on opacity, colour or blur.\n\nEvery animation has a reduced-motion path, and `data-motion=\"off\"` on any ancestor means the same:\n- Classes: `motion-reduce:transition-none` / `motion-reduce:animate-none`.\n- A `transition` set in an inline `style`: `motion-reduce:transition-none!`; an `animation` set in an inline\n  `style`: `motion-reduce:animate-none!` (both with the `!`: an inline style beats a plain class).\n- JS-driven motion (requestAnimationFrame loops, pointer-following light): check `prefersCalm(element)`\n  from the shared helpers when it starts AND on every frame or handler, so turning motion off mid-way\n  settles it at once.\n- Motion off still reaches the final state; the work (a save, an upload) keeps its real timing.\n\nSound is opt-in (SoundProvider) and independent of motion: one cue per event, from the component that\nowns the event.\n"
+    },
+    {
+      "path": "registry/skill/responsive.md",
+      "type": "registry:file",
+      "target": "~/.claude/skills/notchset/responsive.md",
+      "content": "# Responsive\n\n- Check at 390px and 1280px at least. Nothing scrolls the page sideways; nothing spills its frame.\n- Blocks stack their columns on narrow widths and keep their primary action reachable.\n- Data that can't fit scrolls inside its own region (tables, timelines), not the page.\n- Fields use 16px text on touch screens (no zoom on focus).\n"
+    }
+  ],
+  "meta": {
+    "tier": "free",
+    "kind": "skill"
+  }
+}

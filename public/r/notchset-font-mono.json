@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "notchset-font-mono",
+  "type": "registry:font",
+  "title": "Notchset mono font (Geist Mono)",
+  "description": "Geist Mono from Google Fonts as --font-mono.",
+  "font": {
+    "family": "Geist Mono",
+    "provider": "google",
+    "import": "Geist_Mono",
+    "variable": "--font-mono",
+    "subsets": [
+      "latin"
+    ],
+    "dependency": "@fontsource-variable/geist-mono"
+  },
+  "meta": {
+    "tier": "free",
+    "kind": "font",
+    "theme": "notchset"
+  }
+}
