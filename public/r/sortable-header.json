@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sortable-header",
+  "type": "registry:ui",
+  "title": "Sortable header",
+  "description": "A table column you can sort by: press to sort, again to flip. Each column has a natural first direction (names A to Z, money high to low), so the first press gives the useful order. The th carries aria-sort.",
+  "categories": [
+    "inputs"
+  ],
+  "dependencies": [
+    "lucide-react@^1"
+  ],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/sortable-header.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/sortable-header.tsx",
+      "content": "// Notchset sortable-header 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { ArrowDown, ArrowDownUp, ArrowUp } from \"lucide-react\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Sortable header: a table column you can sort by. Press to sort by it; press again to flip. Each column has a\n * natural first direction (names A to Z, money high to low), so the first press gives the useful order. The\n * arrow shows on the sorted column, and on others only on hover or focus. The th carries aria-sort.\n */\ntype SortableHeaderProps = Omit<React.ComponentPropsWithoutRef<\"th\">, \"onClick\" | \"align\"> & {\n  label: string;\n  /** This column's current sort, or null when the table is sorted by another column. */\n  direction: \"ascending\" | \"descending\" | null;\n  onSort: () => void;\n  align?: \"start\" | \"end\" | undefined;\n};\n\nfunction SortableHeader({ label, direction, onSort, align = \"start\", className, ...props }: SortableHeaderProps) {\n  const Arrow = direction === \"ascending\" ? ArrowUp : direction === \"descending\" ? ArrowDown : ArrowDownUp;\n  return (\n    <th aria-sort={direction ?? \"none\"} data-slot=\"sortable-header\" className={cn(align === \"end\" && \"text-end!\", className)} {...props}>\n      <button\n        type=\"button\"\n        onClick={onSort}\n        className={cn(\n          \"group -mx-1 -my-0.5 inline-flex cursor-pointer items-center gap-1 align-middle rounded-[6px] px-1 py-0.5 [font:inherit] text-inherit outline-hidden hover:text-[var(--ns-ink)] focus-visible:outline-2 focus-visible:outline-[var(--ns-signal)]\",\n          direction && \"text-[var(--ns-ink)]\",\n          align === \"end\" && \"flex-row-reverse\",\n        )}\n      >\n        {label}\n        <Arrow\n          aria-hidden\n          className={cn(\"size-3 text-[var(--ns-ink-3)] [transition:opacity_var(--ns-time-color)]\", direction ? \"opacity-100\" : \"opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100\")}\n        />\n      </button>\n    </th>\n  );\n}\n\nexport { SortableHeader, type SortableHeaderProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

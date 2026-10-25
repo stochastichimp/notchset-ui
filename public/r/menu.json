@@ -1,0 +1,46 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "menu",
+  "type": "registry:ui",
+  "title": "Menu",
+  "description": "The actions for a thing, opened from a button. Items carry an icon and the shortcut the app binds; group labels name a set, and the one destructive step is said in words and red. A bottom sheet on a phone.",
+  "categories": [
+    "overlays"
+  ],
+  "dependencies": [
+    "@base-ui/react@^1",
+    "lucide-react@^1"
+  ],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json",
+    "@notchset/keyboard-hint"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/menu.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/menu.tsx",
+      "content": "// Notchset menu 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { Menu as Base } from \"@base-ui/react/menu\";\nimport { Check } from \"lucide-react\";\nimport { cn } from \"@/lib/utils\";\nimport { KeyboardHint } from \"@/components/ui/notchset/keyboard-hint\";\nimport { popupItem, popupPositioner, popupSurface } from \"@/lib/notchset/popup\";\nimport { usePortalContainer } from \"@/lib/notchset/portal\";\n\n/*\n * Menu: the actions for a thing, opened from a button (⋯, a row's menu, the account). Same surface as every\n * popup: drops below, a bottom sheet on a phone. Items carry an icon, the shortcut the app binds, and danger in\n * words and colour for the one destructive step. Group labels name a set; separators split sets.\n */\ntype MenuProps = {\n  /** The button that opens it: one element that takes a ref. */\n  trigger: React.ReactElement;\n  children: React.ReactNode;\n  align?: \"start\" | \"center\" | \"end\" | undefined;\n  open?: boolean | undefined;\n  onOpenChange?: ((open: boolean) => void) | undefined;\n  className?: string | undefined;\n};\n\nfunction Menu({ trigger, children, align = \"start\", open, onOpenChange, className }: MenuProps) {\n  const portalContainer = usePortalContainer();\n  return (\n    <Base.Root open={open} onOpenChange={onOpenChange ? (o) => onOpenChange(o) : undefined}>\n      <Base.Trigger render={trigger} />\n      <Base.Portal container={portalContainer}>\n        <Base.Positioner align={align} sideOffset={4} collisionPadding={8} className={popupPositioner}>\n          <Base.Popup data-slot=\"menu\" data-ns-layer=\"\" data-ns-moves=\"\" className={cn(popupSurface, className)}>\n            {children}\n          </Base.Popup>\n        </Base.Positioner>\n      </Base.Portal>\n    </Base.Root>\n  );\n}\n\ntype MenuItemProps = Omit<React.ComponentPropsWithoutRef<typeof Base.Item>, \"className\"> & {\n  icon?: React.ReactNode;\n  /** A shortcut the app binds (\"E\", \"⌘⌫\"); printed on the right. */\n  shortcut?: string | undefined;\n  danger?: boolean | undefined;\n  className?: string | undefined;\n};\n\nfunction MenuItem({ icon, shortcut, danger, className, children, ...props }: MenuItemProps) {\n  return (\n    <Base.Item data-slot=\"menu-item\" className={cn(popupItem, danger && \"text-[var(--ns-bad-ink)] [&_svg]:text-[var(--ns-bad-ink)]\", className)} {...props}>\n      {icon}\n      <span className=\"min-w-0 flex-1 truncate\">{children}</span>\n      {shortcut && <KeyboardHint keys={shortcut} className=\"ml-auto pl-3\" />}\n    </Base.Item>\n  );\n}\n\ntype MenuCheckboxItemProps = Omit<React.ComponentPropsWithoutRef<typeof Base.CheckboxItem>, \"className\"> & {\n  icon?: React.ReactNode;\n  className?: string | undefined;\n};\n\nfunction MenuCheckboxItem({ icon, className, children, ...props }: MenuCheckboxItemProps) {\n  return (\n    <Base.CheckboxItem data-slot=\"menu-checkbox-item\" className={cn(popupItem, className)} {...props}>\n      {icon}\n      <span className=\"min-w-0 flex-1 truncate\">{children}</span>\n      <Base.CheckboxItemIndicator className=\"ml-2 text-[var(--ns-ink)]\">\n        <Check />\n      </Base.CheckboxItemIndicator>\n    </Base.CheckboxItem>\n  );\n}\n\nfunction MenuGroup({ label, children }: { label: string; children: React.ReactNode }) {\n  return (\n    <Base.Group>\n      <Base.GroupLabel className=\"px-[9px] pt-[7px] pb-[5px] text-[length:var(--ns-text-meta)] font-[number:var(--ns-weight-medium)] text-[var(--ns-ink-3)]\">{label}</Base.GroupLabel>\n      {children}\n    </Base.Group>\n  );\n}\n\nfunction MenuSeparator() {\n  return <Base.Separator className=\"mx-[-5px] my-[5px] h-px bg-[var(--ns-line-soft)]\" />;\n}\n\nexport { Menu, MenuCheckboxItem, MenuGroup, MenuItem, MenuSeparator, type MenuItemProps, type MenuProps };\n"
+    },
+    {
+      "path": "registry/system/components/popup.ts",
+      "type": "registry:lib",
+      "target": "@lib/notchset/popup.ts",
+      "content": "// Notchset menu 2.0.0 · https://notchset.dev/changelog\n/*\n * The one popup surface every list that opens from a control uses (select, combobox, recipient picker, and\n * menus in batch 3): the prototype's .menu. It drops just below its control, and on a phone it becomes a\n * bottom sheet with a grab handle and finger-sized rows. Kept as class strings so each primitive's own parts\n * wear the same look.\n */\n\n/** On the Positioner: above everything but dialogs; on a phone, pinned to the bottom edge as a sheet. */\nexport const popupPositioner =\n  \"z-50 outline-hidden max-[600px]:!fixed max-[600px]:!inset-x-2 max-[600px]:!top-auto max-[600px]:!bottom-[calc(8px+env(safe-area-inset-bottom,0px))] max-[600px]:!left-2 max-[600px]:!w-auto max-[600px]:!transform-none\";\n\n/** On the Popup. */\nexport const popupSurface =\n  \"min-w-[max(var(--anchor-width,0px),180px)] max-h-[min(420px,70vh,var(--available-height,70vh))] overflow-auto overscroll-contain rounded-[var(--ns-radius-lg)] bg-[var(--ns-raised)] p-[5px] text-[length:var(--ns-text-body)] text-[var(--ns-ink)] shadow-[0_0_0_1px_var(--ns-line),var(--ns-shadow-float)] outline-hidden origin-[var(--transform-origin)] \" +\n  \"[animation:ns-menu-in_var(--ns-time-menu)_var(--ns-ease)] data-ending-style:opacity-0 data-ending-style:[transition:opacity_110ms_ease] \" +\n  \"max-[600px]:w-auto max-[600px]:min-w-0 max-[600px]:max-h-[70dvh] max-[600px]:rounded-[var(--ns-radius-xl)] max-[600px]:px-1.5 max-[600px]:pt-3.5 max-[600px]:pb-1.5 max-[600px]:[animation:ns-sheet-up_var(--ns-time-panel)_var(--ns-ease-panel)] \" +\n  \"max-[600px]:before:absolute max-[600px]:before:top-[5px] max-[600px]:before:left-1/2 max-[600px]:before:h-1 max-[600px]:before:w-9 max-[600px]:before:-translate-x-1/2 max-[600px]:before:rounded-full max-[600px]:before:bg-[var(--ns-line)] max-[600px]:before:content-['']\";\n\n/** On each item. Highlight (pointer or arrow keys) is the hover wash; the chosen item carries a check. */\nexport const popupItem =\n  \"flex w-full min-h-[var(--ns-menu-row)] cursor-default items-center gap-[9px] rounded-[7px] px-[9px] text-left outline-hidden select-none data-highlighted:bg-[var(--ns-hover)] data-disabled:opacity-45 [&_svg:not([data-slot=company-mark])]:size-3.5 [&_svg]:shrink-0\";\n\n/** The quiet line a list shows when nothing matches. */\nexport const popupEmpty = \"px-[9px] py-2 text-[length:var(--ns-text-small)] text-[var(--ns-ink-3)] empty:hidden\";\n"
+    },
+    {
+      "path": "registry/system/components/portal.ts",
+      "type": "registry:lib",
+      "target": "@lib/notchset/portal.ts",
+      "content": "// Notchset menu 2.0.0 · https://notchset.dev/changelog\nimport * as React from \"react\";\n\n/*\n * Where overlays (dialogs, menus, popovers, tooltips, toasts, sheets) portal to. By default the document body; a\n * host that themes or scopes a region (a preview stage, a shadow root, a tile in another theme) wraps it in\n * PortalContainer with an element inside that scope, so its overlays keep the region's roles and light or dark.\n */\nconst PortalContainerContext = React.createContext<HTMLElement | null>(null);\n\nconst PortalContainer = PortalContainerContext.Provider;\n\n/** The element overlays portal into here, or undefined for the document body. */\nfunction usePortalContainer(): HTMLElement | undefined {\n  return React.useContext(PortalContainerContext) ?? undefined;\n}\n\nexport { PortalContainer, PortalContainerContext, usePortalContainer };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

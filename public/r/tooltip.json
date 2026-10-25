@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tooltip",
+  "type": "registry:ui",
+  "title": "Tooltip",
+  "description": "A visual label for something that has no words of its own: an icon button, a collapsed sidebar, cut-off text. 350ms the first time, then instant while you scan; keyboard focus shows it too.",
+  "categories": [
+    "overlays"
+  ],
+  "dependencies": [
+    "@base-ui/react@^1"
+  ],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/tooltip.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/tooltip.tsx",
+      "content": "// Notchset tooltip 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { Tooltip as Base } from \"@base-ui/react/tooltip\";\nimport { cn } from \"@/lib/utils\";\nimport { usePortalContainer } from \"@/lib/notchset/portal\";\n\n/*\n * Tooltip: a visual label for something that has no words of its own (an icon button, a collapsed sidebar,\n * cut-off text). Never repeat a label the reader can already see. 350ms the first time, then instant while\n * the pointer scans neighbours (the provider's 400ms window); keyboard focus shows it too. The trigger keeps\n * its own accessible name: the tip is for sighted users only.\n */\n\nfunction TooltipProvider({ children }: { children: React.ReactNode }) {\n  return (\n    <Base.Provider delay={350} timeout={400}>\n      {children}\n    </Base.Provider>\n  );\n}\n\ntype TooltipProps = {\n  label: React.ReactNode;\n  /** The trigger: one element that takes a ref (a Button, an IconButton, a link). */\n  children: React.ReactElement;\n  side?: \"top\" | \"bottom\" | \"left\" | \"right\" | undefined;\n  className?: string | undefined;\n};\n\nfunction Tooltip({ label, children, side = \"top\", className }: TooltipProps) {\n  const portalContainer = usePortalContainer();\n  return (\n    <Base.Root>\n      <Base.Trigger render={children} />\n      <Base.Portal container={portalContainer}>\n        <Base.Positioner side={side} sideOffset={6} collisionPadding={8} className=\"z-[80]\">\n          <Base.Popup\n            data-slot=\"tooltip\"\n            data-ns-layer=\"\"\n            className={cn(\n              \"pointer-events-none max-w-[260px] rounded-[7px] bg-[var(--ns-ink)] px-2 py-[5px] font-[family-name:var(--ns-font-body)] text-[length:var(--ns-text-meta)] leading-[1.35] font-[number:var(--ns-weight-medium)] text-[var(--ns-canvas)] shadow-[var(--ns-shadow-float)]\",\n              \"[transition:opacity_120ms,transform_120ms_var(--ns-ease)] data-starting-style:opacity-0 data-ending-style:opacity-0 data-[side=top]:data-starting-style:translate-y-0.5 data-[side=bottom]:data-starting-style:-translate-y-0.5 data-instant:transition-none\",\n              className,\n            )}\n          >\n            {label}\n          </Base.Popup>\n        </Base.Positioner>\n      </Base.Portal>\n    </Base.Root>\n  );\n}\n\nexport { Tooltip, TooltipProvider, type TooltipProps };\n"
+    },
+    {
+      "path": "registry/system/components/portal.ts",
+      "type": "registry:lib",
+      "target": "@lib/notchset/portal.ts",
+      "content": "// Notchset tooltip 2.0.0 · https://notchset.dev/changelog\nimport * as React from \"react\";\n\n/*\n * Where overlays (dialogs, menus, popovers, tooltips, toasts, sheets) portal to. By default the document body; a\n * host that themes or scopes a region (a preview stage, a shadow root, a tile in another theme) wraps it in\n * PortalContainer with an element inside that scope, so its overlays keep the region's roles and light or dark.\n */\nconst PortalContainerContext = React.createContext<HTMLElement | null>(null);\n\nconst PortalContainer = PortalContainerContext.Provider;\n\n/** The element overlays portal into here, or undefined for the document body. */\nfunction usePortalContainer(): HTMLElement | undefined {\n  return React.useContext(PortalContainerContext) ?? undefined;\n}\n\nexport { PortalContainer, PortalContainerContext, usePortalContainer };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

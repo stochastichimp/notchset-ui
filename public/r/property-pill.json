@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "property-pill",
+  "type": "registry:ui",
+  "title": "Property pill",
+  "description": "One property of a record (a status, an assignee, a due date, a priority, labels) as a small raised control showing its value and mark, or what it would hold in a quieter tone. It takes a ref and passes its props through, so it can be a menu's or a popover's trigger; tone bad says the value is a problem.",
+  "categories": [
+    "inputs"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/property-pill.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/property-pill.tsx",
+      "content": "// Notchset property-pill 2.1.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Property pill: one property of a record as a small control (a status, who it's for, a due date, a priority, its\n * labels) that opens the picker the host gives it. It shows the value with its mark, or what it would hold in a\n * quieter tone when empty (\"Due date\"); `tone=\"bad\"` says the value is a problem (overdue) in the error colour. It\n * takes a ref and passes its props through, so it can be a Menu's or a Popover's trigger. Its accessible name says\n * the property and its value.\n *\n *   <Menu trigger={<PropertyPill kind=\"Priority\" icon={<PriorityMark priority={3} />}>High</PropertyPill>}>…</Menu>\n */\ntype PropertyPillProps = Omit<React.ComponentPropsWithoutRef<\"button\">, \"children\"> & {\n  /** what the property is (\"Status\", \"Assignee\"), read with its value */\n  kind: string;\n  icon?: React.ReactNode;\n  /** the value in words; nothing shows `empty` instead */\n  children?: React.ReactNode;\n  empty?: string | undefined;\n  tone?: \"bad\" | undefined;\n};\n\nconst PropertyPill = React.forwardRef<HTMLButtonElement, PropertyPillProps>(function PropertyPill({ kind, icon, children, empty, tone, className, ...props }, ref) {\n  const has = children != null && children !== \"\" && children !== false;\n  const words = has ? (typeof children === \"string\" ? children : undefined) : empty;\n  return (\n    <button\n      ref={ref}\n      type=\"button\"\n      data-slot=\"property-pill\"\n      aria-label={words ? `${kind}: ${words}` : undefined}\n      {...props}\n      className={cn(\n        \"inline-flex h-6 max-w-full min-w-0 cursor-pointer items-center gap-1.5 rounded-[7px] bg-[var(--ns-raised)] px-2 text-[length:var(--ns-text-body)] whitespace-nowrap text-[var(--ns-ink)] shadow-[var(--ns-bezel)] outline-hidden [transition:background-color_var(--ns-time-color)] hover:bg-[var(--ns-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ns-signal)] data-popup-open:bg-[var(--ns-selected)] pointer-coarse:h-9 max-[960px]:h-9 [&_svg]:size-3.5 [&_svg]:shrink-0\",\n        tone === \"bad\" && \"text-[var(--ns-bad-ink)] [&_svg]:text-[var(--ns-bad-ink)]\",\n        className,\n      )}\n    >\n      {icon}\n      <span className={cn(\"min-w-0 truncate\", !has && \"text-[var(--ns-ink-3)]\")}>{has ? children : empty}</span>\n    </button>\n  );\n});\n\nexport { PropertyPill, type PropertyPillProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.1.0",
+    "lane": "app"
+  }
+}

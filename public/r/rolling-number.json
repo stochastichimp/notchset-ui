@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "rolling-number",
+  "type": "registry:ui",
+  "title": "Rolling number",
+  "description": "A figure that changes because of what you did rolls only the digits that changed, right to left, so you see where the change landed. It never counts up on arrival; screen readers hear the final value once.",
+  "categories": [
+    "motion"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/rolling-number.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/rolling-number.tsx",
+      "content": "// Notchset rolling-number 2.1.0 · https://notchset.dev/changelog\n\"use client\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Rolling number: a figure that changes because of what you just did (seats, a plan, a forecast category, a\n * deal moved) rolls only the digits that changed, right to left with a slight stagger, so you see where the\n * change landed and how big it was. It never counts up on arrival: a figure you open a page to is simply there.\n * Digits are tabular so nothing beside them shifts; screen readers get the final value once, not every digit.\n * Reduced motion swaps instantly.\n */\ntype RollingNumberProps = {\n  value: string;\n  /** Swap without rolling: a figure that follows a reader along a chart reads, it doesn't roll (no change was made). */\n  instant?: boolean | undefined;\n  className?: string | undefined;\n};\n\nconst DIGITS = \"0123456789\";\n\nfunction Digit({ d, delay, instant }: { d: number; delay: number; instant?: boolean | undefined }) {\n  return (\n    <span aria-hidden data-ns-mask=\"\" className=\"relative inline-block h-[1lh] overflow-hidden align-bottom select-none\">\n      <span\n        data-ns-roll=\"\"\n        data-ns-glide=\"\"\n        className={cn(\"flex flex-col\", !instant && \"[transition:transform_var(--ns-time-dialog)_var(--ns-ease)]\")}\n        style={{ transform: `translateY(${-d * 10}%)`, transitionDelay: instant ? undefined : `${delay}ms` }}\n      >\n        {DIGITS.split(\"\").map((c) => (\n          <span key={c} className=\"block h-[1lh]\">\n            {c}\n          </span>\n        ))}\n      </span>\n      {/* the digit's own width, so a 1 isn't as wide as an 8 in fonts that aren't fully tabular */}\n      <span className=\"invisible block h-0\">{DIGITS[d]}</span>\n    </span>\n  );\n}\n\nfunction RollingNumber({ value, instant, className }: RollingNumberProps) {\n  const chars = value.split(\"\");\n  return (\n    <span data-slot=\"rolling-number\" role=\"text\" aria-label={value} className={cn(\"relative inline-flex tabular-nums\", className)}>\n      {/* what a selection copies: the figure itself, laid invisibly over the strips (which can't be selected) */}\n      <span aria-hidden className=\"absolute inset-0 whitespace-nowrap text-transparent select-text\">\n        {value}\n      </span>\n      {chars.map((c, i) => {\n        /* keyed from the right, so a figure gaining a digit doesn't roll every digit after it */\n        const fromRight = chars.length - i;\n        return DIGITS.includes(c) ? (\n          <Digit key={`d${fromRight}`} d={+c} delay={Math.min(fromRight, 6) * 18} instant={instant} />\n        ) : (\n          <span key={`c${fromRight}${c}`} aria-hidden className=\"select-none\">\n            {/* a plain space would collapse between flex items (\"46days\") */}\n            {c === \" \" ? \"\\u00a0\" : c}\n          </span>\n        );\n      })}\n    </span>\n  );\n}\n\nexport { RollingNumber, type RollingNumberProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.1.0",
+    "lane": "app"
+  }
+}

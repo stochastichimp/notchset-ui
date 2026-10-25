@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tabs",
+  "type": "registry:ui",
+  "title": "Tabs",
+  "description": "The saved slices of one list (All 17 · Mine 3). The chosen tab is raised with a count beside each label; arrow keys move between them, and more tabs than room scroll sideways and fade at the edge.",
+  "categories": [
+    "navigation"
+  ],
+  "dependencies": [
+    "@base-ui/react@^1"
+  ],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/tabs.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/tabs.tsx",
+      "content": "// Notchset tabs 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { Tabs as Base } from \"@base-ui/react/tabs\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Tabs: the saved slices of one list (All 17 · Mine 3 · Closing in Q4 7). The chosen tab is raised; a count\n * sits beside each label. Arrow keys move between tabs. When there are more tabs than room, the strip scrolls\n * sideways and fades at the edge instead of wrapping, only while more tabs lie past that edge (useMoreToRight).\n * Pair with TabPanel when tabs swap content; for tabs that filter a table in place, the list alone is enough.\n */\n\n/** True while a sideways-scrolling strip has content past its right edge: the end fade shows only then, so the last\n    tab, scrolled to or one that fits, is never faded. Rechecked on scroll, resize and every render. */\nfunction useMoreToRight(ref: React.RefObject<HTMLElement | null>) {\n  const [more, setMore] = React.useState(false);\n  const check = React.useCallback(() => {\n    const el = ref.current;\n    if (el) setMore(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);\n  }, [ref]);\n  React.useEffect(check);\n  React.useEffect(() => {\n    const el = ref.current;\n    if (!el) return;\n    el.addEventListener(\"scroll\", check, { passive: true });\n    const ro = typeof ResizeObserver === \"undefined\" ? null : new ResizeObserver(check);\n    ro?.observe(el);\n    return () => {\n      el.removeEventListener(\"scroll\", check);\n      ro?.disconnect();\n    };\n  }, [ref, check]);\n  return more;\n}\ntype TabItem<V extends string> = { value: V; label: React.ReactNode; count?: number | undefined; icon?: React.ReactNode };\ntype TabsProps<V extends string> = {\n  tabs: TabItem<V>[];\n  value: V;\n  onValueChange: (value: V) => void;\n  /** Names the tab list for screen readers (\"Company views\"). */\n  label: string;\n  children?: React.ReactNode;\n  className?: string | undefined;\n};\n\nfunction Tabs<V extends string>({ tabs, value, onValueChange, label, children, className }: TabsProps<V>) {\n  const strip = React.useRef<HTMLDivElement>(null);\n  const more = useMoreToRight(strip);\n  return (\n    <Base.Root value={value} onValueChange={(v) => onValueChange(v as V)} className={cn(\"min-w-0\", className)}>\n      <Base.List\n        ref={strip}\n        aria-label={label}\n        data-slot=\"tabs\"\n        data-more={more || undefined}\n        className=\"flex min-w-0 gap-0.5 overflow-x-auto [scrollbar-width:none] max-[960px]:data-more:[mask-image:linear-gradient(to_right,#000_calc(100%-28px),transparent)] [&::-webkit-scrollbar]:hidden\"\n      >\n        {tabs.map((t) => (\n          <Base.Tab\n            key={t.value}\n            value={t.value}\n            className={cn(\n              \"inline-flex h-[var(--ns-control-sm)] shrink-0 cursor-pointer items-center gap-[7px] rounded-[var(--ns-radius)] px-2.5 font-[family-name:var(--ns-font-body)] text-[length:var(--ns-text-body)] font-[number:var(--ns-weight-medium)] whitespace-nowrap text-[var(--ns-ink-2)] outline-hidden [transition:background-color_var(--ns-time-color),color_var(--ns-time-color),box-shadow_var(--ns-time-color)]\",\n              \"hover:text-[var(--ns-ink)] focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[var(--ns-signal)] data-active:bg-[var(--ns-raised)] data-active:text-[var(--ns-ink)] data-active:shadow-[var(--ns-bezel)] [&_svg]:size-3.5\",\n            )}\n          >\n            {t.icon}\n            {t.label}\n            {t.count !== undefined && <span className=\"font-[family-name:var(--ns-font-display)] text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)] tabular-nums\">{t.count}</span>}\n          </Base.Tab>\n        ))}\n      </Base.List>\n      {children}\n    </Base.Root>\n  );\n}\n\nconst TabPanel = Base.Panel;\n\nexport { TabPanel, Tabs, useMoreToRight, type TabItem, type TabsProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

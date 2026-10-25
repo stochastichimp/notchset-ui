@@ -1,35 +1,45 @@
-# Design rules
+# Design: the foundation roles
 
-## Colour comes from the project
+The foundation (`Notchset` foundation item, merged into the global stylesheet by the install) names every value
+as a role. Use the role, never a literal: no hex colours, no pixel sizes a role names, no one-off durations.
 
-Components read the project's shadcn tokens: `--background`, `--foreground`, `--muted`,
-`--muted-foreground`, `--border`, `--input`, `--ring`, `--primary`, `--success`, `--warning`,
-`--destructive`, `--chart-1…5`. Never hard-code a hex colour in a component. Mix tokens instead:
-`color-mix(in oklab, var(--success,var(--foreground)) 70%, var(--foreground))`. Tints of a block's accent use
-`--ns-tint-panel` / `-card` / `-band` / `-band-strong`.
+## Colour
 
-## Foundation roles
+The colour roles read the project's shadcn tokens (`--background`, `--foreground`, `--muted`,
+`--muted-foreground`, `--border`, `--ring`, `--primary`, `--destructive`, and `--success`, `--warning` when
+present), so every piece follows the project's theme in light and dark.
 
-Use the role, not its raw value (the values are the defaults):
+| Role | Means |
+|---|---|
+| `--ns-canvas`, `--ns-side`, `--ns-panel`, `--ns-raised`, `--ns-well` | the page, the sidebar, a content panel, a control or menu, a sunken field |
+| `--ns-ink`, `--ns-ink-2`, `--ns-ink-3` | text in three tones; the third only for meta text and glyphs |
+| `--ns-line`, `--ns-line-soft` | borders and dividers |
+| `--ns-signal` | the one chosen thing in a region, today, focus. Never decoration |
+| `--ns-ok`, `--ns-warn`, `--ns-bad` (text: `--ns-ok-ink`, `--ns-bad-ink`) | good, needs attention, wrong or refused; always with a word |
+| `--ns-hover`, `--ns-selected` | hover, and a selected row |
 
-| Job | Role |
-| --- | --- |
-| Control height compact / regular / roomy | `h-[var(--ns-control-compact)]` 32px, `-regular` 40px, `-roomy` 48px |
-| Control padding | `px-[var(--ns-inset-compact)]` 12px, `-regular` 18px, `-roomy` 24px |
-| Box and frame corners in blocks | `rounded-[var(--ns-corner-box,min(26px,calc(var(--radius,999px)*2.6)))]` 26px, `rounded-[var(--ns-corner-frame,min(34px,calc(var(--radius,999px)*3.4)))]` 34px |
-| Note / label / copy text | `text-[length:var(--ns-type-note)]` 12px, `-label` 13px, `-copy` 14px |
-| Prose leading, note leading | `leading-[var(--ns-leading-prose)]`, `leading-[var(--ns-leading-note)]` |
-| Control label tracking | `tracking-[var(--ns-tracking-control)]` |
-| Floating layer | `shadow-[var(--ns-shadow-layer)]` |
-| Focus ring | `focus-visible:ring-[length:var(--ns-focus-width,2px)] focus-visible:ring-[color:var(--ns-focus-color,var(--ring))]` |
-| Supporting text | `text-[color:var(--ns-ink-support,color-mix(in_oklab,var(--muted-foreground)_85%,var(--foreground)))]` |
+Outcomes are said in words where the change shows (a toast with Undo, the row, the figure), never with a
+coloured fill on the button that was pressed. Chart colours are for data only.
 
-Controls keep the project's `--radius`; pills are `rounded-full`. Fields are their own family (44px).
-A display number, an art-directed width or a hero title is not a role: keep it local.
+## Sizes, type, corners
+
+| Role | Use |
+|---|---|
+| `--ns-control`, `--ns-control-sm` | button heights (32/28px on desktop; 40/36px on touch, set by the foundation) |
+| `--ns-field` | every single-line field |
+| `--ns-row`, `--ns-header`, `--ns-touch` | a list row, the top band, the smallest touch target |
+| `--ns-text-meta` … `--ns-text-figure` | type sizes; `--ns-text-meta` (12px) is the floor |
+| `--ns-font-body`, `--ns-font-display`, `--ns-font-mono` | reading, titles and figures, keys and codes |
+| `--ns-radius-sm`, `--ns-radius`, `--ns-radius-lg`, `--ns-radius-xl`, `--ns-radius-full` | chip, control, card, dialog, pill |
+| `--ns-space-1` … `--ns-space-8`, `--ns-gutter` | the 4px rhythm and the one left edge |
+| `--ns-bezel`, `--ns-shadow-float`, `--ns-shadow-dialog`, `--ns-shadow-panel` | a control's edge, menus, dialogs, side panels |
+
+A part inside another takes the outer corner minus its inset. Figures use tabular digits; a number beside words
+takes the words' face.
 
 ## Writing classes
 
-- Literal strings inside `className`, `cn()` or `cva()` only. Never a class in a constant, an array or a
-  nested ternary (the project's Tailwind prefix can't rewrite those).
-- Logical directions: `ps`/`pe`/`ms`/`me`/`start`/`end`; arbitrary radii (`rounded-[8px]`).
-- ES2022 only (no `toSorted`, `findLast`, `.with`).
+- Literal class strings in `className`, `cn()` or `cva()`. Reference roles with arbitrary values:
+  `bg-[var(--ns-panel)]`, `text-[length:var(--ns-text-small)]`, `h-[var(--ns-field)]`.
+- An animation is a whole class string (`[animation:ns-rise_var(--ns-time-page)_var(--ns-ease)]`), never only an
+  inline style: Tailwind keeps a theme keyframe only when compiled CSS names it.

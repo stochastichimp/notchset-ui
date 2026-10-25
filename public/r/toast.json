@@ -1,0 +1,39 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "toast",
+  "type": "registry:ui",
+  "title": "Toast",
+  "description": "Says what just happened in two lines, the outcome then the detail, with the one way back (Undo) or Retry on a failure. One at a time; read out politely, paused while hovered, and swipeable. Mount the Toaster once.",
+  "categories": [
+    "feedback"
+  ],
+  "dependencies": [
+    "@base-ui/react@^1",
+    "lucide-react@^1"
+  ],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/toast.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/toast.tsx",
+      "content": "// Notchset toast 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { Toast } from \"@base-ui/react/toast\";\nimport { Check } from \"lucide-react\";\nimport { cn } from \"@/lib/utils\";\nimport { usePortalContainer } from \"@/lib/notchset/portal\";\n\n/*\n * Toast: says what just happened, in two lines: the outcome (\"Moved to Proposal\"), then the detail (\"Dropbox\n * · $48,000\"). It offers the one way back (Undo, Reopen) or, on a failure, Retry. One at a time: a new toast\n * replaces the last. It sits low and to the left of the content (set --ns-toast-left past a sidebar), clears a\n * phone's tab bar, is read out politely, pauses while hovered, and can be swiped away.\n *\n *   notify({ title: \"Moved to Proposal\", detail: \"Dropbox · $48,000\", action: { label: \"Undo\", onClick: undo } })\n *\n * Mount <Toaster /> once near the root.\n */\nconst manager = Toast.createToastManager();\n\ntype Notice = {\n  title: string;\n  detail?: string | undefined;\n  action?: { label: string; onClick: () => void; hint?: string | undefined } | undefined;\n  /** ok: something finished for real (a reply left): an emerald tick leads the title */\n  tone?: \"default\" | \"ok\" | \"error\" | undefined;\n  /** A window that runs out (a send you can still take back): the title counts down each second (\"Sending in 4\")\n      and a thin bar drains along the bottom; the toast stays exactly as long. */\n  countdown?: { ms: number; label: (seconds: number) => string } | undefined;\n};\n\nfunction notify({ title, detail, action, tone = \"default\", countdown }: Notice) {\n  return manager.add({\n    title,\n    description: detail,\n    type: tone,\n    timeout: countdown ? countdown.ms : tone === \"error\" ? 7000 : 4800,\n    priority: tone === \"error\" ? \"high\" : \"low\",\n    data: { action, countdown, at: Date.now() },\n  });\n}\n\n/** Takes a toast away now, hovered or not: an offer whose window has closed (an Undo that has run out) goes with it. */\nfunction dismiss(id: string) {\n  manager.close(id);\n}\n\n/** The seconds left, ticking; the bar drains in the working colour (work under way, not done). */\nfunction Countdown({ ms, at, label }: { ms: number; at: number; label: (s: number) => string }) {\n  const left = () => Math.max(0, Math.ceil((at + ms - Date.now()) / 1000));\n  const [s, setS] = React.useState(left);\n  React.useEffect(() => {\n    const t = setInterval(() => setS(left()), 250);\n    return () => clearInterval(t);\n  });\n  return <>{label(s)}</>;\n}\n\nfunction Toaster() {\n  const portalContainer = usePortalContainer();\n  return (\n    <Toast.Provider toastManager={manager} limit={1}>\n      <Toast.Portal container={portalContainer}>\n        <Toast.Viewport\n          data-slot=\"toaster\"\n          className=\"fixed bottom-6 left-[var(--ns-toast-left)] z-[60] w-max max-w-[calc(100vw-32px)] max-[600px]:right-3 max-[600px]:bottom-[var(--ns-toast-bottom)] max-[600px]:left-3 max-[600px]:w-auto\"\n        >\n          <Toasts />\n        </Toast.Viewport>\n      </Toast.Portal>\n    </Toast.Provider>\n  );\n}\n\nfunction Toasts() {\n  const { toasts } = Toast.useToastManager();\n  return toasts.map((t) => {\n    const { action, countdown, at = 0 } = (t.data as { action?: Notice[\"action\"]; countdown?: Notice[\"countdown\"]; at?: number } | undefined) ?? {};\n    const error = t.type === \"error\";\n    return (\n      <Toast.Root\n        key={t.id}\n        toast={t}\n        data-ns-moves=\"\"\n        className={cn(\n          \"absolute bottom-0 left-0 w-max max-w-[min(520px,calc(100vw-32px))] rounded-[var(--ns-radius-lg)] shadow-[0_14px_34px_-10px_rgba(0,0,0,.45)] select-none max-[960px]:w-full max-[960px]:max-w-none\",\n          \"[transform:translateX(var(--toast-swipe-movement-x))_translateY(var(--toast-swipe-movement-y))] [transition:transform_200ms_var(--ns-ease),opacity_180ms_ease]\",\n          \"[animation:ns-toast-in_var(--ns-time-toast)_var(--ns-ease)] data-ending-style:opacity-0 data-limited:opacity-0\",\n          error ? \"bg-[color-mix(in_oklab,var(--ns-bad)_80%,black)] text-white\" : \"bg-[var(--ns-ink)] text-[var(--ns-canvas)]\",\n        )}\n      >\n        <Toast.Content className=\"flex items-center gap-3 py-2.5 pr-2 pl-4\">\n          {t.type === \"ok\" && <Check aria-hidden strokeWidth={2.5} className=\"-mr-1 size-4 shrink-0 text-[color-mix(in_oklab,var(--ns-ok)_70%,var(--ns-canvas))] [animation:ns-born_var(--ns-time-born)_var(--ns-ease)]\" />}\n          <span className=\"flex min-w-0 flex-1 flex-col gap-0.5\">\n            <Toast.Title className=\"m-0 text-[length:var(--ns-text-body)] font-[number:var(--ns-weight-medium)] tabular-nums\">{countdown ? <Countdown ms={countdown.ms} at={at} label={countdown.label} /> : undefined}</Toast.Title>\n            <Toast.Description className=\"m-0 text-[length:var(--ns-text-small)] opacity-75\" />\n          </span>\n          {action && (\n            <Toast.Action\n              onClick={action.onClick}\n              title={action.hint}\n              className={cn(\n                \"flex h-7 shrink-0 cursor-pointer items-center rounded-[7px] px-2.5 text-[length:var(--ns-text-body)] font-[number:var(--ns-weight-medium)] outline-hidden focus-visible:outline-2 focus-visible:outline-offset-1 pointer-coarse:h-9\",\n                error ? \"bg-white/15 text-white focus-visible:outline-white\" : \"bg-[color-mix(in_oklab,var(--ns-canvas)_14%,transparent)] text-[var(--ns-canvas)] focus-visible:outline-[var(--ns-canvas)]\",\n              )}\n            >\n              {action.label}\n            </Toast.Action>\n          )}\n        </Toast.Content>\n        {countdown && <span aria-hidden data-ns-glide=\"\" className=\"absolute inset-x-3 bottom-1 h-0.5 origin-left rounded-full bg-[var(--ns-signal)] [animation:ns-drain_linear_forwards]\" style={{ animationDuration: `${countdown.ms}ms` }} />}\n      </Toast.Root>\n    );\n  });\n}\n\nexport { dismiss, notify, Toaster, type Notice };\n"
+    },
+    {
+      "path": "registry/system/components/portal.ts",
+      "type": "registry:lib",
+      "target": "@lib/notchset/portal.ts",
+      "content": "// Notchset toast 2.0.0 · https://notchset.dev/changelog\nimport * as React from \"react\";\n\n/*\n * Where overlays (dialogs, menus, popovers, tooltips, toasts, sheets) portal to. By default the document body; a\n * host that themes or scopes a region (a preview stage, a shadow root, a tile in another theme) wraps it in\n * PortalContainer with an element inside that scope, so its overlays keep the region's roles and light or dark.\n */\nconst PortalContainerContext = React.createContext<HTMLElement | null>(null);\n\nconst PortalContainer = PortalContainerContext.Provider;\n\n/** The element overlays portal into here, or undefined for the document body. */\nfunction usePortalContainer(): HTMLElement | undefined {\n  return React.useContext(PortalContainerContext) ?? undefined;\n}\n\nexport { PortalContainer, PortalContainerContext, usePortalContainer };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "priority-mark",
+  "type": "registry:ui",
+  "title": "Priority mark",
+  "description": "A task's priority at 14px without colour: three ink bars climbing from low to high, a filled ink square for urgent, three faint bars for none. It says its level to a screen reader.",
+  "categories": [
+    "display"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/priority-mark.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/priority-mark.tsx",
+      "content": "// Notchset priority-mark 2.1.0 · https://notchset.dev/changelog\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Priority mark: how much a task matters, readable at 14px without colour. Three ink bars climb from low to high;\n * urgent is a filled ink square with a mark of its own, so red stays for overdue. No priority is three faint bars.\n * It says its level to a screen reader.\n *\n *   <PriorityMark priority={3} />\n */\ntype PriorityMarkProps = {\n  /** 0 none, 1 low, 2 medium, 3 high, 4 urgent */\n  priority: 0 | 1 | 2 | 3 | 4;\n  /** the words for each level, none first */\n  words?: [string, string, string, string, string] | undefined;\n  className?: string | undefined;\n};\n\nconst WORDS: [string, string, string, string, string] = [\"No priority\", \"Low\", \"Medium\", \"High\", \"Urgent\"];\n\nfunction PriorityMark({ priority, words = WORDS, className }: PriorityMarkProps) {\n  const w = words[priority];\n  if (priority === 4)\n    return (\n      <span data-slot=\"priority-mark\" data-priority={4} role=\"img\" aria-label={w} title={w} className={cn(\"grid size-3.5 shrink-0 place-items-center rounded-[3px] bg-[var(--ns-ink)] text-[var(--ns-canvas)]\", className)}>\n        <svg viewBox=\"0 0 12 12\" width=\"10\" height=\"10\" aria-hidden>\n          <path d=\"M6 2.6v4M6 9.1v.2\" stroke=\"currentColor\" strokeWidth=\"1.9\" strokeLinecap=\"round\" fill=\"none\" />\n        </svg>\n      </span>\n    );\n  return (\n    <span data-slot=\"priority-mark\" data-priority={priority} role=\"img\" aria-label={w} title={w} className={cn(\"inline-flex h-3.5 w-3.5 shrink-0 items-end justify-center gap-[1.5px] pb-[1.5px]\", className)}>\n      {[1, 2, 3].map((k) => (\n        <i key={k} className={cn(\"block w-[3px] rounded-[1px]\", priority >= k ? \"bg-[var(--ns-ink-2)]\" : \"bg-[var(--ns-line)]\")} style={{ height: 3 + k * 3 }} />\n      ))}\n    </span>\n  );\n}\n\nexport { PriorityMark, type PriorityMarkProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.1.0",
+    "lane": "app"
+  }
+}

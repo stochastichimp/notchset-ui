@@ -1,13 +1,11 @@
-# Example: an account settings page
+# Example: workspace settings
 
-Follows `app-pages.md` (shell, header, widths, settings forms).
+Follows `app-pages.md` (shell, header, settings).
 
-1. Content `max-w-[720px]`; page header "Settings" with one muted line; no extra actions.
-2. Profile box: Input for name, Email Field for email. Save Button saves the section: it rolls to Saving
-   and Saved only after `res.ok`; on a failure it shakes and the message stays beside it.
-3. Security box: Password Input with Password Strength for a new password.
-4. Preferences box: Settings Switch for each on/off (it confirms with the server and rolls back on
-   failure).
-5. Plan box: Billing Switch for Monthly / Yearly and Billing Period for the plan list.
-6. Danger zone box: Hold-to-Delete for the account, with the consequence written next to it.
-7. Check the page against `checklist.md`.
+1. The `settings-layout` block; page header "Settings" with one muted line; no extra actions.
+2. Workspace section: `TextField`s for the name and the domain, built on `Field` with hints and errors. Save is a
+   `Button` with `busy` while saving; a failure keeps the values and says what failed beside it.
+3. Notifications: a `Switch` per setting; each takes effect at once and flips back with a reason if refused.
+4. Plan: the `plan-picker` block, and `price-summary` for what changes on the next invoice.
+5. Developers: `api-key-list` and `webhook-list`; a new key is shown once with `SecretReveal`.
+6. Check the page against `checklist.md`.

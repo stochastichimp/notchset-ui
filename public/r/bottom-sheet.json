@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "bottom-sheet",
+  "type": "registry:ui",
+  "title": "Bottom sheet",
+  "description": "A phone's place for a short set of choices or a small form. It rises from the bottom with a grab handle and closes by swiping down, tapping outside or Esc. On a desktop, use a Menu or a Dialog.",
+  "categories": [
+    "overlays"
+  ],
+  "dependencies": [
+    "@base-ui/react@^1"
+  ],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/bottom-sheet.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/bottom-sheet.tsx",
+      "content": "// Notchset bottom-sheet 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { Drawer } from \"@base-ui/react/drawer\";\nimport { cn } from \"@/lib/utils\";\nimport { usePortalContainer } from \"@/lib/notchset/portal\";\n\n/*\n * Bottom sheet: a phone's place for a short set of choices or a small form (More, account, quick add). It\n * rises from the bottom in thumb reach, has a grab handle, and closes by swiping down, tapping outside or Esc.\n * On a desktop, use a Menu or Dialog instead: the sheet is a phone shape.\n */\ntype BottomSheetProps = {\n  open: boolean;\n  onOpenChange: (open: boolean) => void;\n  title: React.ReactNode;\n  /** Hide the title visually when the content already names itself (it is still read out). */\n  hideTitle?: boolean | undefined;\n  children: React.ReactNode;\n  className?: string | undefined;\n};\n\nfunction BottomSheet({ open, onOpenChange, title, hideTitle, children, className }: BottomSheetProps) {\n  const portalContainer = usePortalContainer();\n  return (\n    <Drawer.Root open={open} onOpenChange={(o) => onOpenChange(o)} swipeDirection=\"down\">\n      <Drawer.Portal container={portalContainer}>\n        <Drawer.Backdrop className=\"fixed inset-0 z-40 bg-[rgba(10,10,14,.32)] opacity-[calc(1-var(--drawer-swipe-progress,0))] [transition:opacity_300ms_var(--ns-ease-panel)] data-starting-style:opacity-0 data-ending-style:opacity-0 data-swiping:duration-0\" />\n        <Drawer.Viewport className=\"fixed inset-0 z-[41] flex items-end justify-center\">\n          <Drawer.Popup\n            data-slot=\"bottom-sheet\"\n            data-ns-layer=\"\"\n            className={cn(\n              \"max-h-[88dvh] w-full overflow-y-auto overscroll-contain rounded-[18px_18px_0_0] bg-[var(--ns-panel)] px-1.5 pt-3.5 pb-[calc(8px+env(safe-area-inset-bottom,0px))] text-[var(--ns-ink)] shadow-[0_0_0_1px_var(--ns-line),var(--ns-shadow-dialog)] outline-hidden\",\n              \"[transform:translateY(var(--drawer-swipe-movement-y,0px))] [transition:transform_300ms_var(--ns-ease-panel)] data-starting-style:[transform:translateY(100%)] data-ending-style:[transform:translateY(100%)] data-swiping:select-none data-swiping:duration-0\",\n              \"min-[600px]:max-w-[480px]\",\n              className,\n            )}\n          >\n            <div aria-hidden className=\"mx-auto mb-2 h-1 w-9 rounded-full bg-[var(--ns-line)]\" />\n            <Drawer.Content>\n              <Drawer.Title className={cn(\"m-0 px-2.5 pb-2 font-[family-name:var(--ns-font-display)] text-[length:var(--ns-text-strong)] font-[number:var(--ns-weight-strong)]\", hideTitle && \"sr-only\")}>{title}</Drawer.Title>\n              {children}\n            </Drawer.Content>\n          </Drawer.Popup>\n        </Drawer.Viewport>\n      </Drawer.Portal>\n    </Drawer.Root>\n  );\n}\n\n/** A finger-sized row in a sheet. */\nfunction SheetItem({ icon, children, danger, onClick }: { icon?: React.ReactNode; children: React.ReactNode; danger?: boolean | undefined; onClick: () => void }) {\n  return (\n    <button\n      type=\"button\"\n      onClick={onClick}\n      className={cn(\n        \"flex min-h-11 w-full cursor-pointer items-center gap-3 rounded-[10px] px-2.5 text-left text-[15px] text-[var(--ns-ink)] outline-hidden hover:bg-[var(--ns-hover)] focus-visible:bg-[var(--ns-hover)] [&_svg]:size-[18px] [&_svg]:text-[var(--ns-ink-3)]\",\n        danger && \"text-[var(--ns-bad-ink)] [&_svg]:text-[var(--ns-bad-ink)]\",\n      )}\n    >\n      {icon}\n      {children}\n    </button>\n  );\n}\n\nexport { BottomSheet, SheetItem, type BottomSheetProps };\n"
+    },
+    {
+      "path": "registry/system/components/portal.ts",
+      "type": "registry:lib",
+      "target": "@lib/notchset/portal.ts",
+      "content": "// Notchset bottom-sheet 2.0.0 · https://notchset.dev/changelog\nimport * as React from \"react\";\n\n/*\n * Where overlays (dialogs, menus, popovers, tooltips, toasts, sheets) portal to. By default the document body; a\n * host that themes or scopes a region (a preview stage, a shadow root, a tile in another theme) wraps it in\n * PortalContainer with an element inside that scope, so its overlays keep the region's roles and light or dark.\n */\nconst PortalContainerContext = React.createContext<HTMLElement | null>(null);\n\nconst PortalContainer = PortalContainerContext.Provider;\n\n/** The element overlays portal into here, or undefined for the document body. */\nfunction usePortalContainer(): HTMLElement | undefined {\n  return React.useContext(PortalContainerContext) ?? undefined;\n}\n\nexport { PortalContainer, PortalContainerContext, usePortalContainer };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

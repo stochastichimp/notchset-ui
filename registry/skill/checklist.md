@@ -1,10 +1,10 @@
-# Before you say it's done
+# Before you say you're done
 
-- [ ] Every control comes from a catalogue item or a shared helper, or the gap is named in your reply.
-- [ ] Colours read shadcn tokens; sizes, type, corners, depth and motion use the foundation roles.
-- [ ] Classes are literal (className / cn / cva), logical, ES2022.
-- [ ] Every state the task has is there: loading, empty, error, disabled, done.
-- [ ] Keyboard, labels, focus ring, announcements, 44px targets on touch.
-- [ ] Reduced motion and motion off reach the final state; sound is opt-in.
-- [ ] Works at 390 and 1280, in light and dark, left-to-right and right-to-left.
-- [ ] Pro items installed with the key, never recreated.
+- [ ] Every item came from Notchset or stock shadcn before anything new was built (components.md).
+- [ ] No literal colours, sizes, radii or durations where a role exists (design.md).
+- [ ] One primary action per region; outcomes said in words, with Undo where it can be undone.
+- [ ] Loading, empty, error and disabled states are designed; a failed save keeps what was typed.
+- [ ] Keyboard, labels, visible focus, announcements, and touch-sized targets on phones.
+- [ ] Reduced motion reaches the final state; nothing moves at rest.
+- [ ] Checked at 390px and 1280px, light and dark.
+- [ ] Anything a pasted example also imports is installed.

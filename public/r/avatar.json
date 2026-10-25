@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "avatar",
+  "type": "registry:ui",
+  "title": "Avatar",
+  "description": "A person's photo, or their initials on a soft wash of their own hue when there is no photo. It sits beside the name, so it is decoration by default; announce it when it stands alone.",
+  "categories": [
+    "display"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/avatar.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/avatar.tsx",
+      "content": "// Notchset avatar 2.1.0 · https://notchset.dev/changelog\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Avatar: a person's photo, or their initials on a soft wash of their own hue when there is no photo. It sits\n * beside the person's name almost everywhere, so by default it is decoration; pass `announce` when it stands\n * alone and its name must be read out. The initials are half the hue and half the ink, which keeps them at 4.5:1 or\n * more on their wash at every hue, light and dark (tests/system/avatar-contrast.test.ts).\n */\ntype AvatarProps = {\n  name: string;\n  src?: string | undefined;\n  size?: number | undefined;\n  /** 0-360. Defaults to a hue derived from the name, so a person keeps one colour everywhere. */\n  hue?: number | undefined;\n  announce?: boolean | undefined;\n  className?: string | undefined;\n};\n\nconst hueOf = (name: string) => [...name].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) % 360, 7);\nconst initials = (name: string) =>\n  name\n    .split(/\\s+/)\n    .filter(Boolean)\n    .slice(0, 2)\n    .map((w) => w[0]!.toUpperCase())\n    .join(\"\");\n\nfunction Avatar({ name, src, size = 20, hue, announce = false, className }: AvatarProps) {\n  const a11y = announce ? { role: \"img\", \"aria-label\": name } : { \"aria-hidden\": true as const };\n  if (src) {\n    return (\n      <img\n        data-slot=\"avatar\"\n        src={src}\n        width={size}\n        height={size}\n        alt={announce ? name : \"\"}\n        aria-hidden={announce ? undefined : true}\n        className={cn(\"shrink-0 rounded-full object-cover\", className)}\n      />\n    );\n  }\n  return (\n    <span\n      data-slot=\"avatar\"\n      {...a11y}\n      style={{ \"--h\": hue ?? hueOf(name), width: size, height: size, fontSize: Math.max(10, Math.round(size * 0.36)) } as React.CSSProperties}\n      className={cn(\n        \"inline-grid shrink-0 place-items-center rounded-full font-[family-name:var(--ns-font-body)] leading-none font-[number:var(--ns-weight-strong)] tracking-[0.02em] select-none\",\n        \"bg-[color-mix(in_oklab,hsl(var(--h)_65%_55%)_18%,transparent)] text-[color-mix(in_oklab,hsl(var(--h)_60%_45%)_50%,var(--ns-ink))] shadow-[inset_0_0_0_1px_color-mix(in_oklab,hsl(var(--h)_65%_55%)_22%,transparent)]\",\n        className,\n      )}\n    >\n      {initials(name)}\n    </span>\n  );\n}\n\nexport { Avatar, type AvatarProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.1.0",
+    "lane": "app"
+  }
+}

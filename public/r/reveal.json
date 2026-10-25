@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "reveal",
+  "type": "registry:ui",
+  "title": "Reveal",
+  "description": "A row your action adds or removes grows into place and folds away instead of popping, so what's below moves smoothly. It animates only on your change; closed content is inert, and reduced motion swaps at once.",
+  "categories": [
+    "motion"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/reveal.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/reveal.tsx",
+      "content": "// Notchset reveal 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Reveal: a row your action adds or removes (Cc and Bcc, a discount line, who joins a thread) grows into place\n * and folds away instead of popping, so what's below moves smoothly and your eye keeps its place. It animates\n * only when `open` changes after mount: a row that's there when the page arrives is simply there. Reduced motion\n * swaps instantly. Closed content stays mounted but inert: out of the tab order and hidden from screen readers.\n */\ntype RevealProps = { open: boolean; children: React.ReactNode; className?: string | undefined };\n\nfunction Reveal({ open, children, className }: RevealProps) {\n  /* CSS alone: a transition only runs when `open` changes, never on the first paint, and a closed row is inert */\n  return (\n    <div\n      data-slot=\"reveal\"\n      data-ns-glide=\"\"\n      data-open={open || undefined}\n      aria-hidden={!open || undefined}\n      // inert as a property, not a JSX attribute: React 18 neither types nor passes `inert`.\n      ref={(el) => {\n        if (el) el.inert = !open;\n      }}\n      className={cn(\n        \"grid [transition:grid-template-rows_var(--ns-time-dialog)_var(--ns-ease),opacity_var(--ns-time-dialog)_var(--ns-ease)]\",\n        open ? \"grid-rows-[1fr] opacity-100\" : \"grid-rows-[0fr] opacity-0\",\n        className,\n      )}\n    >\n      <div className=\"min-h-0 overflow-hidden\">{children}</div>\n    </div>\n  );\n}\n\nexport { Reveal, type RevealProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

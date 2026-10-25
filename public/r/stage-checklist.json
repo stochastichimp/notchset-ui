@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "stage-checklist",
+  "type": "registry:block",
+  "title": "Stage checklist",
+  "description": "What a step usually needs before it moves on, ticking itself as each thing comes true, and saying \"Ready to move on\" at the end. A soft gate: it informs and never blocks.",
+  "categories": [
+    "showcase"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/blocks/stage-checklist.tsx",
+      "type": "registry:block",
+      "target": "@ui/notchset/blocks/stage-checklist.tsx",
+      "content": "// Notchset stage-checklist 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Stage checklist: what a step usually needs before it moves on, ticking itself as each thing comes true (the\n * quote goes out, the buyer is in the thread). A tick draws itself the moment its condition turns true, and when\n * the last one lands the header says so: \"Ready to move on\". It is a soft gate: it informs, it never blocks; the\n * host decides what, if anything, happens next. Items that start done are simply done, with no replayed draw.\n *\n *   <StageChecklist title=\"Proposal usually needs\" items={[\n *     { id: \"quote\", label: \"Quote sent\", done: quoteSent },\n *     { id: \"buyer\", label: \"Economic buyer has seen it\", done: buyerSeen, hint: \"Forward the quote to Ines\" },\n *   ]} />\n */\ntype ChecklistItem = { id: string; label: string; done: boolean; hint?: string | undefined };\ntype StageChecklistProps = {\n  title: string;\n  items: ChecklistItem[];\n  /** what the header says once everything is done */\n  doneLabel?: string | undefined;\n  /** an optional next step, shown once everything is done */\n  action?: React.ReactNode;\n  className?: string | undefined;\n};\n\n/** A tick in a ring; it draws itself only when it turns true after mount. */\nfunction Tick({ done, fresh }: { done: boolean; fresh: boolean }) {\n  return (\n    <span\n      aria-hidden\n      className={cn(\n        \"grid size-[18px] shrink-0 place-items-center rounded-full [transition:background-color_var(--ns-time-color),box-shadow_var(--ns-time-color)]\",\n        done ? \"bg-[var(--ns-ok)] text-white\" : \"shadow-[inset_0_0_0_1.5px_var(--ns-line)]\",\n      )}\n    >\n      {done && (\n        <svg viewBox=\"0 0 12 12\" className=\"size-2.5\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"2\" strokeLinecap=\"round\" strokeLinejoin=\"round\">\n          <path d=\"M2.5 6.2 5 8.6l4.6-5.1\" pathLength={1} strokeDasharray=\"1\" data-ns-still=\"\" className={cn(fresh && \"[animation:ns-tick-draw_var(--ns-time-dialog)_var(--ns-ease)_both]\")} />\n        </svg>\n      )}\n    </span>\n  );\n}\n\nfunction StageChecklist({ title, items, doneLabel = \"Ready to move on\", action, className }: StageChecklistProps) {\n  const done = items.filter((i) => i.done).length;\n  const all = items.length > 0 && done === items.length;\n  /* remember what was already true at mount, so only a change draws */\n  const [seen] = React.useState(() => new Set(items.filter((i) => i.done).map((i) => i.id)));\n  const titleId = React.useId();\n  return (\n    <section data-slot=\"stage-checklist\" data-complete={all || undefined} aria-labelledby={titleId} className={cn(\"flex flex-col gap-2.5 rounded-[var(--ns-radius-lg)] bg-[var(--ns-panel)] px-4 py-3.5 shadow-[inset_0_0_0_1px_var(--ns-line-soft)]\", className)}>\n      <header className=\"flex items-baseline gap-2\">\n        <h3 id={titleId} className={cn(\"m-0 text-[length:var(--ns-text-body)] font-[number:var(--ns-weight-medium)] [transition:color_var(--ns-time-color)]\", all ? \"text-[var(--ns-ok-ink)]\" : \"text-[var(--ns-ink)]\")}>\n          {all ? doneLabel : title}\n        </h3>\n        <span role=\"status\" aria-live=\"polite\" className=\"ml-auto text-[length:var(--ns-text-small)] text-[var(--ns-ink-3)] tabular-nums\">\n          {done} of {items.length}\n        </span>\n      </header>\n      {/* progress as a hairline, so the whole reads at a glance */}\n      <span aria-hidden className=\"block h-[3px] overflow-hidden rounded-full bg-[var(--ns-line-soft)]\">\n        <i data-ns-glide=\"\" style={{ width: `${items.length ? (done / items.length) * 100 : 0}%` }} className={cn(\"block h-full rounded-full [transition:width_var(--ns-time-dialog)_var(--ns-ease),background-color_var(--ns-time-color)]\", all ? \"bg-[var(--ns-ok)]\" : \"bg-[var(--ns-ink-2)]\")} />\n      </span>\n      <ul className=\"m-0 flex list-none flex-col gap-1.5 p-0\">\n        {items.map((i) => (\n          <li key={i.id} className=\"flex items-start gap-2.5\">\n            <span className=\"pt-px\">\n              <Tick done={i.done} fresh={i.done && !seen.has(i.id)} />\n            </span>\n            <span className=\"flex min-w-0 flex-col\">\n              <span className={cn(\"text-[length:var(--ns-text-small)] [transition:color_var(--ns-time-color)]\", i.done ? \"text-[var(--ns-ink-2)]\" : \"text-[var(--ns-ink)]\")}>\n                {i.label}\n                <span className=\"sr-only\">{i.done ? \", done\" : \", not yet\"}</span>\n              </span>\n              {!i.done && i.hint && <span className=\"text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)]\">{i.hint}</span>}\n            </span>\n          </li>\n        ))}\n      </ul>\n      {all && action && <div className=\"flex pt-0.5\">{action}</div>}\n    </section>\n  );\n}\n\nexport { StageChecklist, type ChecklistItem, type StageChecklistProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "block",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "marketing"
+  }
+}
