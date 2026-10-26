@@ -1,4 +1,6 @@
 // Notchset keyboard-hint 2.0.0 · https://notchset.dev/changelog
+"use client";
+import * as React from "react";
 import { cn } from "@/lib/utils";
 
 /*
@@ -12,8 +14,11 @@ const isApple = () => typeof navigator !== "undefined" && /Mac|iPhone|iPad|iPod/
 const modKey = () => (isApple() ? "⌘" : "Ctrl");
 const keyLabel = (k: string) => (isApple() ? k : k.replace(/⌘\s?/g, "Ctrl "));
 
+const never = () => () => {};
 function KeyboardHint({ keys, className }: KeyboardHintProps) {
-  const list = (Array.isArray(keys) ? keys : [keys]).map(keyLabel);
+  /* a server-rendered page says Ctrl, then the browser says ⌘ where it should: the first render matches the server's */
+  const apple = React.useSyncExternalStore(never, isApple, () => false);
+  const list = (Array.isArray(keys) ? keys : [keys]).map((k) => (apple ? k : k.replace(/⌘\s?/g, "Ctrl ")));
   return (
     <span data-slot="keyboard-hint" className={cn("inline-flex items-center gap-1 pointer-coarse:hidden", className)}>
       {list.map((key) => (

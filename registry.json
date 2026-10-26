@@ -252,6 +252,25 @@
           "--ns-wash-clay": "#f0d9cf",
           "--ns-wash-ink": "#17181c",
           "--ns-wash-titanium": "var(--ns-wash-graphite)",
+          "--ns-orb-deep": "#a597f5",
+          "--ns-orb-core": "#9a8af2",
+          "--ns-orb-body": "#b9acf9",
+          "--ns-orb-lift": "#d6bdfd",
+          "--ns-orb-rim": "#9a72f2",
+          "--ns-orb-cool": "#b4c3ff",
+          "--ns-orb-warm": "#f5bfdc",
+          "--ns-orb-dawn": "#ffe1cf",
+          "--ns-orb-skin-hi": "#f7f4ff",
+          "--ns-orb-skin-mid": "#b3a6f7",
+          "--ns-orb-skin-lo": "#7564dc",
+          "--ns-orb-inner": "rgb(255 252 255 / 0.92)",
+          "--ns-orb-limb": "rgb(52 46 92 / 0.26)",
+          "--ns-orb-limb-from": "70%",
+          "--ns-orb-key": "0",
+          "--ns-orb-edge": "rgb(48 46 66 / 0.3)",
+          "--ns-orb-grain": "0.22",
+          "--ns-orb-halo": "rgb(139 112 240 / 0.34)",
+          "--ns-orb-ground": "rgb(109 91 208 / 0.2)",
           "color-scheme": "light"
         },
         ".dark, [data-theme=\"dark\"]": {
@@ -315,6 +334,25 @@
           "--ns-wash-clay": "#33241f",
           "--ns-wash-ink": "#040405",
           "--ns-wash-titanium": "var(--ns-wash-graphite)",
+          "--ns-orb-deep": "#2a1f78",
+          "--ns-orb-core": "#6d5bd0",
+          "--ns-orb-body": "#8b7cf6",
+          "--ns-orb-lift": "#d8b4fe",
+          "--ns-orb-rim": "#d8b4fe",
+          "--ns-orb-cool": "#8fa6ff",
+          "--ns-orb-warm": "#f2a6cf",
+          "--ns-orb-dawn": "#ffcfb3",
+          "--ns-orb-skin-hi": "#9d8ff2",
+          "--ns-orb-skin-mid": "#5443b8",
+          "--ns-orb-skin-lo": "#160f45",
+          "--ns-orb-inner": "transparent",
+          "--ns-orb-limb": "rgb(4 2 20 / 0.62)",
+          "--ns-orb-limb-from": "46%",
+          "--ns-orb-key": "1",
+          "--ns-orb-edge": "rgb(255 255 255 / 0.07)",
+          "--ns-orb-grain": "0.42",
+          "--ns-orb-halo": "rgb(139 124 246 / 0.42)",
+          "--ns-orb-ground": "rgb(139 124 246 / 0.3)",
           "color-scheme": "dark"
         },
         "[data-ns-signature=\"graphite\"]": {
@@ -324,7 +362,26 @@
           "--chart-series": "#5e6275",
           "--chart-series-lilac": "#a7abbb",
           "--chart-series-tint": "24%",
-          "--chart-series-glow": "25%"
+          "--chart-series-glow": "25%",
+          "--ns-orb-deep": "#c3c6d3",
+          "--ns-orb-core": "#b7bbca",
+          "--ns-orb-body": "#d3d6e0",
+          "--ns-orb-lift": "#f1f2f7",
+          "--ns-orb-rim": "#7d8296",
+          "--ns-orb-cool": "#e9ecf6",
+          "--ns-orb-warm": "#ffffff",
+          "--ns-orb-dawn": "#f3efe9",
+          "--ns-orb-skin-hi": "#fbfbfd",
+          "--ns-orb-skin-mid": "#c5c8d4",
+          "--ns-orb-skin-lo": "#8e93a7",
+          "--ns-orb-inner": "rgb(255 255 255 / 0.95)",
+          "--ns-orb-limb": "rgb(40 42 56 / 0.24)",
+          "--ns-orb-limb-from": "70%",
+          "--ns-orb-key": "0",
+          "--ns-orb-edge": "rgb(40 42 56 / 0.32)",
+          "--ns-orb-grain": "0.18",
+          "--ns-orb-halo": "rgb(94 98 117 / 0.26)",
+          "--ns-orb-ground": "rgb(94 98 117 / 0.2)"
         },
         ".dark[data-ns-signature=\"graphite\"], .dark [data-ns-signature=\"graphite\"], [data-theme=\"dark\"][data-ns-signature=\"graphite\"], [data-theme=\"dark\"] [data-ns-signature=\"graphite\"]": {
           "--ns-signal": "#abafc4",
@@ -333,7 +390,26 @@
           "--chart-series": "#abafc4",
           "--chart-series-lilac": "#e4e6ee",
           "--chart-series-tint": "38%",
-          "--chart-series-glow": "45%"
+          "--chart-series-glow": "45%",
+          "--ns-orb-deep": "#262833",
+          "--ns-orb-core": "#4c505f",
+          "--ns-orb-body": "#6f7385",
+          "--ns-orb-lift": "#9a9eaf",
+          "--ns-orb-rim": "#dcdfe8",
+          "--ns-orb-cool": "#b3b7c6",
+          "--ns-orb-warm": "#a6aabb",
+          "--ns-orb-dawn": "#d9d4cc",
+          "--ns-orb-skin-hi": "#a3a8bb",
+          "--ns-orb-skin-mid": "#3a3d4b",
+          "--ns-orb-skin-lo": "#0b0c10",
+          "--ns-orb-inner": "transparent",
+          "--ns-orb-limb": "rgb(2 2 6 / 0.62)",
+          "--ns-orb-limb-from": "46%",
+          "--ns-orb-key": "1",
+          "--ns-orb-edge": "rgb(255 255 255 / 0.08)",
+          "--ns-orb-grain": "0.4",
+          "--ns-orb-halo": "rgb(171 175 196 / 0.36)",
+          "--ns-orb-ground": "rgb(171 175 196 / 0.24)"
         }
       },
       "files": [],
@@ -378,6 +454,25 @@
           "--ns-series-lilac": "var(--chart-series-lilac, #c084fc)",
           "--ns-glow": "var(--chart-series-glow, 25%)",
           "--ns-pulse": "var(--ns-ok)",
+          "--ns-orb-deep": "color-mix(in oklab, var(--ns-signal) 70%, black)",
+          "--ns-orb-core": "var(--ns-signal)",
+          "--ns-orb-body": "color-mix(in oklab, var(--ns-signal) 75%, white)",
+          "--ns-orb-lift": "color-mix(in oklab, var(--ns-signal) 45%, white)",
+          "--ns-orb-rim": "var(--ns-orb-lift)",
+          "--ns-orb-cool": "color-mix(in oklab, var(--ns-signal) 35%, white)",
+          "--ns-orb-warm": "color-mix(in oklab, var(--ns-signal) 30%, white)",
+          "--ns-orb-dawn": "color-mix(in oklab, var(--ns-signal) 12%, white)",
+          "--ns-orb-skin-hi": "color-mix(in oklab, var(--ns-signal) 15%, white)",
+          "--ns-orb-skin-mid": "color-mix(in oklab, var(--ns-signal) 60%, white)",
+          "--ns-orb-skin-lo": "color-mix(in oklab, var(--ns-signal) 85%, black)",
+          "--ns-orb-inner": "transparent",
+          "--ns-orb-limb": "color-mix(in oklab, var(--ns-signal) 30%, transparent)",
+          "--ns-orb-limb-from": "46%",
+          "--ns-orb-key": "1",
+          "--ns-orb-edge": "color-mix(in oklab, var(--ns-ink) 14%, transparent)",
+          "--ns-orb-grain": "0.34",
+          "--ns-orb-halo": "color-mix(in oklab, var(--ns-signal) 30%, transparent)",
+          "--ns-orb-ground": "color-mix(in oklab, var(--ns-signal) 22%, transparent)",
           "--ns-state-todo": "var(--ns-ink-3)",
           "--ns-state-doing": "var(--chart-state-doing, #d55181)",
           "--ns-state-review": "var(--chart-state-review, #2a78d6)",
@@ -412,6 +507,10 @@
           "--ns-text-page": "22px",
           "--ns-text-figure": "26px",
           "--ns-text-hero": "32px",
+          "--ns-text-lede": "18px",
+          "--ns-text-headline": "clamp(28px, 1.25vw + 22px, 40px)",
+          "--ns-text-display": "clamp(40px, 3.2vw + 26px, 72px)",
+          "--ns-tracking-headline": "-0.035em",
           "--ns-weight-regular": "400",
           "--ns-weight-medium": "500",
           "--ns-weight-strong": "600",
@@ -425,6 +524,7 @@
           "--ns-space-6": "24px",
           "--ns-space-8": "32px",
           "--ns-gutter": "24px",
+          "--ns-space-section": "clamp(72px, 6vw + 40px, 128px)",
           "--ns-control-sm": "28px",
           "--ns-control-pad": "12px",
           "--ns-control": "32px",
@@ -432,6 +532,7 @@
           "--ns-segment": "26px",
           "--ns-chip": "26px",
           "--ns-row": "42px",
+          "--ns-sheet-bottom": "8px",
           "--ns-row-compact": "34px",
           "--ns-header": "48px",
           "--ns-menu-row": "34px",
@@ -636,6 +737,62 @@
         "@keyframes ns-ink-draw": {
           "from": {
             "stroke-dashoffset": "1"
+          }
+        },
+        "@keyframes ns-orb-turn": {
+          "to": {
+            "rotate": "360deg"
+          }
+        },
+        "@keyframes ns-orb-breathe": {
+          "50%": {
+            "scale": "1.015"
+          }
+        },
+        "@keyframes ns-orb-notch": {
+          "0%": {
+            "rotate": "0deg",
+            "scale": "1"
+          },
+          "22%": {
+            "scale": "0.86"
+          },
+          "45%, 100%": {
+            "rotate": "90deg",
+            "scale": "1"
+          }
+        },
+        "@keyframes ns-orb-swell": {
+          "50%": {
+            "scale": "1.035"
+          }
+        },
+        "@keyframes ns-orb-pulse": {
+          "from": {
+            "opacity": "0.85",
+            "scale": "1"
+          },
+          "to": {
+            "opacity": "0",
+            "scale": "1.28"
+          }
+        },
+        "@keyframes ns-orb-lean": {
+          "50%": {
+            "translate": "0 3%"
+          }
+        },
+        "@keyframes ns-mark-fade": {
+          "from": {
+            "background-color": "color-mix(in oklab, var(--ns-signal) 22%, transparent)"
+          },
+          "to": {
+            "background-color": "color-mix(in oklab, var(--ns-signal) 0%, transparent)"
+          }
+        },
+        "@keyframes ns-word-in": {
+          "from": {
+            "opacity": "0.25"
           }
         },
         "[data-ns-fill]": {
@@ -855,6 +1012,37 @@
         "tier": "free",
         "version": "2.1.0",
         "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "hero-orb",
+      "type": "registry:block",
+      "title": "Hero orb",
+      "description": "The Orb at hero size for a landing page: it plays a conversation as soon as it is seen, its light following a voice through a spring, then hands over at the first touch. Four knobs tune glow, grain, warmth and response. No sound; still with less motion.",
+      "categories": [
+        "showcase"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json",
+        "@notchset/orb",
+        "@notchset/segmented-control"
+      ],
+      "files": [
+        {
+          "path": "registry/system/blocks/hero-orb.tsx",
+          "type": "registry:block",
+          "target": "@ui/notchset/blocks/hero-orb.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "block",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "marketing"
       }
     },
     {
@@ -1349,6 +1537,35 @@
           "path": "registry/system/components/portal.ts",
           "type": "registry:lib",
           "target": "@lib/notchset/portal.ts"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "brand-lockup",
+      "type": "registry:ui",
+      "title": "Brand lockup",
+      "description": "The product's own brand, drawn one way in every template: the plus in the Signature, then the lowercase wordmark in ink, in three sizes. A buyer swaps their name and mark in one place. Customer companies are a different thing (company mark).",
+      "categories": [
+        "display"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/brand-lockup.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/brand-lockup.tsx"
         }
       ],
       "meta": {
@@ -2095,6 +2312,35 @@
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "line-figure",
+      "type": "registry:ui",
+      "title": "Line figure",
+      "description": "A hairline figure in ink at 70%, its construction lines dotted: nested circles converging (a receipt), two cones meeting (an approval), a wireframe cube (contained), or your own shapes. It draws itself in once when it comes into view, then holds still; with less motion it is simply there.",
+      "categories": [
+        "display"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/line-figure.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/line-figure.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
       "name": "menu",
       "type": "registry:ui",
       "title": "Menu",
@@ -2138,6 +2384,46 @@
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "message",
+      "type": "registry:ui",
+      "title": "Message",
+      "description": "A reply that streams with Stop at any length, keeps what it wrote when stopped (Continue, Try again), says Still working after 8 s and names what answered under it. Edits and retries are versions in place, none deleted. Screen readers hear start, working, done, stopped and failed.",
+      "categories": [
+        "assistant"
+      ],
+      "dependencies": [
+        "lucide-react@^1"
+      ],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json",
+        "@notchset/button",
+        "@notchset/icon-button",
+        "@notchset/menu",
+        "@notchset/spinner"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/message.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/message.tsx"
+        },
+        {
+          "path": "registry/system/components/ui-message.ts",
+          "type": "registry:lib",
+          "target": "@lib/notchset/ui-message.ts"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
       "name": "meter",
       "type": "registry:ui",
       "title": "Meter",
@@ -2162,6 +2448,74 @@
         "source": "system",
         "tier": "free",
         "version": "2.1.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "model-selector",
+      "type": "registry:ui",
+      "title": "Model selector",
+      "description": "Up to four choices named by purpose, each with a line on when to pick it and the model's name; no hidden Auto. One that can't answer now stays listed with why. An assistant that fixes its model shows it as set, by whom. The host binds the shortcut that opens it.",
+      "categories": [
+        "assistant"
+      ],
+      "dependencies": [
+        "@base-ui/react@^1",
+        "lucide-react@^1"
+      ],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json",
+        "@notchset/button",
+        "@notchset/menu"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/model-selector.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/model-selector.tsx"
+        },
+        {
+          "path": "registry/system/components/popup.ts",
+          "type": "registry:lib",
+          "target": "@lib/notchset/popup.ts"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "orb",
+      "type": "registry:ui",
+      "title": "Orb",
+      "description": "A frosted-glass lamp lit from inside that says what the assistant is doing: Ready drifts, Listening lights the edge facing your voice, Thinking moves in the notch rhythm, Speaking swells, Done pulses once. A word under every state; one moving orb per viewport; a still per state with less motion.",
+      "categories": [
+        "assistant"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/orb.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/orb.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
         "lane": "app"
       }
     },
@@ -2228,6 +2582,39 @@
         "source": "system",
         "tier": "free",
         "version": "2.1.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "prompt-input",
+      "type": "registry:ui",
+      "title": "Prompt input",
+      "description": "Enter sends, Shift+Enter makes a new line, an input method's keys stay its own. While a reply runs it is Stop and a new message waits with Send now. Dictation shows your words live. Microphone refused, offline or at the plan's limit, the draft is kept and the line says why.",
+      "categories": [
+        "assistant"
+      ],
+      "dependencies": [
+        "lucide-react@^1"
+      ],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json",
+        "@notchset/button",
+        "@notchset/icon-button"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/prompt-input.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/prompt-input.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
         "lane": "app"
       }
     },

@@ -6,9 +6,10 @@
  * wear the same look.
  */
 
-/** On the Positioner: above everything but dialogs; on a phone, pinned to the bottom edge as a sheet. */
+/** On the Positioner: above everything but dialogs; on a phone, pinned to the bottom edge as a sheet (above a tab bar
+    when the app sets --ns-sheet-bottom to its height). */
 export const popupPositioner =
-  "z-50 outline-hidden max-[600px]:!fixed max-[600px]:!inset-x-2 max-[600px]:!top-auto max-[600px]:!bottom-[calc(8px+env(safe-area-inset-bottom,0px))] max-[600px]:!left-2 max-[600px]:!w-auto max-[600px]:!transform-none";
+  "z-50 outline-hidden max-[600px]:!fixed max-[600px]:!inset-x-2 max-[600px]:!top-auto max-[600px]:!bottom-[calc(var(--ns-sheet-bottom)+env(safe-area-inset-bottom,0px))] max-[600px]:!left-2 max-[600px]:!w-auto max-[600px]:!transform-none";
 
 /** On the Popup. */
 export const popupSurface =

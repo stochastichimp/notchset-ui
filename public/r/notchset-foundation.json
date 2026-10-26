@@ -33,6 +33,25 @@
       "--ns-series-lilac": "var(--chart-series-lilac, #c084fc)",
       "--ns-glow": "var(--chart-series-glow, 25%)",
       "--ns-pulse": "var(--ns-ok)",
+      "--ns-orb-deep": "color-mix(in oklab, var(--ns-signal) 70%, black)",
+      "--ns-orb-core": "var(--ns-signal)",
+      "--ns-orb-body": "color-mix(in oklab, var(--ns-signal) 75%, white)",
+      "--ns-orb-lift": "color-mix(in oklab, var(--ns-signal) 45%, white)",
+      "--ns-orb-rim": "var(--ns-orb-lift)",
+      "--ns-orb-cool": "color-mix(in oklab, var(--ns-signal) 35%, white)",
+      "--ns-orb-warm": "color-mix(in oklab, var(--ns-signal) 30%, white)",
+      "--ns-orb-dawn": "color-mix(in oklab, var(--ns-signal) 12%, white)",
+      "--ns-orb-skin-hi": "color-mix(in oklab, var(--ns-signal) 15%, white)",
+      "--ns-orb-skin-mid": "color-mix(in oklab, var(--ns-signal) 60%, white)",
+      "--ns-orb-skin-lo": "color-mix(in oklab, var(--ns-signal) 85%, black)",
+      "--ns-orb-inner": "transparent",
+      "--ns-orb-limb": "color-mix(in oklab, var(--ns-signal) 30%, transparent)",
+      "--ns-orb-limb-from": "46%",
+      "--ns-orb-key": "1",
+      "--ns-orb-edge": "color-mix(in oklab, var(--ns-ink) 14%, transparent)",
+      "--ns-orb-grain": "0.34",
+      "--ns-orb-halo": "color-mix(in oklab, var(--ns-signal) 30%, transparent)",
+      "--ns-orb-ground": "color-mix(in oklab, var(--ns-signal) 22%, transparent)",
       "--ns-state-todo": "var(--ns-ink-3)",
       "--ns-state-doing": "var(--chart-state-doing, #d55181)",
       "--ns-state-review": "var(--chart-state-review, #2a78d6)",
@@ -67,6 +86,10 @@
       "--ns-text-page": "22px",
       "--ns-text-figure": "26px",
       "--ns-text-hero": "32px",
+      "--ns-text-lede": "18px",
+      "--ns-text-headline": "clamp(28px, 1.25vw + 22px, 40px)",
+      "--ns-text-display": "clamp(40px, 3.2vw + 26px, 72px)",
+      "--ns-tracking-headline": "-0.035em",
       "--ns-weight-regular": "400",
       "--ns-weight-medium": "500",
       "--ns-weight-strong": "600",
@@ -80,6 +103,7 @@
       "--ns-space-6": "24px",
       "--ns-space-8": "32px",
       "--ns-gutter": "24px",
+      "--ns-space-section": "clamp(72px, 6vw + 40px, 128px)",
       "--ns-control-sm": "28px",
       "--ns-control-pad": "12px",
       "--ns-control": "32px",
@@ -87,6 +111,7 @@
       "--ns-segment": "26px",
       "--ns-chip": "26px",
       "--ns-row": "42px",
+      "--ns-sheet-bottom": "8px",
       "--ns-row-compact": "34px",
       "--ns-header": "48px",
       "--ns-menu-row": "34px",
@@ -291,6 +316,62 @@
     "@keyframes ns-ink-draw": {
       "from": {
         "stroke-dashoffset": "1"
+      }
+    },
+    "@keyframes ns-orb-turn": {
+      "to": {
+        "rotate": "360deg"
+      }
+    },
+    "@keyframes ns-orb-breathe": {
+      "50%": {
+        "scale": "1.015"
+      }
+    },
+    "@keyframes ns-orb-notch": {
+      "0%": {
+        "rotate": "0deg",
+        "scale": "1"
+      },
+      "22%": {
+        "scale": "0.86"
+      },
+      "45%, 100%": {
+        "rotate": "90deg",
+        "scale": "1"
+      }
+    },
+    "@keyframes ns-orb-swell": {
+      "50%": {
+        "scale": "1.035"
+      }
+    },
+    "@keyframes ns-orb-pulse": {
+      "from": {
+        "opacity": "0.85",
+        "scale": "1"
+      },
+      "to": {
+        "opacity": "0",
+        "scale": "1.28"
+      }
+    },
+    "@keyframes ns-orb-lean": {
+      "50%": {
+        "translate": "0 3%"
+      }
+    },
+    "@keyframes ns-mark-fade": {
+      "from": {
+        "background-color": "color-mix(in oklab, var(--ns-signal) 22%, transparent)"
+      },
+      "to": {
+        "background-color": "color-mix(in oklab, var(--ns-signal) 0%, transparent)"
+      }
+    },
+    "@keyframes ns-word-in": {
+      "from": {
+        "opacity": "0.25"
       }
     },
     "[data-ns-fill]": {

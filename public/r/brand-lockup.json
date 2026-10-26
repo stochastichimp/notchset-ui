@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "brand-lockup",
+  "type": "registry:ui",
+  "title": "Brand lockup",
+  "description": "The product's own brand, drawn one way in every template: the plus in the Signature, then the lowercase wordmark in ink, in three sizes. A buyer swaps their name and mark in one place. Customer companies are a different thing (company mark).",
+  "categories": [
+    "display"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/brand-lockup.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/brand-lockup.tsx",
+      "content": "// Notchset brand-lockup 2.0.0 · https://notchset.dev/changelog\nimport * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * The brand, drawn once: the plus, then the lowercase wordmark in the display face at 650, tight tracking. Every\n * template draws its company this way and nowhere else (LANGUAGE.md, section 5). The plus is the Signature\n * (`--ns-signal`), so it follows the template's look and the theme; the wordmark is ink. A buyer swaps in their own\n * brand in one place: `name` for the wordmark, `mark` for a different glyph. Self-contained on purpose: the site's\n * animated logo (src/components/site/logo.tsx) draws the same shapes but templates never import the site.\n * Customer companies are a different thing (CompanyMark).\n */\nconst PLUS = \"M30.5 43.5H69.5Q72 43.5 72 46V54Q72 56.5 69.5 56.5H30.5Q28 56.5 28 54V46Q28 43.5 30.5 43.5Z M46 28H54Q56.5 28 56.5 30.5V69.5Q56.5 72 54 72H46Q43.5 72 43.5 69.5V30.5Q43.5 28 46 28Z\";\n\ntype BrandSize = \"sm\" | \"md\" | \"lg\";\nconst TEXT: Record<BrandSize, string> = { sm: \"text-[13px]\", md: \"text-[15px]\", lg: \"text-[18px]\" };\n\ntype BrandMarkProps = {\n  /** Edge in px. Defaults to 12. */\n  size?: number | undefined;\n  className?: string | undefined;\n};\n\n/** The plus, still, in the colour it inherits (`currentColor`). */\nfunction BrandMark({ size = 12, className }: BrandMarkProps) {\n  return (\n    <svg data-slot=\"brand-mark\" width={size} height={size} viewBox=\"28 28 44 44\" fill=\"currentColor\" aria-hidden className={cn(\"block shrink-0\", className)}>\n      <path d={PLUS} />\n    </svg>\n  );\n}\n\ntype BrandLockupProps = {\n  size?: BrandSize | undefined;\n  /** The wordmark. Defaults to \"Notchset\"; it is always drawn lowercase. */\n  name?: string | undefined;\n  /** A different mark in place of the plus (sized to the lockup, coloured by the Signature). */\n  mark?: React.ReactNode;\n  className?: string | undefined;\n};\n\n/** The mark and the wordmark. The plus stands about a pixel taller than the letters; the gap is about two bar widths. */\nfunction BrandLockup({ size = \"md\", name = \"Notchset\", mark, className }: BrandLockupProps) {\n  return (\n    <span data-slot=\"brand-lockup\" className={cn(\"inline-flex min-w-0 items-center gap-[0.5em] leading-none text-[var(--ns-ink)]\", TEXT[size], className)}>\n      <span aria-hidden className=\"inline-flex shrink-0 items-center text-[var(--ns-signal)] [&>svg]:size-[0.84em]\">\n        {mark ?? <BrandMark size={12} className=\"size-[0.84em]\" />}\n      </span>\n      <span className=\"truncate font-[family-name:var(--ns-font-display)] font-[650] tracking-[-0.055em] whitespace-nowrap lowercase\">{name}</span>\n    </span>\n  );\n}\n\nexport { BrandLockup, BrandMark, type BrandLockupProps, type BrandMarkProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

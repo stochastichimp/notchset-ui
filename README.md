@@ -1,6 +1,8 @@
-# Notchset
+# Notchset: free React components and blocks for shadcn/ui
 
-57 components and 15 blocks for shadcn/ui and React, free under the MIT license: the open part of **Notchset**, complete application UI for shadcn/ui. The finished app templates (CRM and Task Management) and the app blocks they're built from are Pro, at [notchset.dev/pricing](https://notchset.dev/pricing).
+63 components and 16 blocks for shadcn/ui and React, free under the MIT license: the open part of **Notchset**, complete application UI for shadcn/ui. The finished app templates (CRM and Task Management) and the app blocks they're built from are Pro, at [notchset.dev/pricing](https://notchset.dev/pricing).
+
+[Website](https://notchset.dev) · [Components](https://notchset.dev/components) · [Docs](https://notchset.dev/docs/installation) · [Pricing](https://notchset.dev/pricing) · [llms.txt](https://notchset.dev/llms.txt) for AI agents
 
 Every piece reads your shadcn tokens through one foundation of roles (colour, type, space, sizes, motion), so it fits your app's palette, works in light and dark, and asks for less motion when the device does. Browse them live, with their props and usage, at **[notchset.dev](https://notchset.dev)**.
 
@@ -42,6 +44,7 @@ Components land in `components/ui/notchset/` as source you own; the first instal
 | [Avatar](https://notchset.dev/components/avatar) | A person's photo, or their initials on their own hue. | `npx shadcn@latest add https://notchset.dev/r/avatar.json` |
 | [Banner](https://notchset.dev/components/banner) | What the reader should know before acting, with one fix. | `npx shadcn@latest add https://notchset.dev/r/banner.json` |
 | [Bottom sheet](https://notchset.dev/components/bottom-sheet) | A phone's short set of choices, in thumb reach. | `npx shadcn@latest add https://notchset.dev/r/bottom-sheet.json` |
+| [Brand lockup](https://notchset.dev/components/brand-lockup) | The brand drawn once: the plus and the lowercase wordmark. | `npx shadcn@latest add https://notchset.dev/r/brand-lockup.json` |
 | [Breadcrumb and back](https://notchset.dev/components/breadcrumb) | Where a page sits, said once; one Back on a phone. | `npx shadcn@latest add https://notchset.dev/r/breadcrumb.json` |
 | [Button](https://notchset.dev/components/button) | The one action shape: secondary, primary, ghost, danger. | `npx shadcn@latest add https://notchset.dev/r/button.json` |
 | [Calendar](https://notchset.dev/components/calendar) | The month grid the date pickers share; months and years a press away. | `npx shadcn@latest add https://notchset.dev/r/calendar.json` |
@@ -63,10 +66,15 @@ Components land in `components/ui/notchset/` as source you own; the first instal
 | [Inline bar](https://notchset.dev/components/inline-bar) | A thin bar in a table cell, with its number beside it. | `npx shadcn@latest add https://notchset.dev/r/inline-bar.json` |
 | [Inline edit](https://notchset.dev/components/inline-edit) | Change a value where you read it. | `npx shadcn@latest add https://notchset.dev/r/inline-edit.json` |
 | [Keyboard hint](https://notchset.dev/components/keyboard-hint) | Keycaps for a shortcut the app binds. | `npx shadcn@latest add https://notchset.dev/r/keyboard-hint.json` |
+| [Line figure](https://notchset.dev/components/line-figure) | A hairline drawing that means something, drawn in once. | `npx shadcn@latest add https://notchset.dev/r/line-figure.json` |
 | [Menu](https://notchset.dev/components/menu) | A thing's actions, from a button; a sheet on a phone. | `npx shadcn@latest add https://notchset.dev/r/menu.json` |
+| [Message](https://notchset.dev/components/message) | One turn of a conversation, with its whole life designed. | `npx shadcn@latest add https://notchset.dev/r/message.json` |
 | [Meter](https://notchset.dev/components/meter) | How much is used or done, as a thin bar beside the number. | `npx shadcn@latest add https://notchset.dev/r/meter.json` |
+| [Model selector](https://notchset.dev/components/model-selector) | Which model answers, named by what it's for. | `npx shadcn@latest add https://notchset.dev/r/model-selector.json` |
+| [Orb](https://notchset.dev/components/orb) | The assistant's lamp: what it is doing, with a word under it. | `npx shadcn@latest add https://notchset.dev/r/orb.json` |
 | [Person card](https://notchset.dev/components/person-card) | Who someone is, on hover or focus of their face or name. | `npx shadcn@latest add https://notchset.dev/r/person-card.json` |
 | [Priority mark](https://notchset.dev/components/priority-mark) | How much a task matters, readable without colour. | `npx shadcn@latest add https://notchset.dev/r/priority-mark.json` |
+| [Prompt input](https://notchset.dev/components/prompt-input) | Where you ask: send, stop, queue, dictate, and keep the draft. | `npx shadcn@latest add https://notchset.dev/r/prompt-input.json` |
 | [Property pill](https://notchset.dev/components/property-pill) | One property of a record as a small control that opens its picker. | `npx shadcn@latest add https://notchset.dev/r/property-pill.json` |
 | [Radio cards](https://notchset.dev/components/radio-cards) | One choice from a few, each with a line to explain it. | `npx shadcn@latest add https://notchset.dev/r/radio-cards.json` |
 | [Reason popover](https://notchset.dev/components/reason-popover) | One line of why, asked where the step was pressed. | `npx shadcn@latest add https://notchset.dev/r/reason-popover.json` |
@@ -103,6 +111,7 @@ Components land in `components/ui/notchset/` as source you own; the first instal
 | [Check list and ask tags](https://notchset.dev/components/check-list) | A thing measured against rules, one line per rule. | `npx shadcn@latest add https://notchset.dev/r/check-list.json` |
 | [Command bar](https://notchset.dev/components/command-bar) | Say it in plain words; see what it will do before it does it. | `npx shadcn@latest add https://notchset.dev/r/command-bar.json` |
 | [Data table](https://notchset.dev/components/data-table) | Rows you scan, sort, select and open. | `npx shadcn@latest add https://notchset.dev/r/data-table.json` |
+| [Hero orb](https://notchset.dev/components/hero-orb) | The assistant's lamp at hero size, playing a conversation itself. | `npx shadcn@latest add https://notchset.dev/r/hero-orb.json` |
 | [Live activity bar](https://notchset.dev/components/live-activity-bar) | The next thing on your day, counting down above the tab bar. | `npx shadcn@latest add https://notchset.dev/r/live-activity-bar.json` |
 | [Notch island](https://notchset.dev/components/notch-island) | A dark island that becomes what just happened. | `npx shadcn@latest add https://notchset.dev/r/notch-island.json` |
 | [One pipeline, five shapes](https://notchset.dev/components/pipeline-shapes) | The same deals as a board, list, forecast, month and people. | `npx shadcn@latest add https://notchset.dev/r/pipeline-shapes.json` |
