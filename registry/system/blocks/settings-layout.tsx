@@ -3,6 +3,7 @@
 import * as React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { SearchField } from "@/components/ui/notchset/search-field";
 import { useMoreToRight } from "@/components/ui/notchset/tabs";
 
 /*
@@ -10,9 +11,14 @@ import { useMoreToRight } from "@/components/ui/notchset/tabs";
  * the setting is and what it does on the left, its control on the right, taking effect the moment it changes.
  * The open section is raised in the list (as the sidebar's page is) and reads in a column of about 780px.
  * On a phone Settings opens as the list of its sections; a section opens on its own, with a way back. Sections
- * can be grouped (Workspace, Developers): a quiet heading starts each group, on a phone as on a desktop.
+ * can be grouped (Workspace, Developers): a quiet heading starts each group, on a phone as on a desktop. The
+ * open section's header is its title, an optional line under it and its one action at the right (Invite people):
+ * the same anatomy in every template (APP-RULES 227). With `find`, "Find a setting" tops the list: it matches what
+ * each setting does, and the matches replace the open section until the field is cleared or one is chosen.
  */
 type NavItem = { key: string; label: string; href: string; /** The group it starts or belongs to; a heading shows where it changes. */ group?: string | undefined };
+/** One setting "Find a setting" can reach: its name, the section it's in, what it does, and words people search for. */
+type SettingsFindItem = { key: string; label: string; where: string; about: string; words?: string | undefined; href: string };
 type SettingsLayoutProps = {
   nav: NavItem[];
   current: string;
@@ -20,15 +26,33 @@ type SettingsLayoutProps = {
   picked: boolean;
   backHref: string;
   title: React.ReactNode;
+  /** One line under the title: what the section holds, or what changed ("8 people · 2 changes this week"). */
+  description?: React.ReactNode;
+  /** The section's one action at the title's right (Invite people); it wraps under the title on a phone. */
+  actions?: React.ReactNode;
+  /** Every setting "Find a setting" reaches; without it there's no search. */
+  find?: SettingsFindItem[] | undefined;
   children: React.ReactNode;
   className?: string | undefined;
 };
 
-function SettingsLayout({ nav, current, picked, backHref, title, children, className }: SettingsLayoutProps) {
+/** The settings content column's one width (APP-RULES 227): every section, tab and template reads at it. */
+const SETTINGS_COLUMN = "max-w-[780px]";
+
+function SettingsLayout({ nav, current, picked, backHref, title, description, actions, find, children, className }: SettingsLayoutProps) {
+  const [q, setQ] = React.useState("");
+  const needle = q.trim().toLowerCase();
+  const found = find && needle ? find.filter((x) => `${x.where} ${x.label} ${x.words ?? ""} ${x.about}`.toLowerCase().includes(needle)) : [];
+  const finding = !!needle;
   return (
     <div data-slot="settings-layout" className={cn("grid min-h-full grid-cols-[220px_minmax(0,1fr)] max-[600px]:block", className)}>
-      <nav aria-label="Settings" className={cn("flex flex-col gap-0.5 border-r border-[var(--ns-line-soft)] p-3 max-[600px]:border-0 max-[600px]:p-0", picked && "max-[600px]:hidden")}>
-        {nav.map((n, i) => (
+      <nav aria-label="Settings" className={cn("flex flex-col gap-0.5 border-r border-[var(--ns-line-soft)] p-3 max-[600px]:border-0 max-[600px]:p-0", picked && !finding && "max-[600px]:hidden")}>
+        {find && (
+          <div className="pb-2 max-[600px]:px-[var(--ns-gutter)] max-[600px]:pt-3">
+            <SearchField size="dense" aria-label="Find a setting" placeholder="Find a setting" value={q} onValueChange={setQ} className="w-full" />
+          </div>
+        )}
+        {!finding && nav.map((n, i) => (
           <React.Fragment key={n.key}>
             {n.group && n.group !== nav[i - 1]?.group && (
               <span className="px-2.5 pt-3 pb-1 text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)] first:pt-0 max-[600px]:px-[var(--ns-gutter)] max-[600px]:pt-5 max-[600px]:pb-1.5 max-[600px]:first:pt-3">{n.group}</span>
@@ -48,14 +72,41 @@ function SettingsLayout({ nav, current, picked, backHref, title, children, class
           </React.Fragment>
         ))}
       </nav>
-      <div className={cn("box-content flex max-w-[780px] min-w-0 flex-col gap-5 px-[var(--ns-gutter)] pt-6 pb-16", !picked && "max-[600px]:hidden")}>
+      {finding ? (
+        <div className={cn("box-content flex min-w-0 flex-col px-[var(--ns-gutter)] pt-6 pb-16 max-[600px]:pt-2", SETTINGS_COLUMN)}>
+          <p aria-live="polite" className="m-0 px-3 pb-2 text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)] tabular-nums">
+            {found.length ? `${found.length} ${found.length === 1 ? "setting" : "settings"} for “${q.trim()}”` : `No setting matches “${q.trim()}”.`}
+          </p>
+          <ul className="m-0 flex list-none flex-col p-0" aria-label="Matching settings">
+            {found.map((x) => (
+              <li key={x.key}>
+                <a href={x.href} onClick={() => setQ("")} className="flex min-h-12 flex-col justify-center gap-0.5 rounded-[var(--ns-radius)] px-3 py-2 text-[var(--ns-ink)] no-underline outline-hidden hover:bg-[var(--ns-hover)] focus-visible:outline-2 focus-visible:outline-[var(--ns-signal)]">
+                  <span className="flex items-baseline gap-1.5">
+                    <b className="font-[number:var(--ns-weight-medium)]">{x.label}</b>
+                    <span className="text-[length:var(--ns-text-small)] text-[var(--ns-ink-3)]">in {x.where}</span>
+                  </span>
+                  <span className="text-[length:var(--ns-text-small)] text-[var(--ns-ink-2)]">{x.about}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+      <div className={cn("box-content flex min-w-0 flex-col gap-5 px-[var(--ns-gutter)] pt-6 pb-16", SETTINGS_COLUMN, !picked && "max-[600px]:hidden")}>
         <a href={backHref} className="-ml-1 hidden h-9 items-center gap-1 self-start rounded-[var(--ns-radius)] px-1 text-[var(--ns-ink-2)] no-underline outline-hidden focus-visible:outline-2 focus-visible:outline-[var(--ns-signal)] max-[600px]:inline-flex">
           <ChevronLeft aria-hidden className="size-4" />
           Settings
         </a>
-        <h1 className="m-0 font-[family-name:var(--ns-font-display)] text-[length:var(--ns-text-page)] font-[number:var(--ns-weight-strong)] tracking-[var(--ns-tracking-display)]">{title}</h1>
+        <header data-slot="settings-header" className="flex flex-wrap items-start gap-x-4 gap-y-3">
+          <div className="flex min-w-0 flex-1 basis-60 flex-col gap-1">
+            <h1 className="m-0 font-[family-name:var(--ns-font-display)] text-[length:var(--ns-text-page)] font-[number:var(--ns-weight-strong)] tracking-[var(--ns-tracking-display)]">{title}</h1>
+            {description && <p className="m-0 max-w-[60ch] text-[length:var(--ns-text-small)] text-[var(--ns-ink-3)]">{description}</p>}
+          </div>
+          {actions && <div className="flex shrink-0 items-center gap-2">{actions}</div>}
+        </header>
         {children}
       </div>
+      )}
     </div>
   );
 }
@@ -122,4 +173,4 @@ function SettingsNote({ icon, children, className }: { icon?: React.ReactNode; c
   );
 }
 
-export { SettingsGroup, SettingsLayout, SettingsNote, SettingsRow, SettingsTabs, type NavItem as SettingsNavItem, type SettingsLayoutProps, type SettingsRowProps };
+export { SettingsGroup, SettingsLayout, SettingsNote, SettingsRow, SettingsTabs, type NavItem as SettingsNavItem, type SettingsFindItem, type SettingsLayoutProps, type SettingsRowProps };

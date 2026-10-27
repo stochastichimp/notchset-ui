@@ -5,7 +5,8 @@ import { Switch as Base } from "@base-ui/react/switch";
 import { cn } from "@/lib/utils";
 
 /*
- * Switch: a setting that takes effect the moment it flips (no Save). Off is a quiet track; on is ink. The
+ * Switch: a setting that takes effect the moment it flips (no Save). Off is a mid-grey track (--ns-ink-4, 3:1 or
+ * better on every surface, so the control is seen before it's touched); on is ink. The
  * thumb slides on the system's ease. Children become its label. The target is 24px tall at least (a 1px clear band
  * above and below the track, outside its painted background); on touch screens the hit area grows to 40px.
  */
@@ -19,7 +20,7 @@ function Switch({ className, children, ...props }: SwitchProps) {
     <Base.Root
       data-slot="switch"
       className={cn(
-        "relative box-content inline-block h-[var(--ns-switch-h)] w-[var(--ns-switch-w)] shrink-0 bg-clip-content py-[max(0px,calc((24px-var(--ns-switch-h))/2))] cursor-pointer rounded-full bg-[var(--ns-line)] outline-hidden [transition:background-color_160ms]",
+        "relative box-content inline-block h-[var(--ns-switch-h)] w-[var(--ns-switch-w)] shrink-0 bg-clip-content py-[max(0px,calc((24px-var(--ns-switch-h))/2))] cursor-pointer rounded-full bg-[var(--ns-ink-4)] outline-hidden [transition:background-color_160ms]",
         "data-checked:bg-[var(--ns-ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ns-signal)] data-disabled:cursor-default data-disabled:opacity-45",
         "pointer-coarse:after:absolute pointer-coarse:after:-inset-3 pointer-coarse:after:content-['']",
         className,

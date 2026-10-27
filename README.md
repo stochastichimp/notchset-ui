@@ -1,6 +1,6 @@
 # Notchset: free React components and blocks for shadcn/ui
 
-97 components and 16 blocks for shadcn/ui and React, free under the MIT license: the open part of **Notchset**, complete application UI for shadcn/ui. The finished app templates (CRM and Task Management) and the app blocks they're built from are Pro, at [notchset.dev/pricing](https://notchset.dev/pricing).
+97 components and 16 blocks for shadcn/ui and React, free under the MIT license: the open part of **Notchset**, complete application UI for shadcn/ui. The finished app templates (CRM, Task Management, Assistant, Health, and Launch) and the app blocks they're built from are Pro, at [notchset.dev/pricing](https://notchset.dev/pricing).
 
 [Website](https://notchset.dev) · [Components](https://notchset.dev/components) · [Docs](https://notchset.dev/docs/installation) · [Pricing](https://notchset.dev/pricing) · [llms.txt](https://notchset.dev/llms.txt) for AI agents
 

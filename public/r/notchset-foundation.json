@@ -18,6 +18,7 @@
       "--ns-ink": "var(--foreground)",
       "--ns-ink-2": "var(--muted-foreground)",
       "--ns-ink-3": "color-mix(in oklab, var(--muted-foreground) 80%, var(--background))",
+      "--ns-ink-4": "color-mix(in oklab, var(--muted-foreground) 70%, var(--background))",
       "--ns-signal": "var(--ring)",
       "--ns-ok": "var(--success, #2f8f5f)",
       "--ns-warn": "var(--warning, #9a5a12)",

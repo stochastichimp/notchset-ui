@@ -84,4 +84,24 @@ function GlanceRow({ label, children, className }: { label: string; children: Re
   );
 }
 
-export { GlanceRow, GlanceTile, type GlanceTileProps, type GlanceVisual };
+/**
+ * The lens line: what a pressed tile is showing, said where the list's count usually sits, with one Clear. Every
+ * page with glance tiles that open a lens uses it (CRM's Pipeline, Task Management's Projects), so a lens always
+ * reads "Showing the stuck deals · the rest are dimmed  Clear". `rest` says what happened to the others (dimmed, or
+ * left out); the lens itself lives in the page's address, so a link or a reload keeps it.
+ */
+function GlanceLens({ what, rest, onClear, className }: { what: React.ReactNode; rest?: string | undefined; onClear: () => void; className?: string | undefined }) {
+  return (
+    <span data-slot="glance-lens" role="status" className={cn("flex min-w-0 flex-wrap items-center gap-x-2 text-[length:var(--ns-text-small)] text-[var(--ns-ink-2)]", className)}>
+      <span className="min-w-0">
+        Showing {what}
+        {rest ? ` · ${rest}` : ""}
+      </span>
+      <button type="button" onClick={onClear} className="cursor-pointer rounded-[5px] px-1 text-[var(--ns-ink-3)] underline-offset-[3px] outline-hidden hover:text-[var(--ns-ink)] hover:underline focus-visible:outline-2 focus-visible:outline-[var(--ns-signal)]">
+        Clear
+      </button>
+    </span>
+  );
+}
+
+export { GlanceLens, GlanceRow, GlanceTile, type GlanceTileProps, type GlanceVisual };
