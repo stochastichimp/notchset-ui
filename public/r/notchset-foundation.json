@@ -32,6 +32,7 @@
       "--ns-series-tint": "var(--chart-series-tint, 30%)",
       "--ns-series-lilac": "var(--chart-series-lilac, #c084fc)",
       "--ns-glow": "var(--chart-series-glow, 25%)",
+      "--ns-series-core": "var(--chart-series-core, var(--ns-series))",
       "--ns-pulse": "var(--ns-ok)",
       "--ns-orb-deep": "color-mix(in oklab, var(--ns-signal) 70%, black)",
       "--ns-orb-core": "var(--ns-signal)",
@@ -63,6 +64,63 @@
       "--ns-cat-4": "var(--chart-cat-4, #eda100)",
       "--ns-cat-5": "var(--chart-cat-5, #e87ba4)",
       "--ns-cat-6": "var(--chart-cat-6, #008300)",
+      "--ns-warn-ink": "color-mix(in oklab, var(--ns-warn) var(--ns-tint-ink), var(--ns-ink))",
+      "--ns-band": "color-mix(in oklab, var(--ns-ink) 9%, transparent)",
+      "--ns-band-edge": "color-mix(in oklab, var(--ns-ink) 38%, transparent)",
+      "--ns-band-optimal": "color-mix(in oklab, var(--ns-ok) 24%, transparent)",
+      "--ns-standing-in": "var(--ns-ok)",
+      "--ns-standing-out": "var(--ns-warn)",
+      "--ns-standing-critical": "var(--ns-bad)",
+      "--ns-sleep-awake": "var(--ns-state-doing)",
+      "--ns-sleep-rem": "var(--ns-state-review)",
+      "--ns-sleep-light": "color-mix(in oklab, var(--ns-series) 45%, var(--ns-panel))",
+      "--ns-sleep-deep": "var(--ns-series)",
+      "--ns-glass": "var(--ns-panel)",
+      "--ns-glass-shadow": "var(--ns-shadow-float)",
+      "--ns-glass-blur": "0px",
+      "--ns-tile-shadow": "var(--ns-bezel)",
+      "--ns-radius-card": "var(--ns-radius-lg)",
+      "--ns-grain": "none",
+      "--ns-light-1": "var(--ns-orb-body)",
+      "--ns-light-2": "var(--ns-orb-cool)",
+      "--ns-light-3": "var(--ns-orb-warm)",
+      "--ns-light-strength": "0.7",
+      "--ns-light-spread": "0.95",
+      "--ns-flood-deep": "#4c4fb8",
+      "--ns-flood-mid": "#5d62c8",
+      "--ns-flood-light": "#aeb0ee",
+      "--ns-flood-pale": "#e6e5fb",
+      "--ns-flood-bloom": "rgb(255 255 255 / 0.3)",
+      "--ns-flood-dial-bloom": "rgb(255 255 255 / 0.34)",
+      "--ns-flood-ink": "#ffffff",
+      "--ns-flood-arc": "#a77ff0",
+      "--ns-flood-ink-low": "#1f1d4a",
+      "--ns-flood-pill-ink": "#1f1d4a",
+      "--ns-flood-shadow": "0 1px 0 rgb(255 255 255 / 0.35) inset, 0 18px 40px -22px rgb(40 36 120 / 0.35)",
+      "--ns-flood-sheen": "rgb(255 255 255 / 0.1)",
+      "--ns-flood-image": "linear-gradient(to bottom, var(--ns-flood-sheen), transparent 18%), radial-gradient(55% 60% at 68% 72%, var(--ns-flood-bloom), transparent 70%), linear-gradient(160deg, var(--ns-flood-deep) 0%, var(--ns-flood-mid) 44%, var(--ns-flood-light) 74%, var(--ns-flood-pale) 100%)",
+      "--ns-flood-wash": "radial-gradient(60% 70% at 35% 40%, var(--ns-flood-bloom), transparent 70%), linear-gradient(160deg, var(--ns-flood-light) 0%, var(--ns-flood-pale) 100%)",
+      "--ns-flood-aurora": "1",
+      "--ns-flood-glass": "0",
+      "--ns-flood-ribbon": "linear-gradient(90deg, rgb(142 162 244 / 0), rgb(185 160 246 / 0.8) 45%, rgb(231 220 255 / 0.9) 75%, rgb(255 255 255 / 0))",
+      "--ns-flood-ribbon-core": "linear-gradient(90deg, rgb(255 255 255 / 0), rgb(255 255 255 / 0.7) 60%, rgb(255 255 255 / 0.1))",
+      "--ns-flood-behind-1": "radial-gradient(closest-side, #8f86dc, rgb(143 134 220 / 0.3) 55%, transparent)",
+      "--ns-flood-behind-2": "radial-gradient(closest-side, rgb(112 104 176 / 0.8), transparent)",
+      "--ns-flood-pane": "linear-gradient(160deg, rgb(32 28 54 / 0.5), rgb(24 21 40 / 0.42) 60%, rgb(32 28 54 / 0.5))",
+      "--ns-flood-pane-edge": "inset 0 1px 0 rgb(255 255 255 / 0.22), inset 0 0 0 1px rgb(255 255 255 / 0.07), inset 0 0 26px 1px rgb(200 190 240 / 0.14)",
+      "--ns-flood-grain": "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.09 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>\")",
+      "--ns-prism-edge": "conic-gradient(from 210deg, var(--ns-flood-deep), var(--ns-flood-arc) 22%, rgb(255 255 255 / 0.95) 34%, var(--ns-flood-arc) 48%, color-mix(in oklab, var(--ns-flood-deep) 50%, transparent) 70%, var(--ns-flood-deep))",
+      "--ns-prism-tint": "radial-gradient(46% 62% at 100% 0%, rgb(255 196 214 / 0.13), rgb(255 230 190 / 0.08) 32%, rgb(190 240 226 / 0.07) 56%, rgb(190 214 255 / 0.05) 74%, transparent)",
+      "--ns-prism-sheen": "linear-gradient(100deg, transparent 28%, var(--ns-flood-arc) 42%, color-mix(in oklab, var(--ns-flood-arc) 55%, white) 50%, var(--ns-flood-arc) 58%, transparent 72%)",
+      "--ns-prism-glint": "linear-gradient(100deg, transparent 34%, color-mix(in oklab, var(--ns-flood-arc) 12%, transparent) 46%, rgb(255 255 255 / 0.14) 50%, color-mix(in oklab, var(--ns-flood-arc) 12%, transparent) 54%, transparent 66%)",
+      "--ns-deep": "var(--ns-ink)",
+      "--ns-deep-ink": "var(--ns-canvas)",
+      "--ns-deep-ink-2": "color-mix(in oklab, var(--ns-canvas) 68%, var(--ns-ink))",
+      "--ns-deep-line": "color-mix(in oklab, var(--ns-canvas) 16%, var(--ns-ink))",
+      "--ns-lit-edge": "inset 0 0 0 0 transparent",
+      "--ns-mesh": "30%",
+      "--ns-mesh-frost": "var(--ns-panel)",
+      "--ns-band-grade": "color-mix(in oklab, var(--ns-ink) 5%, transparent)",
       "--ns-bezel": "0 0 0 1px var(--border)",
       "--ns-lift": "0 0 0 1px var(--primary)",
       "--ns-shadow-float": "0 0 0 1px var(--border), 0 18px 40px -12px rgb(0 0 0 / 0.25)",
@@ -72,6 +130,7 @@
     ":where(:root)": {
       "--ns-toast-left": "24px",
       "--ns-toast-bottom": "calc(12px + env(safe-area-inset-bottom, 0px))",
+      "--ns-sheet-bottom": "8px",
       "--ns-font-body": "\"Inter\", ui-sans-serif, system-ui, sans-serif",
       "--ns-font-display": "\"Geist\", \"Inter\", ui-sans-serif, system-ui, sans-serif",
       "--ns-font-mono": "\"Geist Mono\", ui-monospace, SFMono-Regular, monospace",
@@ -86,11 +145,13 @@
       "--ns-text-page": "22px",
       "--ns-text-figure": "26px",
       "--ns-text-hero": "32px",
+      "--ns-text-record": "44px",
       "--ns-text-lede": "18px",
       "--ns-text-headline": "clamp(28px, 1.25vw + 22px, 40px)",
       "--ns-text-display": "clamp(40px, 3.2vw + 26px, 72px)",
       "--ns-tracking-headline": "-0.035em",
       "--ns-weight-regular": "400",
+      "--ns-weight-light": "300",
       "--ns-weight-medium": "500",
       "--ns-weight-strong": "600",
       "--ns-leading": "1.45",
@@ -111,7 +172,6 @@
       "--ns-segment": "26px",
       "--ns-chip": "26px",
       "--ns-row": "42px",
-      "--ns-sheet-bottom": "8px",
       "--ns-row-compact": "34px",
       "--ns-header": "48px",
       "--ns-menu-row": "34px",
@@ -139,6 +199,7 @@
       "--ns-time-panel": "260ms",
       "--ns-time-page": "320ms",
       "--ns-time-born": "1200ms",
+      "--ns-beat": "1000ms",
       "--ns-menu-dy": "-4px"
     },
     "@media (pointer: coarse), (width < 960px)": {
@@ -157,7 +218,8 @@
     "@media (width < 600px)": {
       ":where(:root)": {
         "--ns-row": "40px",
-        "--ns-text-hero": "28px"
+        "--ns-text-hero": "28px",
+        "--ns-text-record": "36px"
       }
     },
     "@keyframes ns-rise": {
@@ -328,6 +390,74 @@
         "scale": "1.015"
       }
     },
+    "@keyframes ns-light-drift": {
+      "0%, 100%": {
+        "scale": "1",
+        "translate": "0 0"
+      },
+      "50%": {
+        "scale": "1.06",
+        "translate": "2% -1.5%"
+      }
+    },
+    "@keyframes ns-flood-drift": {
+      "0%, 100%": {
+        "transform": "translate3d(0, 0, 0) scale(1)",
+        "opacity": "1"
+      },
+      "35%": {
+        "transform": "translate3d(4%, 2.5%, 0) scale(1.05)",
+        "opacity": "0.78"
+      },
+      "70%": {
+        "transform": "translate3d(-2.5%, 4%, 0) scale(1.03)",
+        "opacity": "0.92"
+      }
+    },
+    "@keyframes ns-beat": {
+      "0%": {
+        "transform": "scale(0.7)",
+        "opacity": "0"
+      },
+      "14%": {
+        "transform": "scale(1)",
+        "opacity": "1"
+      },
+      "100%": {
+        "transform": "scale(1.7)",
+        "opacity": "0"
+      }
+    },
+    "@keyframes ns-beat-soft": {
+      "0%": {
+        "transform": "scaleY(1)",
+        "opacity": "0.62"
+      },
+      "14%": {
+        "transform": "scaleY(1.5)",
+        "opacity": "1"
+      },
+      "55%, 100%": {
+        "transform": "scaleY(1)",
+        "opacity": "0.62"
+      }
+    },
+    "@keyframes ns-prism-sweep": {
+      "from": {
+        "transform": "translate3d(-80%, 0, 0)",
+        "opacity": "1"
+      },
+      "75%": {
+        "opacity": "1"
+      },
+      "to": {
+        "transform": "translate3d(80%, 0, 0)",
+        "opacity": "0"
+      }
+    },
+    ":is([data-ns-asleep], [data-ns-asleep] *)": {
+      "animation-play-state": "paused !important"
+    },
     "@keyframes ns-orb-notch": {
       "0%": {
         "rotate": "0deg",
@@ -367,6 +497,17 @@
       },
       "to": {
         "background-color": "color-mix(in oklab, var(--ns-signal) 0%, transparent)"
+      }
+    },
+    "@keyframes ns-flip-in": {
+      "from": {
+        "opacity": "0",
+        "transform": "translateY(70%)"
+      }
+    },
+    "@keyframes ns-type": {
+      "from": {
+        "clip-path": "inset(0 100% 0 0)"
       }
     },
     "@keyframes ns-word-in": {

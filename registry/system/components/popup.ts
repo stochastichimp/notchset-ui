@@ -1,4 +1,4 @@
-// Notchset time-picker 2.0.0 · https://notchset.dev/changelog
+// Notchset trace 2.0.0 · https://notchset.dev/changelog
 /*
  * The one popup surface every list that opens from a control uses (select, combobox, recipient picker, and
  * menus in batch 3): the prototype's .menu. It drops just below its control, and on a phone it becomes a

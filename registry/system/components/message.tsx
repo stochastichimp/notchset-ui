@@ -47,6 +47,8 @@ type MessageProps = {
   onEdit?: (() => void) | undefined;
   /** called after the text was copied (the piece copies it) */
   onCopied?: (() => void) | undefined;
+  /** a finished reply's own verbs after Copy and Try again (thumbs, Branch to new chat) */
+  actions?: React.ReactNode;
   /** draws a citation marker "[n]" in the text (Sources' Citation); without it markers are left as written */
   cite?: ((n: number) => React.ReactNode) | undefined;
   /** the assistant's name, read by screen readers ("Assistant") */
@@ -183,6 +185,7 @@ function Message({
   onRetry,
   onEdit,
   onCopied,
+  actions,
   cite,
   name = "Assistant",
   children,
@@ -362,6 +365,7 @@ function Message({
                 <RotateCcw aria-hidden />
               </IconButton>
             )}
+            {status === "done" && actions}
             {receipt ? (
               <span className="pl-1.5">{receipt}</span>
             ) : (

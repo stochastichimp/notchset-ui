@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "routine-checklist",
+  "type": "registry:ui",
+  "title": "Routine checklist",
+  "description": "Each item is a tick, its planned time in mono, the item and one quiet line: your note, who ticked it (\"ticked 07:10\", \"from the ring\") or the coach's pick. A note is added in place, saved with Enter and dropped with Escape. The count sits in the head; no streaks or badges.",
+  "categories": [
+    "inputs"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json",
+    "@notchset/button",
+    "@notchset/checkbox",
+    "@notchset/text-field"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/routine-checklist.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/routine-checklist.tsx",
+      "content": "// Notchset routine-checklist 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\nimport { Button } from \"@/components/ui/notchset/button\";\nimport { Checkbox } from \"@/components/ui/notchset/checkbox\";\nimport { TextField } from \"@/components/ui/notchset/text-field\";\n\n/*\n * Routine checklist: today's routine to tick, time first. Each row is the tick, the planned time in mono, the item\n * and one quiet sub-line: your note, or who ticked it (\"ticked 07:10\", \"from the ring\"), or the coach's pick for\n * tonight. A row takes a note in place (Add a note, then Save or Escape). Count in the head (\"3 of 5 done\"); no\n * streaks, no badges, no confetti: a routine is a habit, not a game.\n *\n *   <RoutineChecklist items={[{ id: \"walk\", at: \"08:10\", title: \"Walk, 30 min\", done: true, by: \"from the ring\" }]}\n *     onToggle={(id, done) => tick(id, done)} onNote={(id, note) => tick(id, true, note)} />\n */\ntype RoutineChecklistItem = {\n  id: string;\n  /** the planned time, \"13:00\" */\n  at?: string | undefined;\n  title: string;\n  done: boolean;\n  /** who ticked it, or when (\"ticked 07:10\", \"from the ring\") */\n  by?: string | undefined;\n  note?: string | undefined;\n  /** the coach's pick for today: marked, never louder than a word */\n  pick?: boolean | undefined;\n};\ntype RoutineChecklistProps = {\n  items: RoutineChecklistItem[];\n  onToggle: (id: string, done: boolean) => void;\n  /** left out, rows take no notes */\n  onNote?: ((id: string, note: string) => void) | undefined;\n  title?: string | undefined;\n  /** false: no head row (the host's section names it and carries the count) */\n  head?: boolean | undefined;\n  className?: string | undefined;\n};\n\nfunction Row({ it, onToggle, onNote }: { it: RoutineChecklistItem; onToggle: RoutineChecklistProps[\"onToggle\"]; onNote: RoutineChecklistProps[\"onNote\"] }) {\n  const [editing, setEditing] = React.useState(false);\n  const [draft, setDraft] = React.useState(it.note ?? \"\");\n  const sub = it.note ?? it.by ?? (it.pick ? \"the coach's pick\" : undefined);\n  const save = () => {\n    setEditing(false);\n    if (draft.trim() !== (it.note ?? \"\")) onNote?.(it.id, draft.trim());\n  };\n  return (\n    <li data-slot=\"routine-item\" data-done={it.done || undefined} className=\"grid grid-cols-[24px_3.25rem_minmax(0,1fr)_auto] items-start gap-x-3 border-0 border-b-[0.5px] border-[var(--ns-line)] py-3 last:border-b-0 max-[600px]:grid-cols-[24px_minmax(0,1fr)_auto]\">\n      <Checkbox tone=\"done\" checked={it.done} onCheckedChange={(v) => onToggle(it.id, !!v)} aria-label={`${it.title}${it.at ? ` at ${it.at}` : \"\"}: ${it.done ? \"done\" : \"not done\"}`} className=\"mt-0.5\" />\n      <span className=\"pt-0.5 font-[family-name:var(--ns-font-mono)] text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)] tabular-nums max-[600px]:hidden\">{it.at ?? \"\"}</span>\n      <span className=\"flex min-w-0 flex-col gap-0.5\">\n        <span className={cn(\"text-[length:var(--ns-text-body)]\", it.done ? \"text-[var(--ns-ink-2)]\" : \"text-[var(--ns-ink)]\")}>\n          <span className=\"hidden font-[family-name:var(--ns-font-mono)] text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)] max-[600px]:inline\">{it.at ? `${it.at} ` : \"\"}</span>\n          {it.title}\n        </span>\n        {editing ? (\n          <form\n            className=\"flex items-end gap-2 pt-1\"\n            onSubmit={(e) => {\n              e.preventDefault();\n              save();\n            }}\n          >\n            <TextField aria-label={`Note on ${it.title}`} value={draft} autoFocus onChange={(e) => setDraft(e.target.value)} onKeyDown={(e) => e.key === \"Escape\" && (setDraft(it.note ?? \"\"), setEditing(false))} placeholder=\"Before work, with lunch…\" fieldClassName=\"min-w-0 flex-1\" />\n            <Button size=\"sm\" type=\"submit\">\n              Save\n            </Button>\n          </form>\n        ) : (\n          sub && <span className={cn(\"text-[length:var(--ns-text-small)]\", it.note ? \"text-[var(--ns-ink-2)]\" : \"text-[var(--ns-ink-3)]\")}>{sub}</span>\n        )}\n      </span>\n      {onNote && !editing ? (\n        <Button size=\"sm\" variant=\"ghost\" onClick={() => setEditing(true)} aria-label={`${it.note ? \"Edit the note\" : \"Add a note\"} on ${it.title}`} className=\"-mt-1\">\n          {it.note ? \"Edit note\" : \"Note\"}\n        </Button>\n      ) : (\n        <span />\n      )}\n    </li>\n  );\n}\n\nfunction RoutineChecklist({ items, onToggle, onNote, title = \"Today's routine\", head = true, className }: RoutineChecklistProps) {\n  const done = items.filter((x) => x.done).length;\n  return (\n    <section data-slot=\"routine-checklist\" aria-label={title} className={cn(\"flex min-w-0 flex-col\", className)}>\n      <div className={cn(\"flex items-baseline justify-between gap-3 pb-1\", !head && \"sr-only\")}>\n        <h3 className=\"m-0 text-[length:var(--ns-text-small)] font-[number:var(--ns-weight-medium)] text-[var(--ns-ink-2)]\">{title}</h3>\n        <span className=\"font-[family-name:var(--ns-font-mono)] text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)] tabular-nums\" aria-live=\"polite\">\n          {done} of {items.length} done\n        </span>\n      </div>\n      <ul className=\"m-0 flex list-none flex-col p-0\">\n        {items.map((it) => (\n          <Row key={it.id} it={it} onToggle={onToggle} onNote={onNote} />\n        ))}\n      </ul>\n    </section>\n  );\n}\n\nexport { RoutineChecklist, type RoutineChecklistItem, type RoutineChecklistProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

@@ -6,7 +6,8 @@ import { cn } from "@/lib/utils";
 
 /*
  * Switch: a setting that takes effect the moment it flips (no Save). Off is a quiet track; on is ink. The
- * thumb slides on the system's ease. Children become its label. On touch screens the hit area grows to 40px.
+ * thumb slides on the system's ease. Children become its label. The target is 24px tall at least (a 1px clear band
+ * above and below the track, outside its painted background); on touch screens the hit area grows to 40px.
  */
 type SwitchProps = Omit<React.ComponentPropsWithoutRef<typeof Base.Root>, "className"> & {
   className?: string | undefined;
@@ -18,14 +19,14 @@ function Switch({ className, children, ...props }: SwitchProps) {
     <Base.Root
       data-slot="switch"
       className={cn(
-        "relative inline-block h-[var(--ns-switch-h)] w-[var(--ns-switch-w)] shrink-0 cursor-pointer rounded-full bg-[var(--ns-line)] outline-hidden [transition:background-color_160ms]",
+        "relative box-content inline-block h-[var(--ns-switch-h)] w-[var(--ns-switch-w)] shrink-0 bg-clip-content py-[max(0px,calc((24px-var(--ns-switch-h))/2))] cursor-pointer rounded-full bg-[var(--ns-line)] outline-hidden [transition:background-color_160ms]",
         "data-checked:bg-[var(--ns-ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ns-signal)] data-disabled:cursor-default data-disabled:opacity-45",
         "pointer-coarse:after:absolute pointer-coarse:after:-inset-3 pointer-coarse:after:content-['']",
         className,
       )}
       {...props}
     >
-      <Base.Thumb className="absolute top-[3px] left-[3px] block size-4 rounded-full bg-white shadow-[0_1px_2px_rgba(0,0,0,.3)] [transition:transform_200ms_var(--ns-ease),background-color_160ms] data-checked:translate-x-[calc(var(--ns-switch-w)-22px)] data-checked:bg-[var(--ns-panel)]" />
+      <Base.Thumb className="absolute top-[calc(3px+max(0px,calc((24px-var(--ns-switch-h))/2)))] left-[3px] block size-4 rounded-full bg-white shadow-[0_1px_2px_rgba(0,0,0,.3)] [transition:transform_200ms_var(--ns-ease),background-color_160ms] data-checked:translate-x-[calc(var(--ns-switch-w)-22px)] data-checked:bg-[var(--ns-panel)]" />
     </Base.Root>
   );
   if (!children) return track;

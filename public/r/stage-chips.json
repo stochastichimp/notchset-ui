@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "stage-chips",
+  "type": "registry:ui",
+  "title": "Stage chips",
+  "description": "Each stage's total as a chip with its swatch; the stage that stands out is raised and carries its usual in mono. A plain list, read the same by a screen reader.",
+  "categories": [
+    "display"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/stage-chips.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/stage-chips.tsx",
+      "content": "// Notchset stage-chips 2.0.0 · https://notchset.dev/changelog\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Stage chips: a night's time in each stage as a measured legend. One thin bar shows the night's proportions (each\n * stage its swatch, a hairline gap between), then one column per stage on one baseline: the swatch and name in the\n * quiet ink, the time in full ink, and, under the stage that stands out, its usual in plain words. Columns are split\n * by hairlines (two by two on a phone); no pills. A plain list, so it reads the same to a screen reader.\n *\n *   <StageChips stages={[{ name: \"Deep\", value: \"1 h 57\", minutes: 117, color: \"var(--ns-sleep-deep)\", usual: \"1 h 38\" }, …]} />\n */\ntype StageChip = { name: string; value: string; color: string; usual?: string | undefined; minutes?: number | undefined };\ntype StageChipsProps = { stages: StageChip[]; label?: string | undefined; className?: string | undefined };\n\nfunction StageChips({ stages, label = \"Time in each stage\", className }: StageChipsProps) {\n  const total = stages.every((s) => s.minutes != null) ? stages.reduce((a, s) => a + (s.minutes ?? 0), 0) : 0;\n  return (\n    <div data-slot=\"stage-chips\" className={cn(\"flex min-w-0 flex-col gap-4\", className)}>\n      {total > 0 && (\n        <div aria-hidden className=\"flex h-1.5 w-full gap-0.5 overflow-hidden rounded-full\">\n          {stages.map((s) => (\n            <i key={s.name} className=\"block h-full first:rounded-l-full last:rounded-r-full\" style={{ background: s.color, flexGrow: s.minutes, flexBasis: 0 }} />\n          ))}\n        </div>\n      )}\n      <ul aria-label={label} className=\"m-0 grid list-none grid-cols-[repeat(var(--n),minmax(0,1fr))] p-0 max-[480px]:grid-cols-2 max-[480px]:gap-y-4\" style={{ [\"--n\" as string]: stages.length }}>\n        {stages.map((s, i) => (\n          <li key={s.name} data-standout={s.usual ? \"\" : undefined} className={cn(\"flex min-w-0 flex-col gap-1.5\", i > 0 && \"border-l border-[var(--ns-line-soft)] pl-3\", i % 2 === 0 && \"max-[480px]:border-l-0 max-[480px]:pl-0\")}>\n            <span className=\"flex min-w-0 items-center gap-1.5 text-[length:var(--ns-text-meta)] leading-none text-[var(--ns-ink-3)]\">\n              <i aria-hidden className=\"block size-2 shrink-0 rounded-[3px]\" style={{ background: s.color }} />\n              <span className=\"truncate\">{s.name}</span>\n            </span>\n            <b className=\"text-[length:var(--ns-text-strong)] leading-none font-[number:var(--ns-weight-medium)] whitespace-nowrap text-[var(--ns-ink)] tabular-nums\">{s.value}</b>\n            {s.usual && <span className=\"text-[length:var(--ns-text-meta)] leading-none whitespace-nowrap text-[var(--ns-ink-3)]\">Your usual {s.usual}</span>}\n          </li>\n        ))}\n      </ul>\n    </div>\n  );\n}\n\nexport { StageChips, type StageChip, type StageChipsProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

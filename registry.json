@@ -355,6 +355,23 @@
           "--ns-orb-ground": "rgb(139 124 246 / 0.3)",
           "color-scheme": "dark"
         },
+        ":root.dark, :root[data-theme=\"dark\"]": {
+          "--ns-flood-deep": "#2e2580",
+          "--ns-flood-pill-ink": "#2e2580",
+          "--ns-flood-mid": "#463f9e",
+          "--ns-flood-light": "#4b44a4",
+          "--ns-flood-pale": "#554eaf",
+          "--ns-flood-bloom": "rgb(235 230 255 / 0.1)",
+          "--ns-flood-dial-bloom": "rgb(235 230 255 / 0.06)",
+          "--ns-flood-sheen": "rgb(255 255 255 / 0.07)",
+          "--ns-flood-ink-low": "#ffffff",
+          "--ns-flood-arc": "#d4c6ff",
+          "--chart-series-core": "#f3f0ff",
+          "--ns-flood-shadow": "0 1px 0 rgb(255 255 255 / 0.2) inset, 0 18px 40px -18px rgb(0 0 0 / 0.6)",
+          "--ns-flood-aurora": "0",
+          "--ns-flood-glass": "1",
+          "--ns-flood-image": "linear-gradient(#0f0d18, #0f0d18)"
+        },
         "[data-ns-signature=\"graphite\"]": {
           "--ns-signal": "#5e6275",
           "--ring": "#5e6275",
@@ -381,7 +398,20 @@
           "--ns-orb-edge": "rgb(40 42 56 / 0.32)",
           "--ns-orb-grain": "0.18",
           "--ns-orb-halo": "rgb(94 98 117 / 0.26)",
-          "--ns-orb-ground": "rgb(94 98 117 / 0.2)"
+          "--ns-orb-ground": "rgb(94 98 117 / 0.2)",
+          "--ns-flood-deep": "#4a5263",
+          "--ns-flood-mid": "#576072",
+          "--ns-flood-light": "#a8afbd",
+          "--ns-flood-pale": "#e4e7ed",
+          "--ns-flood-bloom": "rgb(255 255 255 / 0.3)",
+          "--ns-flood-dial-bloom": "rgb(255 255 255 / 0.42)",
+          "--ns-flood-ink-low": "#1b1e25",
+          "--ns-flood-pill-ink": "#1b1e25",
+          "--ns-flood-arc": "#c9ced9",
+          "--ns-flood-shadow": "0 1px 0 rgb(255 255 255 / 0.4) inset, 0 18px 40px -22px rgb(20 24 34 / 0.35)",
+          "--ns-flood-aurora": "1",
+          "--ns-flood-glass": "0",
+          "--ns-flood-ribbon": "linear-gradient(90deg, rgb(170 180 200 / 0), rgb(196 204 222 / 0.8) 45%, rgb(232 236 244 / 0.9) 75%, rgb(255 255 255 / 0))"
         },
         ".dark[data-ns-signature=\"graphite\"], .dark [data-ns-signature=\"graphite\"], [data-theme=\"dark\"][data-ns-signature=\"graphite\"], [data-theme=\"dark\"] [data-ns-signature=\"graphite\"]": {
           "--ns-signal": "#abafc4",
@@ -396,6 +426,25 @@
           "--ns-orb-body": "#6f7385",
           "--ns-orb-lift": "#9a9eaf",
           "--ns-orb-rim": "#dcdfe8",
+          "--ns-flood-deep": "#262a33",
+          "--ns-flood-pill-ink": "#262a33",
+          "--ns-flood-mid": "#3c4250",
+          "--ns-flood-light": "#474e5d",
+          "--ns-flood-pale": "#515969",
+          "--ns-flood-bloom": "rgb(220 228 245 / 0.1)",
+          "--ns-flood-dial-bloom": "rgb(220 228 245 / 0.06)",
+          "--ns-flood-sheen": "rgb(235 240 255 / 0.09)",
+          "--ns-flood-ink-low": "#ffffff",
+          "--ns-flood-arc": "#e6eaf2",
+          "--chart-series-core": "#f2f4f8",
+          "--ns-flood-shadow": "0 1px 0 rgb(255 255 255 / 0.22) inset, 0 18px 40px -18px rgb(0 0 0 / 0.6)",
+          "--ns-flood-aurora": "0",
+          "--ns-flood-glass": "1",
+          "--ns-flood-image": "linear-gradient(#0d0e11, #0d0e11)",
+          "--ns-flood-behind-1": "radial-gradient(closest-side, #8a93a8, rgb(138 147 168 / 0.3) 55%, transparent)",
+          "--ns-flood-behind-2": "radial-gradient(closest-side, rgb(110 118 138 / 0.8), transparent)",
+          "--ns-flood-pane": "linear-gradient(160deg, rgb(30 33 40 / 0.5), rgb(22 24 30 / 0.42) 60%, rgb(30 33 40 / 0.5))",
+          "--ns-flood-pane-edge": "inset 0 1px 0 rgb(255 255 255 / 0.22), inset 0 0 0 1px rgb(255 255 255 / 0.07), inset 0 0 26px 1px rgb(190 198 216 / 0.14)",
           "--ns-orb-cool": "#b3b7c6",
           "--ns-orb-warm": "#a6aabb",
           "--ns-orb-dawn": "#d9d4cc",
@@ -410,6 +459,97 @@
           "--ns-orb-grain": "0.4",
           "--ns-orb-halo": "rgb(171 175 196 / 0.36)",
           "--ns-orb-ground": "rgb(171 175 196 / 0.24)"
+        },
+        ":root[data-ns-art=\"health\"]": {
+          "--ns-radius-card": "20px",
+          "--ns-glass-blur": "26px"
+        },
+        ":root[data-ns-art=\"health\"]:not([data-theme=\"dark\"]):not(.dark)": {
+          "--background": "#e8ecef",
+          "--foreground": "#10171e",
+          "--card": "#f0f3f5",
+          "--card-foreground": "#10171e",
+          "--popover": "#f7f9fa",
+          "--popover-foreground": "#10171e",
+          "--primary": "#10171e",
+          "--primary-foreground": "#f3f6f8",
+          "--secondary": "#f7f9fa",
+          "--secondary-foreground": "#10171e",
+          "--muted": "#dfe4e8",
+          "--muted-foreground": "#4a5562",
+          "--accent": "#e2e7eb",
+          "--accent-foreground": "#10171e",
+          "--border": "#c9d1d8",
+          "--input": "#c6ced5",
+          "--sidebar": "#e4e9ec",
+          "--sidebar-border": "#d3d9df",
+          "--sidebar-accent": "#f7f9fa",
+          "--ns-ink-3": "#59646f",
+          "--ns-line-soft": "#d6dce2",
+          "--ns-selected": "#dce2e7",
+          "--ns-radius-card": "20px",
+          "--ns-deep": "#10201a",
+          "--ns-deep-ink": "#eef3f0",
+          "--ns-deep-ink-2": "#a9bab2",
+          "--ns-deep-line": "#23372e",
+          "--ns-mesh": "34%",
+          "--ns-mesh-frost": "rgb(255 255 255 / 0.72)",
+          "--ns-lit-edge": "inset 0 1px 0 rgb(255 255 255 / 0.95), inset 1px 0 0 rgb(255 255 255 / 0.5)",
+          "--ns-glass": "rgb(246 249 252 / 0.46)",
+          "--ns-glass-shadow": "inset 0 1px 0 rgb(255 255 255 / 0.9), 0 0 0 1px rgb(20 30 40 / 0.06), 0 30px 60px -30px rgb(20 30 40 / 0.28)",
+          "--ns-glass-blur": "26px",
+          "--ns-tile-shadow": "0 0 0 1px rgb(20 30 40 / 0.06), 0 1px 2px rgb(20 30 40 / 0.04)",
+          "--ns-bezel": "0 0 0 1px rgb(20 30 40 / 0.08), 0 1px 2px rgb(20 30 40 / 0.05)",
+          "--ns-band": "color-mix(in oklab, var(--ns-ink) 12%, transparent)",
+          "--ns-band-grade": "color-mix(in oklab, var(--ns-ink) 4%, transparent)",
+          "--ns-sleep-awake": "color-mix(in oklab, var(--ns-ink) 18%, transparent)",
+          "--ns-sleep-light": "color-mix(in oklab, var(--ns-ink) 26%, var(--ns-canvas))",
+          "--ns-sleep-rem": "color-mix(in oklab, var(--ns-series) 45%, var(--ns-canvas))",
+          "--ns-sleep-deep": "var(--ns-series)",
+          "--ns-grain": "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.12 0 0 0 0 0.14 0 0 0 0.075 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>\")"
+        },
+        ":root[data-ns-art=\"health\"][data-theme=\"dark\"], :root[data-ns-art=\"health\"].dark": {
+          "--ns-deep": "#0a0a0c",
+          "--ns-deep-ink": "var(--ns-ink)",
+          "--ns-deep-ink-2": "var(--ns-ink-2)",
+          "--ns-deep-line": "var(--ns-line)",
+          "--ns-mesh": "42%",
+          "--ns-mesh-frost": "rgb(20 20 24 / 0.55)",
+          "--ns-lit-edge": "inset 0 1px 0 rgb(255 255 255 / 0.1), inset 1px 0 0 rgb(255 255 255 / 0.05)",
+          "--ns-glass": "rgb(30 30 36 / 0.5)",
+          "--ns-glass-shadow": "inset 0 1px 0 rgb(255 255 255 / 0.06), 0 0 0 1px rgb(255 255 255 / 0.06), 0 30px 60px -30px rgb(0 0 0 / 0.7)",
+          "--ns-tile-shadow": "0 0 0 1px rgb(255 255 255 / 0.06)",
+          "--ns-band": "color-mix(in oklab, var(--ns-ink) 19%, transparent)",
+          "--ns-band-grade": "color-mix(in oklab, var(--ns-ink) 5%, transparent)",
+          "--ns-grain": "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.05 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>\")",
+          "--ns-sleep-awake": "color-mix(in oklab, var(--ns-ink) 18%, transparent)",
+          "--ns-sleep-light": "color-mix(in oklab, var(--ns-ink) 26%, var(--ns-canvas))",
+          "--ns-sleep-rem": "color-mix(in oklab, var(--ns-series) 45%, var(--ns-canvas))",
+          "--ns-sleep-deep": "var(--ns-series)",
+          "--ns-light-1": "#5d4cc2",
+          "--ns-light-2": "#2a2166",
+          "--ns-light-3": "#a58ff0",
+          "--ns-light-strength": "0.6",
+          "--ns-light-spread": "0.7"
+        },
+        ":root[data-ns-art=\"health\"] body": {
+          "background-color": "var(--ns-canvas)",
+          "background-image": "var(--ns-grain)"
+        },
+        ":root[data-ns-art=\"health\"]:not([data-theme=\"dark\"]):not(.dark):not([data-ns-signature=\"graphite\"])": {
+          "--ns-light-1": "#a7a3f6",
+          "--ns-light-2": "#b4c3ff",
+          "--ns-light-3": "#dcdfff"
+        },
+        ":root[data-ns-art=\"health\"][data-ns-signature=\"graphite\"]:not([data-theme=\"dark\"]):not(.dark)": {
+          "--ns-light-1": "#8f99ab",
+          "--ns-light-2": "#a9b2c2",
+          "--ns-light-3": "#c4cbd7"
+        },
+        ":root[data-ns-art=\"health\"][data-theme=\"dark\"][data-ns-signature=\"graphite\"], :root[data-ns-art=\"health\"].dark[data-ns-signature=\"graphite\"]": {
+          "--ns-light-1": "#5b6170",
+          "--ns-light-2": "#282b33",
+          "--ns-light-3": "#9ea5b6"
         }
       },
       "files": [],
@@ -453,6 +593,7 @@
           "--ns-series-tint": "var(--chart-series-tint, 30%)",
           "--ns-series-lilac": "var(--chart-series-lilac, #c084fc)",
           "--ns-glow": "var(--chart-series-glow, 25%)",
+          "--ns-series-core": "var(--chart-series-core, var(--ns-series))",
           "--ns-pulse": "var(--ns-ok)",
           "--ns-orb-deep": "color-mix(in oklab, var(--ns-signal) 70%, black)",
           "--ns-orb-core": "var(--ns-signal)",
@@ -484,6 +625,63 @@
           "--ns-cat-4": "var(--chart-cat-4, #eda100)",
           "--ns-cat-5": "var(--chart-cat-5, #e87ba4)",
           "--ns-cat-6": "var(--chart-cat-6, #008300)",
+          "--ns-warn-ink": "color-mix(in oklab, var(--ns-warn) var(--ns-tint-ink), var(--ns-ink))",
+          "--ns-band": "color-mix(in oklab, var(--ns-ink) 9%, transparent)",
+          "--ns-band-edge": "color-mix(in oklab, var(--ns-ink) 38%, transparent)",
+          "--ns-band-optimal": "color-mix(in oklab, var(--ns-ok) 24%, transparent)",
+          "--ns-standing-in": "var(--ns-ok)",
+          "--ns-standing-out": "var(--ns-warn)",
+          "--ns-standing-critical": "var(--ns-bad)",
+          "--ns-sleep-awake": "var(--ns-state-doing)",
+          "--ns-sleep-rem": "var(--ns-state-review)",
+          "--ns-sleep-light": "color-mix(in oklab, var(--ns-series) 45%, var(--ns-panel))",
+          "--ns-sleep-deep": "var(--ns-series)",
+          "--ns-glass": "var(--ns-panel)",
+          "--ns-glass-shadow": "var(--ns-shadow-float)",
+          "--ns-glass-blur": "0px",
+          "--ns-tile-shadow": "var(--ns-bezel)",
+          "--ns-radius-card": "var(--ns-radius-lg)",
+          "--ns-grain": "none",
+          "--ns-light-1": "var(--ns-orb-body)",
+          "--ns-light-2": "var(--ns-orb-cool)",
+          "--ns-light-3": "var(--ns-orb-warm)",
+          "--ns-light-strength": "0.7",
+          "--ns-light-spread": "0.95",
+          "--ns-flood-deep": "#4c4fb8",
+          "--ns-flood-mid": "#5d62c8",
+          "--ns-flood-light": "#aeb0ee",
+          "--ns-flood-pale": "#e6e5fb",
+          "--ns-flood-bloom": "rgb(255 255 255 / 0.3)",
+          "--ns-flood-dial-bloom": "rgb(255 255 255 / 0.34)",
+          "--ns-flood-ink": "#ffffff",
+          "--ns-flood-arc": "#a77ff0",
+          "--ns-flood-ink-low": "#1f1d4a",
+          "--ns-flood-pill-ink": "#1f1d4a",
+          "--ns-flood-shadow": "0 1px 0 rgb(255 255 255 / 0.35) inset, 0 18px 40px -22px rgb(40 36 120 / 0.35)",
+          "--ns-flood-sheen": "rgb(255 255 255 / 0.1)",
+          "--ns-flood-image": "linear-gradient(to bottom, var(--ns-flood-sheen), transparent 18%), radial-gradient(55% 60% at 68% 72%, var(--ns-flood-bloom), transparent 70%), linear-gradient(160deg, var(--ns-flood-deep) 0%, var(--ns-flood-mid) 44%, var(--ns-flood-light) 74%, var(--ns-flood-pale) 100%)",
+          "--ns-flood-wash": "radial-gradient(60% 70% at 35% 40%, var(--ns-flood-bloom), transparent 70%), linear-gradient(160deg, var(--ns-flood-light) 0%, var(--ns-flood-pale) 100%)",
+          "--ns-flood-aurora": "1",
+          "--ns-flood-glass": "0",
+          "--ns-flood-ribbon": "linear-gradient(90deg, rgb(142 162 244 / 0), rgb(185 160 246 / 0.8) 45%, rgb(231 220 255 / 0.9) 75%, rgb(255 255 255 / 0))",
+          "--ns-flood-ribbon-core": "linear-gradient(90deg, rgb(255 255 255 / 0), rgb(255 255 255 / 0.7) 60%, rgb(255 255 255 / 0.1))",
+          "--ns-flood-behind-1": "radial-gradient(closest-side, #8f86dc, rgb(143 134 220 / 0.3) 55%, transparent)",
+          "--ns-flood-behind-2": "radial-gradient(closest-side, rgb(112 104 176 / 0.8), transparent)",
+          "--ns-flood-pane": "linear-gradient(160deg, rgb(32 28 54 / 0.5), rgb(24 21 40 / 0.42) 60%, rgb(32 28 54 / 0.5))",
+          "--ns-flood-pane-edge": "inset 0 1px 0 rgb(255 255 255 / 0.22), inset 0 0 0 1px rgb(255 255 255 / 0.07), inset 0 0 26px 1px rgb(200 190 240 / 0.14)",
+          "--ns-flood-grain": "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.09 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>\")",
+          "--ns-prism-edge": "conic-gradient(from 210deg, var(--ns-flood-deep), var(--ns-flood-arc) 22%, rgb(255 255 255 / 0.95) 34%, var(--ns-flood-arc) 48%, color-mix(in oklab, var(--ns-flood-deep) 50%, transparent) 70%, var(--ns-flood-deep))",
+          "--ns-prism-tint": "radial-gradient(46% 62% at 100% 0%, rgb(255 196 214 / 0.13), rgb(255 230 190 / 0.08) 32%, rgb(190 240 226 / 0.07) 56%, rgb(190 214 255 / 0.05) 74%, transparent)",
+          "--ns-prism-sheen": "linear-gradient(100deg, transparent 28%, var(--ns-flood-arc) 42%, color-mix(in oklab, var(--ns-flood-arc) 55%, white) 50%, var(--ns-flood-arc) 58%, transparent 72%)",
+          "--ns-prism-glint": "linear-gradient(100deg, transparent 34%, color-mix(in oklab, var(--ns-flood-arc) 12%, transparent) 46%, rgb(255 255 255 / 0.14) 50%, color-mix(in oklab, var(--ns-flood-arc) 12%, transparent) 54%, transparent 66%)",
+          "--ns-deep": "var(--ns-ink)",
+          "--ns-deep-ink": "var(--ns-canvas)",
+          "--ns-deep-ink-2": "color-mix(in oklab, var(--ns-canvas) 68%, var(--ns-ink))",
+          "--ns-deep-line": "color-mix(in oklab, var(--ns-canvas) 16%, var(--ns-ink))",
+          "--ns-lit-edge": "inset 0 0 0 0 transparent",
+          "--ns-mesh": "30%",
+          "--ns-mesh-frost": "var(--ns-panel)",
+          "--ns-band-grade": "color-mix(in oklab, var(--ns-ink) 5%, transparent)",
           "--ns-bezel": "0 0 0 1px var(--border)",
           "--ns-lift": "0 0 0 1px var(--primary)",
           "--ns-shadow-float": "0 0 0 1px var(--border), 0 18px 40px -12px rgb(0 0 0 / 0.25)",
@@ -493,6 +691,7 @@
         ":where(:root)": {
           "--ns-toast-left": "24px",
           "--ns-toast-bottom": "calc(12px + env(safe-area-inset-bottom, 0px))",
+          "--ns-sheet-bottom": "8px",
           "--ns-font-body": "\"Inter\", ui-sans-serif, system-ui, sans-serif",
           "--ns-font-display": "\"Geist\", \"Inter\", ui-sans-serif, system-ui, sans-serif",
           "--ns-font-mono": "\"Geist Mono\", ui-monospace, SFMono-Regular, monospace",
@@ -507,11 +706,13 @@
           "--ns-text-page": "22px",
           "--ns-text-figure": "26px",
           "--ns-text-hero": "32px",
+          "--ns-text-record": "44px",
           "--ns-text-lede": "18px",
           "--ns-text-headline": "clamp(28px, 1.25vw + 22px, 40px)",
           "--ns-text-display": "clamp(40px, 3.2vw + 26px, 72px)",
           "--ns-tracking-headline": "-0.035em",
           "--ns-weight-regular": "400",
+          "--ns-weight-light": "300",
           "--ns-weight-medium": "500",
           "--ns-weight-strong": "600",
           "--ns-leading": "1.45",
@@ -532,7 +733,6 @@
           "--ns-segment": "26px",
           "--ns-chip": "26px",
           "--ns-row": "42px",
-          "--ns-sheet-bottom": "8px",
           "--ns-row-compact": "34px",
           "--ns-header": "48px",
           "--ns-menu-row": "34px",
@@ -560,6 +760,7 @@
           "--ns-time-panel": "260ms",
           "--ns-time-page": "320ms",
           "--ns-time-born": "1200ms",
+          "--ns-beat": "1000ms",
           "--ns-menu-dy": "-4px"
         },
         "@media (pointer: coarse), (width < 960px)": {
@@ -578,7 +779,8 @@
         "@media (width < 600px)": {
           ":where(:root)": {
             "--ns-row": "40px",
-            "--ns-text-hero": "28px"
+            "--ns-text-hero": "28px",
+            "--ns-text-record": "36px"
           }
         },
         "@keyframes ns-rise": {
@@ -749,6 +951,74 @@
             "scale": "1.015"
           }
         },
+        "@keyframes ns-light-drift": {
+          "0%, 100%": {
+            "scale": "1",
+            "translate": "0 0"
+          },
+          "50%": {
+            "scale": "1.06",
+            "translate": "2% -1.5%"
+          }
+        },
+        "@keyframes ns-flood-drift": {
+          "0%, 100%": {
+            "transform": "translate3d(0, 0, 0) scale(1)",
+            "opacity": "1"
+          },
+          "35%": {
+            "transform": "translate3d(4%, 2.5%, 0) scale(1.05)",
+            "opacity": "0.78"
+          },
+          "70%": {
+            "transform": "translate3d(-2.5%, 4%, 0) scale(1.03)",
+            "opacity": "0.92"
+          }
+        },
+        "@keyframes ns-beat": {
+          "0%": {
+            "transform": "scale(0.7)",
+            "opacity": "0"
+          },
+          "14%": {
+            "transform": "scale(1)",
+            "opacity": "1"
+          },
+          "100%": {
+            "transform": "scale(1.7)",
+            "opacity": "0"
+          }
+        },
+        "@keyframes ns-beat-soft": {
+          "0%": {
+            "transform": "scaleY(1)",
+            "opacity": "0.62"
+          },
+          "14%": {
+            "transform": "scaleY(1.5)",
+            "opacity": "1"
+          },
+          "55%, 100%": {
+            "transform": "scaleY(1)",
+            "opacity": "0.62"
+          }
+        },
+        "@keyframes ns-prism-sweep": {
+          "from": {
+            "transform": "translate3d(-80%, 0, 0)",
+            "opacity": "1"
+          },
+          "75%": {
+            "opacity": "1"
+          },
+          "to": {
+            "transform": "translate3d(80%, 0, 0)",
+            "opacity": "0"
+          }
+        },
+        ":is([data-ns-asleep], [data-ns-asleep] *)": {
+          "animation-play-state": "paused !important"
+        },
         "@keyframes ns-orb-notch": {
           "0%": {
             "rotate": "0deg",
@@ -788,6 +1058,17 @@
           },
           "to": {
             "background-color": "color-mix(in oklab, var(--ns-signal) 0%, transparent)"
+          }
+        },
+        "@keyframes ns-flip-in": {
+          "from": {
+            "opacity": "0",
+            "transform": "translateY(70%)"
+          }
+        },
+        "@keyframes ns-type": {
+          "from": {
+            "clip-path": "inset(0 100% 0 0)"
           }
         },
         "@keyframes ns-word-in": {
@@ -1302,7 +1583,7 @@
       "name": "sign-in",
       "type": "registry:block",
       "title": "Sign in and onboarding step",
-      "description": "Two ways in: a link proves the inbox and sets up a workspace; a passkey goes straight into an account you already have. Then check your email, or confirm it's you. The onboarding step asks one question per screen.",
+      "description": "Two ways in: a link proves the inbox and sets up a workspace; a passkey goes straight into an account you already have. Then check your email, or confirm it's you. The onboarding step asks one question per screen. `personal` drops the work wording and single sign-on for a consumer app (Health).",
       "categories": [
         "entry"
       ],
@@ -1425,6 +1706,35 @@
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "adherence-dots",
+      "type": "registry:ui",
+      "title": "Adherence dots",
+      "description": "One row of seven dots per routine item: filled when it happened, outlined when it didn't, today dashed until it happens, and the count closing the row. A table carries every day in words for a screen reader.",
+      "categories": [
+        "display"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/adherence-dots.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/adherence-dots.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
       "name": "avatar-stack",
       "type": "registry:ui",
       "title": "Avatar stack",
@@ -1508,6 +1818,41 @@
         "source": "system",
         "tier": "free",
         "version": "2.1.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "baseline-meter",
+      "type": "registry:ui",
+      "title": "Baseline meter",
+      "description": "Nights in ink fill with the series as each one is measured, the count written (9 of 14 nights) and what's left, so nothing is read against a usual that doesn't exist yet. Full, it becomes the range bar of your usual with today on it. A night added while it's on screen pops in once.",
+      "categories": [
+        "feedback"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json",
+        "@notchset/range-bar"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/baseline-meter.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/baseline-meter.tsx"
+        },
+        {
+          "path": "registry/system/components/standing.ts",
+          "type": "registry:lib",
+          "target": "@lib/notchset/standing.ts"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
         "lane": "app"
       }
     },
@@ -2032,6 +2377,38 @@
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "day-timeline",
+      "type": "registry:ui",
+      "title": "Day timeline",
+      "description": "Wearable events, logs and routine ticks on one day axis, solid up to now and dotted after, with Now as the one lit mark and the coach's pick glowing. At most six entries (the pick and those nearest now) with View the day for the rest; upright as a list on a phone, and an ordered list for a screen reader either way.",
+      "categories": [
+        "charts"
+      ],
+      "dependencies": [
+        "lucide-react@^1"
+      ],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json",
+        "@notchset/chart"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/day-timeline.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/day-timeline.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
       "name": "dialog",
       "type": "registry:ui",
       "title": "Dialog",
@@ -2063,6 +2440,36 @@
           "path": "registry/system/components/return-focus.ts",
           "type": "registry:lib",
           "target": "@lib/notchset/return-focus.ts"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "draw-history",
+      "type": "registry:ui",
+      "title": "Draw history",
+      "description": "A segmented standing bar (low, in range, optimal, in range, high) with the latest value haloed on it and the draw before as a hollow ring; under it every draw as a large dated dot with its value on a calm line, over the optimal band and the lab's lower limit, and the planned retest as a dotted ring at its date.",
+      "categories": [
+        "charts"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json",
+        "@notchset/chart"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/draw-history.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/draw-history.tsx"
         }
       ],
       "meta": {
@@ -2165,6 +2572,162 @@
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "flood-tile",
+      "type": "registry:ui",
+      "title": "Flood tile",
+      "description": "A page's key figure on the Signature's gradient, grain on top, white type that passes AA, a fine arc or ruler drawn large; the standing rides on it as a white pill. One per page. With drift its light moves over about 52 s, paused when hidden or off screen and still under reduced motion.",
+      "categories": [
+        "display"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/flood-tile.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/flood-tile.tsx"
+        },
+        {
+          "path": "registry/system/components/living.ts",
+          "type": "registry:lib",
+          "target": "@lib/notchset/living.ts"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "ghost-trend",
+      "type": "registry:ui",
+      "title": "Ghost trend",
+      "description": "A metric over a period: the luminous line, last period's as a dashed ghost, your usual as a soft band, the dashed average and the latest point haloed. A second signal shares the axis as % from your usual. Gaps stay gaps or are bridged dotted, the lowest and highest pinned; a logged dose is a grey diamond along the top.",
+      "categories": [
+        "charts"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json",
+        "@notchset/chart"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/ghost-trend.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/ghost-trend.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "glance-tile",
+      "type": "registry:ui",
+      "title": "Glance tile",
+      "description": "A label, a status line, one small visual that means something (a reason glyph: an arc with the usual band, a span against a window, readings in or out of their bands, two dots that align, or a run of days) and a value in light type, on one grid. Tonal, no glow; each opens its page.",
+      "categories": [
+        "display"
+      ],
+      "dependencies": [
+        "lucide-react@^1"
+      ],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json",
+        "@notchset/reason-glyph"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/glance-tile.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/glance-tile.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "glucose-day",
+      "type": "registry:ui",
+      "title": "Glucose day",
+      "description": "Every 5 minutes as one luminous line over the target band, a quiet wash with its edges written at the left. Each meal is a grey dot where it was eaten, its peak a series dot with the rise above; a dose is a grey diamond along the top. Gaps stay open; a running day stops at now. The table carries every hour.",
+      "categories": [
+        "charts"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json",
+        "@notchset/chart"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/glucose-day.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/glucose-day.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "goal-cumulative",
+      "type": "registry:ui",
+      "title": "Goal cumulative",
+      "description": "The period's running total climbs as the luminous line with a soft fill and a dot per step, the period before as a dashed ghost and the goal as one dashed ink line named at its end. The latest point is haloed with its total, and says goal met once it is. The table carries every step.",
+      "categories": [
+        "charts"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json",
+        "@notchset/chart"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/goal-cumulative.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/goal-cumulative.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
       "name": "hover-momentum",
       "type": "registry:ui",
       "title": "Hover momentum",
@@ -2182,6 +2745,35 @@
           "path": "registry/system/components/hover-momentum.tsx",
           "type": "registry:ui",
           "target": "@ui/notchset/hover-momentum.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "hue-mesh",
+      "type": "registry:ui",
+      "title": "Hue mesh",
+      "description": "A soft pastel mesh of one of the family's category hues over frosted white (deep and glowing in dark), entering from the same top-left corner on every tile. Identity, never standing.",
+      "categories": [
+        "display"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/hue-mesh.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/hue-mesh.tsx"
         }
       ],
       "meta": {
@@ -2312,10 +2904,75 @@
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "knobs",
+      "type": "registry:ui",
+      "title": "Knobs",
+      "description": "One Tune control, closed by default, that opens labelled sliders (each with its value written) or a choice of a few words for a showcase piece's physics (Tension, Damping), and the ghost cursor that acts a moment out while the piece plays. Keys move every knob.",
+      "categories": [
+        "inputs"
+      ],
+      "dependencies": [
+        "lucide-react@^1"
+      ],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/knobs.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/knobs.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "marketing"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "light-field",
+      "type": "registry:ui",
+      "title": "Light field",
+      "description": "A wide soft wash of the Signature's light entering from the top right and fading before the page's lower half; in dark it becomes an edge light from the right. Never an orb shape, grain on top, one per page, decoration only.",
+      "categories": [
+        "display"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/light-field.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/light-field.tsx"
+        },
+        {
+          "path": "registry/system/components/living.ts",
+          "type": "registry:lib",
+          "target": "@lib/notchset/living.ts"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
       "name": "line-figure",
       "type": "registry:ui",
       "title": "Line figure",
-      "description": "A hairline figure in ink at 70%, its construction lines dotted: nested circles converging (a receipt), two cones meeting (an approval), a wireframe cube (contained), or your own shapes. It draws itself in once when it comes into view, then holds still; with less motion it is simply there.",
+      "description": "A hairline figure in ink at 70%, its construction lines dotted: nested circles converging (a receipt), two cones meeting (an approval), a wireframe cube (contained), or your own shapes. It draws in once on entering view, then holds still; with less motion, or `still` (a small figure), it is simply there.",
       "categories": [
         "display"
       ],
@@ -2329,6 +2986,36 @@
           "path": "registry/system/components/line-figure.tsx",
           "type": "registry:ui",
           "target": "@ui/notchset/line-figure.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "load-range",
+      "type": "registry:ui",
+      "title": "Load range",
+      "description": "The figure and its standing in words, one track from light to heavy with your usual as a soft band and the load as a glowing dot, and the figures it comes from (acute, chronic, ratio) as quiet rows.",
+      "categories": [
+        "charts"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json",
+        "@notchset/status-pill"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/load-range.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/load-range.tsx"
         }
       ],
       "meta": {
@@ -2492,6 +3179,96 @@
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "night-dot-row",
+      "type": "registry:ui",
+      "title": "Night dot row",
+      "description": "Seven nights as dots with each day and figure: hollow when below your usual, the chosen night ringed and lit. A radio group: arrow keys, Home and End move and choose, and each dot says its night in words.",
+      "categories": [
+        "charts"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/night-dot-row.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/night-dot-row.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "night-ribbon",
+      "type": "registry:ui",
+      "title": "Night ribbon",
+      "description": "Awake, REM, Light and Deep as lanes, each stretch a rounded capsule in the stage's tint joined to the next by a soft riser, so the night reads as one ribbon. The longest deep stretch glows with its pill; the axis says bedtime, a few hours and wake, and the table carries every stretch.",
+      "categories": [
+        "charts"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json",
+        "@notchset/chart"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/night-ribbon.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/night-ribbon.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "night-tags",
+      "type": "registry:ui",
+      "title": "Night tags",
+      "description": "Tags on a night from the Log and the routine, each with its time, with Add a tag and, when the coach has one, a single cited correlation about your own nights with its source in mono. A fact, never advice.",
+      "categories": [
+        "display"
+      ],
+      "dependencies": [
+        "lucide-react@^1"
+      ],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/night-tags.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/night-tags.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
       "name": "orb",
       "type": "registry:ui",
       "title": "Orb",
@@ -2509,6 +3286,37 @@
           "path": "registry/system/components/orb.tsx",
           "type": "registry:ui",
           "target": "@ui/notchset/orb.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "overlay-chips",
+      "type": "registry:ui",
+      "title": "Overlay chips",
+      "description": "Toggle chips under a trend: the one on shows its swatch, name and latest reading and takes it off again; the rest wait as quiet + chips. One overlay at a time, so the chart keeps one honest axis.",
+      "categories": [
+        "charts"
+      ],
+      "dependencies": [
+        "lucide-react@^1"
+      ],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/overlay-chips.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/overlay-chips.tsx"
         }
       ],
       "meta": {
@@ -2558,6 +3366,35 @@
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "personal-bests",
+      "type": "registry:ui",
+      "title": "Personal bests",
+      "description": "Quiet fact rows for a metric (highest night, best month, longest run over your usual), each with its value and date. No badges and no colour: a best is a fact, not a prize. A month without readings says when bests arrive.",
+      "categories": [
+        "display"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/personal-bests.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/personal-bests.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
       "name": "priority-mark",
       "type": "registry:ui",
       "title": "Priority mark",
@@ -2582,6 +3419,45 @@
         "source": "system",
         "tier": "free",
         "version": "2.1.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "prism-edge",
+      "type": "registry:ui",
+      "title": "Prism edge",
+      "description": "A hairline of the Signature turning through its light round a glass card, with a whisper of spectral tint at one corner, all code. When something new arrives it sweeps once in about 1.2 s and rests; never on a mount, and under reduced motion the edge simply shows. Used once per app.",
+      "categories": [
+        "display"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/prism-edge.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/prism-edge.tsx"
+        },
+        {
+          "path": "registry/system/components/living.ts",
+          "type": "registry:lib",
+          "target": "@lib/notchset/living.ts"
+        },
+        {
+          "path": "registry/system/components/physics.ts",
+          "type": "registry:lib",
+          "target": "@lib/notchset/physics.ts"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
         "lane": "app"
       }
     },
@@ -2666,6 +3542,107 @@
           "path": "registry/system/components/radio-cards.tsx",
           "type": "registry:ui",
           "target": "@ui/notchset/radio-cards.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "range-bar",
+      "type": "registry:ui",
+      "title": "Range bar",
+      "description": "A value against a named range, never bare: the lab's band with its limits written, an optimal band named by its source, the value with its halo, the previous value as a tick and the word (Low, In range, High). Out of range is warn; a lab flag or a value that may be wrong is bad. Three sizes.",
+      "categories": [
+        "display"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json",
+        "@notchset/rolling-number",
+        "@notchset/status-pill"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/range-bar.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/range-bar.tsx"
+        },
+        {
+          "path": "registry/system/components/physics.ts",
+          "type": "registry:lib",
+          "target": "@lib/notchset/physics.ts"
+        },
+        {
+          "path": "registry/system/components/standing.ts",
+          "type": "registry:lib",
+          "target": "@lib/notchset/standing.ts"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "range-control",
+      "type": "registry:ui",
+      "title": "Range control",
+      "description": "Day, Week, Month, 6M, Year and YTD as one switch with the period's headline above it: \"Avg 6 h 51 · this week, +9 min against last week\". The figure rolls only when the period changes, still with less motion; a period the data can't reach is left out.",
+      "categories": [
+        "charts"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json",
+        "@notchset/rolling-number",
+        "@notchset/segmented-control"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/range-control.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/range-control.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "reason-glyph",
+      "type": "registry:ui",
+      "title": "Reason glyph",
+      "description": "Five small data glyphs, each drawing the reason for a judging word: a value against its usual band (arc), a span against a window, readings in or out of their bands (marks), two-point alignment and a run of days. Fills a tile's band, or sits inline before its word in a list row; never without its word.",
+      "categories": [
+        "display"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/reason-glyph.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/reason-glyph.tsx"
         }
       ],
       "meta": {
@@ -2770,6 +3747,45 @@
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "results-strip",
+      "type": "registry:ui",
+      "title": "Results strip",
+      "description": "A whole panel at a glance: one tick per result, grouped by system, in range quiet ink, out of range warn, a value to check outlined bad, with the counts written. Point or use the arrow keys to read a tick (one tab stop); press, Enter or Space opens it. The host orders the items.",
+      "categories": [
+        "charts"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/results-strip.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/results-strip.tsx"
+        },
+        {
+          "path": "registry/system/components/physics.ts",
+          "type": "registry:lib",
+          "target": "@lib/notchset/physics.ts"
+        },
+        {
+          "path": "registry/system/components/standing.ts",
+          "type": "registry:lib",
+          "target": "@lib/notchset/standing.ts"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "crossover"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
       "name": "reveal",
       "type": "registry:ui",
       "title": "Reveal",
@@ -2823,6 +3839,135 @@
         "source": "system",
         "tier": "free",
         "version": "2.1.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "route-map",
+      "type": "registry:ui",
+      "title": "Route map",
+      "description": "GPS points in Web Mercator at the zoom that fits them, over XYZ tiles, a vector street map in the page's roles (roads by class, buildings, parks, water, names along roads), or paper. The line is the signal: start, finish flag, chevrons, km marks, records and a live heading dot whose halo beats at the heart rate.",
+      "categories": [
+        "charts"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/route-map.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/route-map.tsx"
+        },
+        {
+          "path": "registry/system/components/living.ts",
+          "type": "registry:lib",
+          "target": "@lib/notchset/living.ts"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "route-trace",
+      "type": "registry:ui",
+      "title": "Route trace",
+      "description": "GPS points projected flat and fitted to the box, drawn in the series hue over a soft halo with a hollow start, a filled finish and a small mark at each whole kilometre. No tiles and no provider key; a buyer adds streets behind the same drawing.",
+      "categories": [
+        "charts"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/route-trace.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/route-trace.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "routine-checklist",
+      "type": "registry:ui",
+      "title": "Routine checklist",
+      "description": "Each item is a tick, its planned time in mono, the item and one quiet line: your note, who ticked it (\"ticked 07:10\", \"from the ring\") or the coach's pick. A note is added in place, saved with Enter and dropped with Escape. The count sits in the head; no streaks or badges.",
+      "categories": [
+        "inputs"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json",
+        "@notchset/button",
+        "@notchset/checkbox",
+        "@notchset/text-field"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/routine-checklist.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/routine-checklist.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "ruler",
+      "type": "registry:ui",
+      "title": "Ruler",
+      "description": "Hairline ticks at an even step, your usual band as the solid stretch at its foot and the value as one taller mark, with the band's limits in mono. Sits under a hero number so it reads as a measurement.",
+      "categories": [
+        "display"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/ruler.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/ruler.tsx"
+        },
+        {
+          "path": "registry/system/components/standing.ts",
+          "type": "registry:lib",
+          "target": "@lib/notchset/standing.ts"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
         "lane": "app"
       }
     },
@@ -3163,6 +4308,35 @@
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "stage-chips",
+      "type": "registry:ui",
+      "title": "Stage chips",
+      "description": "Each stage's total as a chip with its swatch; the stage that stands out is raised and carries its usual in mono. A plain list, read the same by a screen reader.",
+      "categories": [
+        "display"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/stage-chips.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/stage-chips.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
       "name": "stage-path",
       "type": "registry:ui",
       "title": "Stage path",
@@ -3180,6 +4354,40 @@
           "path": "registry/system/components/stage-path.tsx",
           "type": "registry:ui",
           "target": "@ui/notchset/stage-path.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "standing-arc",
+      "type": "registry:ui",
+      "title": "Standing arc",
+      "description": "A hairline arc with fine ticks from Lower to Higher, your usual as the solid segment and the value as a glass bead on the arc carrying the number; the distance from your usual said under it.",
+      "categories": [
+        "display"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/standing-arc.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/standing-arc.tsx"
+        },
+        {
+          "path": "registry/system/components/standing.ts",
+          "type": "registry:lib",
+          "target": "@lib/notchset/standing.ts"
         }
       ],
       "meta": {
@@ -3279,6 +4487,35 @@
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "stress-strip",
+      "type": "registry:ui",
+      "title": "Stress strip",
+      "description": "Load rises above a hairline (stressed tall in the series hue, engaged short and lighter), restoring dips below it in grey and calm is the hairline, so the day reads in two seconds. Gaps stay empty; the minutes in each state sit under it. It draws states the caller supplies.",
+      "categories": [
+        "charts"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/stress-strip.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/stress-strip.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
       "name": "switch",
       "type": "registry:ui",
       "title": "Switch",
@@ -3298,6 +4535,35 @@
           "path": "registry/system/components/switch.tsx",
           "type": "registry:ui",
           "target": "@ui/notchset/switch.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "system-glyph",
+      "type": "registry:ui",
+      "title": "System glyph",
+      "description": "An empty ring is none, a half moon is half, a full disc is all: a shape, not a colour, always beside its count in words.",
+      "categories": [
+        "display"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/system-glyph.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/system-glyph.tsx"
         }
       ],
       "meta": {
@@ -3509,6 +4775,108 @@
           "path": "registry/system/components/portal.ts",
           "type": "registry:lib",
           "target": "@lib/notchset/portal.ts"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "trace",
+      "type": "registry:ui",
+      "title": "Trace",
+      "description": "The provenance line under a reading (Ring / 07:02, Northside Lab · 16 Oct); pressed, it opens the slip: the source, when it was measured, the range it was read against and who set that range. The receipt's face, for a value.",
+      "categories": [
+        "display"
+      ],
+      "dependencies": [
+        "@base-ui/react@^1",
+        "lucide-react@^1"
+      ],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/trace.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/trace.tsx"
+        },
+        {
+          "path": "registry/system/components/popup.ts",
+          "type": "registry:lib",
+          "target": "@lib/notchset/popup.ts"
+        },
+        {
+          "path": "registry/system/components/portal.ts",
+          "type": "registry:lib",
+          "target": "@lib/notchset/portal.ts"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "week-bars",
+      "type": "registry:ui",
+      "title": "Week bars",
+      "description": "Bars by day in the series' soft tint with each value written inside its top, today lit in the lilac focus and the period's average as a dashed line. Scrub or use the arrow keys to read a day; a day with nothing recorded is a dashed stub, never a zero; the table carries every day.",
+      "categories": [
+        "charts"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json",
+        "@notchset/chart"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/week-bars.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/week-bars.tsx"
+        }
+      ],
+      "meta": {
+        "kind": "component",
+        "source": "system",
+        "tier": "free",
+        "version": "2.0.0",
+        "lane": "app"
+      }
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "zone-stack",
+      "type": "registry:ui",
+      "title": "Zone stack",
+      "description": "Zones 1 to 5 stacked per day in one ramp of the series hue, lightest to full, so it reads as effort and never as five categories (grey in Graphite). Each day's total sits over its bar; days still to come stay empty. The table carries every zone.",
+      "categories": [
+        "charts"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "utils",
+        "https://notchset.dev/r/notchset-foundation.json",
+        "@notchset/chart"
+      ],
+      "files": [
+        {
+          "path": "registry/system/components/zone-stack.tsx",
+          "type": "registry:ui",
+          "target": "@ui/notchset/zone-stack.tsx"
         }
       ],
       "meta": {

@@ -348,7 +348,7 @@ function useChartActive(n: number, dayOf?: ((i: number) => number) | undefined, 
  * along its length. The main series line glows softly under itself (the violet glow: one blurred copy, its filter
  * defined here once, faded in after the draw and never animated itself); a dashed, ink or quiet line never glows.
  */
-function InkLine({ d, drawn = 0, tone = "series", dashed, width = 2, glow = tone === "series" && !dashed, className }: { d: string; drawn?: number | undefined; tone?: "series" | "ink" | "quiet" | undefined; dashed?: boolean | undefined; width?: number | undefined; glow?: boolean | undefined; className?: string | undefined }) {
+function InkLine({ d, drawn = 0, tone = "series", dashed, width = 2, glow = tone === "series" && !dashed, core, className }: { d: string; drawn?: number | undefined; tone?: "series" | "ink" | "quiet" | undefined; dashed?: boolean | undefined; width?: number | undefined; glow?: boolean | undefined; /** the line's own colour when it is light itself (a luminous line: a near-white core over the Signature's glow) */ core?: string | undefined; className?: string | undefined }) {
   const stroke = tone === "series" ? "var(--ns-series)" : tone === "ink" ? "var(--ns-ink)" : "var(--ns-ink-3)";
   const id = `gl${React.useId().replace(/[^a-zA-Z0-9]/g, "")}`;
   return (
@@ -367,7 +367,7 @@ function InkLine({ d, drawn = 0, tone = "series", dashed, width = 2, glow = tone
         key={drawn}
         d={d}
         fill="none"
-        stroke={stroke}
+        stroke={core ?? stroke}
         strokeWidth={width}
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -933,7 +933,12 @@ function ChartTable({ caption, head, rows, open, active, onPick, index }: { capt
   /* hidden, the table sits in a box clipped to nothing: a table never shrinks below its content, so it can't take
      the hiding itself */
   if (!open) return <div className="sr-only">{table}</div>;
-  return <div data-slot="chart-table" className="max-h-[260px] overflow-auto overscroll-contain rounded-[10px] px-3 py-1 shadow-[inset_0_0_0_1px_var(--ns-line-soft)]">{table}</div>;
+  /* without row buttons the box itself takes focus, so its scroll is reachable by keyboard */
+  return (
+    <div data-slot="chart-table" tabIndex={onPick ? undefined : 0} role={onPick ? undefined : "region"} aria-label={onPick ? undefined : caption} className="max-h-[260px] overflow-auto overscroll-contain rounded-[10px] px-3 py-1 shadow-[inset_0_0_0_1px_var(--ns-line-soft)] outline-hidden focus-visible:outline-2 focus-visible:outline-[var(--ns-signal)]">
+      {table}
+    </div>
+  );
 }
 /** The quiet switch between a chart's picture and its table. */
 function ChartTableToggle({ open, onToggle, className }: { open: boolean; onToggle: () => void; className?: string | undefined }) {

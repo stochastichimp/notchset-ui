@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "hue-mesh",
+  "type": "registry:ui",
+  "title": "Hue mesh",
+  "description": "A soft pastel mesh of one of the family's category hues over frosted white (deep and glowing in dark), entering from the same top-left corner on every tile. Identity, never standing.",
+  "categories": [
+    "display"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/hue-mesh.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/hue-mesh.tsx",
+      "content": "// Notchset hue-mesh 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Hue mesh: a tile lit by its identity hue (a body system's: Heart, Sleep, Recovery…), a soft pastel mesh of one of the\n * family's validated category hues (--ns-cat-1…6, the ones labels use) over frosted white; deep and glowing in the\n * dark. Light has one source: every mesh enters from the same top-left corner, so a screen of tiles reads as one lit\n * space. Identity, never standing: a value's standing is its dot and its word.\n *\n *   <div className=\"relative isolate overflow-hidden rounded-[inherit]\"><HueMesh hue={3} /> …the tile… </div>\n */\ntype HueMeshProps = {\n  /** which category hue, 1–6 */\n  hue: 1 | 2 | 3 | 4 | 5 | 6;\n  /** how much light falls on it (0–1) */\n  strength?: number | undefined;\n  className?: string | undefined;\n};\n\nconst HUES = { 1: \"var(--ns-cat-1)\", 2: \"var(--ns-cat-2)\", 3: \"var(--ns-cat-3)\", 4: \"var(--ns-cat-4)\", 5: \"var(--ns-cat-5)\", 6: \"var(--ns-cat-6)\" } as const;\n\nfunction HueMesh({ hue, strength = 1, className }: HueMeshProps) {\n  const c = HUES[hue];\n  return (\n    <div\n      aria-hidden\n      data-slot=\"hue-mesh\"\n      className={cn(\"pointer-events-none absolute inset-0 -z-10 rounded-[inherit]\", className)}\n      style={{\n        opacity: strength,\n        backgroundColor: \"var(--ns-mesh-frost)\",\n        backgroundImage: [\n          `radial-gradient(110% 85% at 0% 0%, color-mix(in oklab, ${c} var(--ns-mesh), transparent) 0%, transparent 62%)`,\n          `radial-gradient(60% 55% at 22% 8%, color-mix(in oklab, ${c} calc(var(--ns-mesh) * 0.9), white 18%) 0%, transparent 70%)`,\n          `radial-gradient(90% 70% at 100% 100%, color-mix(in oklab, ${c} calc(var(--ns-mesh) * 0.22), transparent) 0%, transparent 70%)`,\n        ].join(\", \"),\n      }}\n    />\n  );\n}\n\nexport { HueMesh, type HueMeshProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

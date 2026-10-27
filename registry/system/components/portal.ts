@@ -1,4 +1,4 @@
-// Notchset tooltip 2.0.0 · https://notchset.dev/changelog
+// Notchset trace 2.0.0 · https://notchset.dev/changelog
 import * as React from "react";
 
 /*

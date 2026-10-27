@@ -109,6 +109,10 @@ type SignInProps = {
   logo: React.ReactNode;
   product: string;
   fine?: React.ReactNode;
+  /** A personal account (a consumer app): "Email" not "Work email", and no single sign-on. */
+  personal?: boolean | undefined;
+  /** The heading, when it isn't "Sign in to {product}" (e.g. "Create your account"). */
+  title?: string | undefined;
   className?: string | undefined;
 };
 
@@ -136,7 +140,7 @@ function Or() {
   return <div className="flex items-center gap-3 text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)] before:h-px before:flex-1 before:bg-[var(--ns-line-soft)] before:content-[''] after:h-px after:flex-1 after:bg-[var(--ns-line-soft)] after:content-['']">or</div>;
 }
 
-function SignIn({ state, email, onEmail, error, onLink, onPasskey, onProvider, provider, onResend, onBack, onOpenLink, logo, product, fine, className }: SignInProps) {
+function SignIn({ state, email, onEmail, error, onLink, onPasskey, onProvider, provider, onResend, onBack, onOpenLink, logo, product, fine, personal, title, className }: SignInProps) {
   return (
     <div data-slot="sign-in" className={cn("flex w-full max-w-[400px] flex-col gap-3 [animation:ns-rise_var(--ns-time-page)_var(--ns-ease)]", className)} data-ns-moves="">
       {state === "sent" ? (
@@ -167,8 +171,8 @@ function SignIn({ state, email, onEmail, error, onLink, onPasskey, onProvider, p
         <PasskeyWait onBack={onBack} />
       ) : (
         <>
-          <Head icon={logo} title={`Sign in to ${product}`}>
-            {onProvider ? "Use your work account, email or a passkey." : "Use your work email or a passkey."}
+          <Head icon={logo} title={title ?? `Sign in to ${product}`}>
+            {personal ? (onProvider ? "Use Google, Microsoft, your email or a passkey." : "Use your email or a passkey.") : onProvider ? "Use your work account, email or a passkey." : "Use your work email or a passkey."}
           </Head>
           {onProvider && (
             <>
@@ -183,7 +187,7 @@ function SignIn({ state, email, onEmail, error, onLink, onPasskey, onProvider, p
               onLink();
             }}
           >
-            <TextField label="Work email" type="email" autoComplete="email" value={email} error={error} onChange={(e) => onEmail(e.target.value)} />
+            <TextField label={personal ? "Email" : "Work email"} type="email" autoComplete="email" value={email} error={error} onChange={(e) => onEmail(e.target.value)} />
             <Button type="submit" variant="primary" className="w-full">
               Email me a sign-in link
             </Button>
@@ -193,7 +197,7 @@ function SignIn({ state, email, onEmail, error, onLink, onPasskey, onProvider, p
             <Fingerprint />
             Sign in with a passkey
           </Button>
-          {onProvider && (
+          {onProvider && !personal && (
             <Button variant="ghost" size="sm" className="self-center" onClick={() => onProvider("sso")}>
               <Building2 />
               Use single sign-on (SSO)

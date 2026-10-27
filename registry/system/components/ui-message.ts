@@ -115,7 +115,7 @@ export function usageFigures(u: Usage, now: Date, locale?: string) {
     week,
     windowLevel: level(window),
     weekLevel: level(week),
-    windowLine: `${window}% of this window · resets ${windowReset}`,
+    windowLine: `${window}% used · resets ${windowReset}`,
     weekLine: `${week}% of this week · resets ${weekReset}`,
     limiting,
     left,
@@ -127,7 +127,7 @@ export function usageFigures(u: Usage, now: Date, locale?: string) {
     low: left < 20 && left > 0,
     atLimit: left <= 0,
     /** the composer's line, only when low or spent */
-    composerLine: left <= 0 ? `You've used this ${limiting === "week" ? "week" : "window"} · resets ${reset}` : `${left}% of this ${limiting === "week" ? "week" : "window"} left · resets ${reset}`,
+    composerLine: left <= 0 ? `${limiting === "week" ? "You've reached this week's limit" : "You've reached your limit for now"} · resets ${reset}` : `${left}% left${limiting === "week" ? " this week" : ""} · resets ${reset}`,
   };
 }
 
