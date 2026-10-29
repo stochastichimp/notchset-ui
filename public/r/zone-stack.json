@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "zone-stack",
+  "type": "registry:ui",
+  "title": "Zone stack",
+  "description": "Zones 1 to 5 stacked per day in one ramp of the series hue, lightest to full, so it reads as effort and never as five categories (grey in Graphite). Each day's total sits over its bar; days still to come stay empty. The table carries every zone.",
+  "categories": [
+    "charts"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json",
+    "@notchset/chart"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/zone-stack.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/zone-stack.tsx",
+      "content": "// Notchset zone-stack 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\nimport { ChartTable, ChartTableToggle, useChartWidth } from \"@/components/ui/notchset/chart\";\n\n/*\n * Zone stack: minutes in each heart-rate zone per day, stacked in one tonal ramp of the series hue (zone 1 the\n * lightest, zone 5 the full colour), the day's total over each bar. One hue, so it reads as effort, never as five\n * categories; in Graphite the ramp is grey. Days still to come stay empty.\n *\n *   <ZoneStack label=\"Minutes by zone, this week\" days={[{ label: \"Mon\", zones: [38, 14, 6, 2, 0] }, …]} />\n */\ntype ZoneStackDay = { label: string; zones: number[] | null };\ntype ZoneStackProps = {\n  days: ZoneStackDay[];\n  label: string;\n  /** the day to mark as today (its label in ink) */\n  current?: number | undefined;\n  height?: number | undefined;\n  className?: string | undefined;\n};\n\n/** Zone n's fill: the series hue mixed into the surface, lightest first. */\nconst ZONE_MIX = [22, 38, 58, 80, 100];\nconst zoneFill = (z: number) => (ZONE_MIX[z] === 100 ? \"var(--ns-series)\" : `color-mix(in oklab, var(--ns-series) ${ZONE_MIX[z]}%, var(--ns-canvas))`);\n\nfunction ZoneStack({ days, label, current, height = 200, className }: ZoneStackProps) {\n  const [box, W] = useChartWidth<HTMLDivElement>(540);\n  const [table, setTable] = React.useState(false);\n  const totals = days.map((d) => (d.zones ? d.zones.reduce((a, b) => a + b, 0) : null));\n  const max = Math.max(1, ...totals.map((t) => t ?? 0)) * 1.08;\n  const gap = W < 400 ? 8 : 14;\n  const bw = (W - gap * (days.length - 1)) / days.length;\n  const T = 22,\n    B = height - 24;\n  const k = (B - T) / max;\n  const summary = `${label}: ${days.map((d, i) => `${d.label} ${totals[i] == null ? \"no data yet\" : `${totals[i]} minutes`}`).join(\", \")}.`;\n  return (\n    <div data-slot=\"zone-stack\" className={cn(\"flex min-w-0 flex-col gap-2\", className)}>\n      <div ref={box} role=\"img\" aria-label={summary} className=\"relative min-w-0\" style={{ height }}>\n        <svg width={W} height={height} className=\"block\" aria-hidden>\n          {days.map((d, i) => {\n            if (!d.zones) return <rect key={i} x={i * (bw + gap)} y={B - 2} width={bw} height={2} rx={1} fill=\"var(--ns-line)\" />;\n            let y = B;\n            const lastZ = d.zones.reduce((a: number, m, i) => (m > 0 ? i : a), -1);\n            return (\n              <g key={i}>\n                {d.zones.map((m, z) => {\n                  if (!m) return null;\n                  const h = m * k;\n                  y -= h;\n                  return <rect key={z} x={i * (bw + gap)} y={y + (z ? 0.75 : 0)} width={bw} height={Math.max(1, h - (z ? 0.75 : 0))} rx={z === lastZ ? Math.min(5, h / 2) : 1.5} fill={zoneFill(z)} />;\n                })}\n              </g>\n            );\n          })}\n        </svg>\n        <div aria-hidden className=\"font-[family-name:var(--ns-font-mono)] text-[length:var(--ns-text-meta)] leading-none text-[var(--ns-ink-3)]\">\n          {days.map((d, i) => (\n            <React.Fragment key={i}>\n              {totals[i] != null && (\n                <span className={cn(\"absolute -translate-x-1/2\", i === current ? \"text-[var(--ns-ink)]\" : \"text-[var(--ns-ink-2)]\")} style={{ left: i * (bw + gap) + bw / 2, top: B - totals[i]! * k - 16 }}>\n                  {totals[i]}\n                </span>\n              )}\n              <span className={cn(\"absolute -translate-x-1/2\", i === current && \"font-[number:var(--ns-weight-medium)] text-[var(--ns-ink)]\")} style={{ left: i * (bw + gap) + bw / 2, top: B + 10 }}>\n                {d.label}\n              </span>\n            </React.Fragment>\n          ))}\n        </div>\n      </div>\n      <div className=\"flex flex-wrap items-center gap-x-3 gap-y-1 font-[family-name:var(--ns-font-mono)] text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)]\">\n        <span>Zone</span>\n        {ZONE_MIX.map((_, z) => (\n          <span key={z} className=\"flex items-center gap-1\">\n            <i aria-hidden className=\"block size-2 rounded-[2px]\" style={{ background: zoneFill(z) }} />\n            {z + 1}\n          </span>\n        ))}\n        <ChartTableToggle open={table} onToggle={() => setTable(!table)} className=\"ml-auto\" />\n      </div>\n      <ChartTable open={table} caption={`${label}, minutes in zones 1 to 5`} head={[\"Day\", \"1\", \"2\", \"3\", \"4\", \"5\", \"All\"]} rows={days.map((d, i) => [d.label, ...(d.zones ?? [null, null, null, null, null]).map((m) => (m == null ? \"—\" : m)), totals[i] == null ? \"—\" : totals[i]!])} />\n    </div>\n  );\n}\n\nexport { ZoneStack, zoneFill, type ZoneStackDay, type ZoneStackProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

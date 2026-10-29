@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "check-list",
+  "type": "registry:block",
+  "title": "Check list and ask tags",
+  "description": "A thing measured against rules (a quote against the approval policy), one line per rule: the rule, its value and what it means. The icon and the words carry the state. Ask tags list only what needs someone.",
+  "categories": [
+    "revenue"
+  ],
+  "dependencies": [
+    "lucide-react@^1"
+  ],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/blocks/check-list.tsx",
+      "type": "registry:block",
+      "target": "@ui/notchset/blocks/check-list.tsx",
+      "content": "// Notchset check-list 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport { CircleAlert, CircleCheck, OctagonAlert } from \"lucide-react\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Check list (block 49): a thing measured against rules (a quote against the approval policy), one line per\n * rule. Each says the rule, its value and what it means: within policy, needs a manager, needs Finance. The\n * icon and the words carry the state; colour only tints the icon. Short shows only what needs someone.\n */\nexport type CheckLevel = \"pass\" | \"warn\" | \"fail\";\ntype CheckItem = { key: string; label: string; value: string; level: CheckLevel; why?: string | undefined };\ntype CheckListProps = { items: CheckItem[]; words?: Partial<Record<CheckLevel, string>> | undefined; short?: boolean | undefined; className?: string | undefined };\n\nconst ICON = { pass: CircleCheck, warn: CircleAlert, fail: OctagonAlert };\nconst TINT = { pass: \"text-[var(--ns-ok)]\", warn: \"text-[var(--ns-warn)]\", fail: \"text-[var(--ns-bad)]\" };\n/* a check that isn't passing reads in its colour, so the eye finds what needs a sign-off */\nconst INK = { pass: \"text-[var(--ns-ink)]\", warn: \"text-[color-mix(in_oklab,var(--ns-warn)_var(--ns-tint-ink),var(--ns-ink))]\", fail: \"text-[var(--ns-bad-ink)]\" };\nconst WORDS: Record<CheckLevel, string> = { pass: \"within policy\", warn: \"needs a manager\", fail: \"needs Finance\" };\n\nfunction CheckList({ items, words, short, className }: CheckListProps) {\n  const shown = short ? items.filter((c) => c.level !== \"pass\") : items;\n  return (\n    <ul data-slot=\"check-list\" className={cn(\"m-0 flex list-none flex-col gap-3 p-0\", className)}>\n      {shown.map((c) => {\n        const Icon = ICON[c.level];\n        return (\n          <li key={c.key} data-level={c.level} className=\"flex items-start gap-2.5\" title={c.why}>\n            <Icon aria-hidden className={cn(\"mt-0.5 size-3.5 shrink-0\", TINT[c.level])} />\n            <span className=\"flex min-w-0 flex-col gap-0.5\">\n              <b className={cn(\"font-[number:var(--ns-weight-medium)]\", INK[c.level])}>{c.label}</b>\n              <small className=\"text-[length:var(--ns-text-small)] text-[var(--ns-ink-3)]\">\n                {c.value}\n                {/* the icon is hidden from a screen reader, so every level is also said in words: shown for what needs someone,\n                    spoken only for a pass (and in the short layout, where only the checks that need someone are listed) */}\n                {c.level !== \"pass\" && !short ? ` · ${words?.[c.level] ?? WORDS[c.level]}` : <span className=\"sr-only\"> · {words?.[c.level] ?? WORDS[c.level]}</span>}\n              </small>\n            </span>\n          </li>\n        );\n      })}\n    </ul>\n  );\n}\n\n/** The rules a thing breaks, as small tags (\"Up to 20% off\", \"Net 60\"); \"Within policy\" when none. */\nfunction AskTags({ items, words, className }: { items: { key: string; value: string; level: CheckLevel }[]; words?: Partial<Record<CheckLevel, string>> | undefined; className?: string | undefined }) {\n  const asks = items.filter((c) => c.level !== \"pass\");\n  if (!asks.length) return <span className={cn(\"text-[var(--ns-ink-3)]\", className)}>Within policy</span>;\n  return (\n    <span className={cn(\"flex flex-wrap gap-1\", className)}>\n      {asks.map((c) => (\n        <span key={c.key} className={cn(\"inline-flex h-[22px] items-center rounded-[6px] px-2 text-[length:var(--ns-text-meta)] font-[number:var(--ns-weight-medium)] whitespace-nowrap\", c.level === \"fail\" ? \"bg-[color-mix(in_oklab,var(--ns-bad)_var(--ns-tint),transparent)] text-[var(--ns-bad-ink)]\" : \"bg-[color-mix(in_oklab,var(--ns-warn)_var(--ns-tint),transparent)] text-[color-mix(in_oklab,var(--ns-warn)_var(--ns-tint-ink),var(--ns-ink))]\")}>\n          {c.value}\n          <span className=\"sr-only\"> · {words?.[c.level] ?? WORDS[c.level]}</span>\n        </span>\n      ))}\n    </span>\n  );\n}\n\nexport { AskTags, CheckList, type CheckItem, type CheckListProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "block",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

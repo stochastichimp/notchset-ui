@@ -1,0 +1,39 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "person-card",
+  "type": "registry:ui",
+  "title": "Person card",
+  "description": "A person's role, team, local time and open work in a small card that opens on hover or focus of their face or name, without leaving the page. The trigger is a link to their page, so a touch goes straight there; the card holds no action the page doesn't.",
+  "categories": [
+    "overlays"
+  ],
+  "dependencies": [
+    "@base-ui/react@^1"
+  ],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json",
+    "@notchset/avatar"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/person-card.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/person-card.tsx",
+      "content": "// Notchset person-card 2.1.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { PreviewCard as Base } from \"@base-ui/react/preview-card\";\nimport { cn } from \"@/lib/utils\";\nimport { Avatar } from \"@/components/ui/notchset/avatar\";\nimport { usePortalContainer } from \"@/lib/notchset/portal\";\n\n/*\n * Person card: who someone is, on hover or focus of their name or face, without leaving the page: their role and\n * team, the time where they are, and what they have open. The trigger is a link to their page, so a touch (which\n * has no hover) goes straight there, where the same facts are. Read-only: it never holds an action that isn't also\n * on that page.\n *\n *   <PersonCard name=\"Maya Lindqvist\" role=\"Engineering lead\" href=\"#/person/maya\" facts={[[\"Open\", \"12\"]]}>\n *     <Avatar name=\"Maya Lindqvist\" size={20} />\n *   </PersonCard>\n */\ntype PersonCardProps = {\n  name: string;\n  role?: string | undefined;\n  /** where their page is; the trigger is this link */\n  href: string;\n  /** the face on the card; defaults to their initials */\n  avatar?: React.ReactNode;\n  /** a line under the role: a team, \"Invited\", \"Deactivated\" */\n  line?: React.ReactNode;\n  /** short facts, label then value, in a row of up to three */\n  facts?: [string, React.ReactNode][] | undefined;\n  /** the trigger's content: a face, a name, or both */\n  children: React.ReactNode;\n  /** the trigger's own classes (it is an inline link) */\n  className?: string | undefined;\n};\n\nfunction PersonCard({ name, role, href, avatar, line, facts = [], children, className }: PersonCardProps) {\n  const portalContainer = usePortalContainer();\n  return (\n    <Base.Root>\n      <Base.Trigger\n        data-slot=\"person-card\"\n        href={href}\n        aria-label={name}\n        onClick={(e) => e.stopPropagation()}\n        className={cn(\"inline-flex min-w-0 items-center gap-1.5 rounded-full text-inherit no-underline outline-hidden focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ns-signal)]\", className)}\n      >\n        {children}\n      </Base.Trigger>\n      <Base.Portal container={portalContainer}>\n        <Base.Positioner side=\"bottom\" align=\"start\" sideOffset={8} collisionPadding={8} className=\"z-[70]\">\n          <Base.Popup\n            data-slot=\"person-card-popup\"\n            data-ns-layer=\"\"\n            className=\"w-[260px] rounded-[var(--ns-radius-lg)] bg-[var(--ns-raised)] p-3.5 text-[length:var(--ns-text-body)] text-[var(--ns-ink)] shadow-[0_0_0_1px_var(--ns-line),var(--ns-shadow-float)] outline-hidden [transition:opacity_140ms,transform_140ms_var(--ns-ease)] data-starting-style:-translate-y-0.5 data-starting-style:opacity-0 data-ending-style:opacity-0\"\n          >\n            <div className=\"flex items-center gap-3\">\n              {avatar ?? <Avatar name={name} size={40} />}\n              <div className=\"flex min-w-0 flex-col\">\n                <b className=\"truncate font-[number:var(--ns-weight-strong)]\">{name}</b>\n                {role && <span className=\"truncate text-[length:var(--ns-text-small)] text-[var(--ns-ink-2)]\">{role}</span>}\n                {line && <span className=\"truncate text-[length:var(--ns-text-small)] text-[var(--ns-ink-3)]\">{line}</span>}\n              </div>\n            </div>\n            {facts.length > 0 && (\n              <dl className=\"m-0 mt-3 grid grid-cols-3 gap-2 border-t border-[var(--ns-line-soft)] pt-3\">\n                {facts.slice(0, 3).map(([k, v]) => (\n                  <div key={k} className=\"flex min-w-0 flex-col gap-0.5\">\n                    <dt className=\"truncate text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)]\">{k}</dt>\n                    <dd className=\"m-0 truncate font-[number:var(--ns-weight-medium)] tabular-nums\">{v}</dd>\n                  </div>\n                ))}\n              </dl>\n            )}\n          </Base.Popup>\n        </Base.Positioner>\n      </Base.Portal>\n    </Base.Root>\n  );\n}\n\nexport { PersonCard, type PersonCardProps };\n"
+    },
+    {
+      "path": "registry/system/components/portal.ts",
+      "type": "registry:lib",
+      "target": "@lib/notchset/portal.ts",
+      "content": "// Notchset person-card 2.1.0 · https://notchset.dev/changelog\nimport * as React from \"react\";\n\n/*\n * Where overlays (dialogs, menus, popovers, tooltips, toasts, sheets) portal to. By default the document body; a\n * host that themes or scopes a region (a preview stage, a shadow root, a tile in another theme) wraps it in\n * PortalContainer with an element inside that scope, so its overlays keep the region's roles and light or dark.\n */\nconst PortalContainerContext = React.createContext<HTMLElement | null>(null);\n\nconst PortalContainer = PortalContainerContext.Provider;\n\n/** The element overlays portal into here, or undefined for the document body. */\nfunction usePortalContainer(): HTMLElement | undefined {\n  return React.useContext(PortalContainerContext) ?? undefined;\n}\n\nexport { PortalContainer, PortalContainerContext, usePortalContainer };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.1.0",
+    "lane": "app"
+  }
+}

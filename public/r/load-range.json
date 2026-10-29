@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "load-range",
+  "type": "registry:ui",
+  "title": "Load range",
+  "description": "The figure and its standing in words, one track from light to heavy with your usual as a soft band and the load as a glowing dot, and the figures it comes from (acute, chronic, ratio) as quiet rows.",
+  "categories": [
+    "charts"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json",
+    "@notchset/status-pill"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/load-range.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/load-range.tsx",
+      "content": "// Notchset load-range 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport { cn } from \"@/lib/utils\";\nimport { StatusPill } from \"@/components/ui/notchset/status-pill\";\n\n/*\n * Load range: a week's training load against your own usual. The figure and its standing in words, then one track\n * from light to heavy with your usual as a soft band and today's load as a dot on it, then the few figures it comes\n * from as quiet rows (acute, chronic, their ratio). Your usual is yours, so the band moves with you.\n *\n *   <LoadRange value={64} low={55} high={72} domain={[30, 100]}\n *     rows={[{ label: \"Acute, 7 days\", value: \"64\" }, { label: \"Chronic, 28 days\", value: \"61\" }]} />\n */\ntype LoadRangeProps = {\n  value: number;\n  /** your usual */\n  low: number;\n  high: number;\n  /** the track's ends; defaults to a little past the band and the value */\n  domain?: [number, number] | undefined;\n  lowWord?: string | undefined;\n  highWord?: string | undefined;\n  rows?: { label: string; value: string }[] | undefined;\n  className?: string | undefined;\n};\n\nfunction LoadRange({ value, low, high, domain, lowWord = \"light\", highWord = \"heavy\", rows, className }: LoadRangeProps) {\n  const lo = domain?.[0] ?? Math.floor(Math.min(low, value) * 0.6);\n  const hi = domain?.[1] ?? Math.ceil(Math.max(high, value) * 1.35);\n  const at = (v: number) => `${((Math.min(hi, Math.max(lo, v)) - lo) / (hi - lo)) * 100}%`;\n  const standing = value < low ? \"Below your usual\" : value > high ? \"Above your usual\" : \"Inside your usual\";\n  return (\n    <div data-slot=\"load-range\" className={cn(\"flex min-w-0 flex-col gap-3\", className)}>\n      <div className=\"flex flex-wrap items-baseline gap-3\">\n        <span className=\"text-[length:var(--ns-text-figure)] leading-none font-[number:var(--ns-weight-light)] tracking-[-0.02em] tabular-nums\">{value}</span>\n        <StatusPill tone={value > high ? \"warn\" : value < low ? \"neutral\" : \"ok\"}>{standing}</StatusPill>\n        <span className=\"font-[family-name:var(--ns-font-mono)] text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)]\">{`usual ${low}–${high}`}</span>\n      </div>\n      <div role=\"img\" aria-label={`Load ${value}, ${standing.toLowerCase()} of ${low} to ${high}, on a scale from ${lo} ${lowWord} to ${hi} ${highWord}.`} className=\"relative mt-1 h-[22px]\">\n        <i aria-hidden className=\"absolute inset-x-0 top-1/2 block h-[6px] -translate-y-1/2 rounded-full bg-[var(--ns-line)]\" />\n        <i aria-hidden className=\"absolute top-1/2 block h-[14px] -translate-y-1/2 rounded-full bg-[var(--ns-band-grade)] shadow-[inset_0_0_0_0.5px_var(--ns-line)]\" style={{ left: at(low), width: `calc(${at(high)} - ${at(low)})` }} />\n        <i aria-hidden className=\"absolute top-1/2 block size-[13px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[var(--ns-series)] shadow-[0_0_0_2.5px_var(--ns-canvas),0_0_14px_4px_color-mix(in_oklab,var(--ns-series)_var(--ns-glow),transparent)]\" style={{ left: at(value) }} />\n      </div>\n      <div aria-hidden className=\"relative h-4 font-[family-name:var(--ns-font-mono)] text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)]\">\n        <span className=\"absolute left-0\">{`${lo} ${lowWord}`}</span>\n        {(low - lo) / (hi - lo) > 0.16 && (\n          <span className=\"absolute -translate-x-1/2\" style={{ left: at(low) }}>\n            {low}\n          </span>\n        )}\n        {(hi - high) / (hi - lo) > 0.16 && (high - low) / (hi - lo) > 0.08 && (\n          <span className=\"absolute -translate-x-1/2\" style={{ left: at(high) }}>\n            {high}\n          </span>\n        )}\n        <span className=\"absolute right-0\">{`${hi} ${highWord}`}</span>\n      </div>\n      {rows && rows.length > 0 && (\n        <dl className=\"m-0 mt-2 flex flex-col\">\n          {rows.map((r) => (\n            <div key={r.label} className=\"flex items-baseline justify-between gap-4 border-t-[0.5px] border-[var(--ns-line)] py-2\">\n              <dt className=\"text-[var(--ns-ink-2)]\">{r.label}</dt>\n              <dd className=\"m-0 tabular-nums\">{r.value}</dd>\n            </div>\n          ))}\n        </dl>\n      )}\n    </div>\n  );\n}\n\nexport { LoadRange, type LoadRangeProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

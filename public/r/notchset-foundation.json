@@ -3,1167 +3,617 @@
   "name": "notchset-foundation",
   "type": "registry:item",
   "title": "Notchset foundation",
-  "description": "Notchset's shared CSS: tokens (light at :root, dark on .dark) reading your shadcn theme with Notchset's values as fallbacks, keyframes and the motion levels. Installed once, by any Notchset component.",
+  "description": "The roles every component is built from (surfaces, ink, signal, type, space, sizes, radii, motion), read from the shadcn tokens. Installed once, by any component.",
   "css": {
-    "@keyframes ns-spin": {
-      "to": {
-        "transform": "rotate(360deg)"
-      }
-    },
-    "@keyframes ns-arrow-in": {
-      "from": {
-        "transform": "translateX(-14px)",
-        "opacity": "0"
-      },
-      "to": {
-        "transform": "none",
-        "opacity": "1"
-      }
-    },
-    "@keyframes ns-shake": {
-      "0%,100%": {
-        "transform": "translateX(0)"
-      },
-      "18%": {
-        "transform": "translateX(-7px)"
-      },
-      "36%": {
-        "transform": "translateX(6px)"
-      },
-      "54%": {
-        "transform": "translateX(-4px)"
-      },
-      "72%": {
-        "transform": "translateX(2px)"
-      }
-    },
-    "@keyframes ns-shake-b": {
-      "0%,100%": {
-        "transform": "translateX(0)"
-      },
-      "18%": {
-        "transform": "translateX(-7px)"
-      },
-      "36%": {
-        "transform": "translateX(6px)"
-      },
-      "54%": {
-        "transform": "translateX(-4px)"
-      },
-      "72%": {
-        "transform": "translateX(2px)"
-      }
-    },
-    "@keyframes ns-sweep-out": {
-      "from": {
-        "opacity": "1",
-        "transform": "none"
-      },
-      "to": {
-        "opacity": "0",
-        "transform": "translateX(-12px)"
-      }
-    },
-    "@keyframes ns-launch": {
-      "0%": {
-        "transform": "none",
-        "opacity": "1",
-        "animation-timing-function": "cubic-bezier(.6,0,.9,.5)"
-      },
-      "36%": {
-        "transform": "translateY(-16px)",
-        "opacity": "0"
-      },
-      "37%": {
-        "transform": "translateY(16px)",
-        "opacity": "0",
-        "animation-timing-function": "cubic-bezier(.2,1.5,.4,1)"
-      },
-      "100%": {
-        "transform": "none",
-        "opacity": "1"
-      }
-    },
-    "@keyframes ns-code-sweep": {
-      "0%": {
-        "width": "0",
-        "opacity": "1"
-      },
-      "45%": {
-        "width": "100%",
-        "opacity": "1"
-      },
-      "100%": {
-        "width": "100%",
-        "opacity": "0"
-      }
-    },
-    "@keyframes ns-eq": {
-      "0%,100%": {
-        "transform": "scaleY(.3)"
-      },
-      "50%": {
-        "transform": "scaleY(1)"
-      }
-    },
-    "@keyframes ns-live": {
-      "0%": {
-        "transform": "scale(1)",
-        "opacity": ".6"
-      },
-      "100%": {
-        "transform": "scale(2.6)",
-        "opacity": "0"
-      }
-    },
-    "@keyframes ns-squish": {
-      "0%": {
-        "transform": "scale(1)"
-      },
-      "20%": {
-        "transform": "scale(1.3,.7)"
-      },
-      "45%": {
-        "transform": "scale(.84,1.2)"
-      },
-      "70%": {
-        "transform": "scale(1.08,.94)"
-      },
-      "100%": {
-        "transform": "scale(1)"
-      }
-    },
-    "@keyframes ns-deflate": {
-      "0%": {
-        "transform": "scale(1)"
-      },
-      "40%": {
-        "transform": "scale(.8)"
-      },
-      "100%": {
-        "transform": "scale(1)"
-      }
-    },
-    "@keyframes ns-float": {
-      "0%": {
-        "transform": "translate(0,4px) rotate(0) scale(.3)",
-        "opacity": "0"
-      },
-      "25%": {
-        "opacity": "1"
-      },
-      "100%": {
-        "transform": "translate(0,-28px) rotate(var(--r)) scale(1)",
-        "opacity": "0"
-      }
-    },
-    "@keyframes ns-ribbon": {
-      "0%": {
-        "transform": "translateY(-8px) scaleY(.4)"
-      },
-      "55%": {
-        "transform": "translateY(1px) scaleY(1.15)"
-      },
-      "80%": {
-        "transform": "scaleY(.95)"
-      },
-      "100%": {
-        "transform": "none"
-      }
-    },
-    "@keyframes ns-march": {
-      "to": {
-        "background-position": "6px 0"
-      }
-    },
-    "@keyframes ns-shimmer": {
-      "from": {
-        "background-position": "100% 0"
-      },
-      "to": {
-        "background-position": "-100% 0"
-      }
-    },
-    "@keyframes ns-blink": {
-      "50%": {
-        "opacity": "0"
-      }
-    },
-    "@keyframes ns-twinkle": {
-      "0%,100%": {
-        "transform": "scale(1) rotate(0)"
-      },
-      "50%": {
-        "transform": "scale(.75) rotate(25deg)"
-      }
-    },
-    "@keyframes ns-fade-up": {
-      "from": {
-        "opacity": "0",
-        "transform": "translateY(4px)"
-      },
-      "to": {
-        "opacity": "1",
-        "transform": "none"
-      }
-    },
-    "@keyframes ns-sweep": {
-      "from": {
-        "transform": "translateX(-100%)"
-      },
-      "to": {
-        "transform": "translateX(100%)"
-      }
-    },
-    "@keyframes ns-bell": {
-      "0%,100%": {
-        "transform": "rotate(0)"
-      },
-      "15%": {
-        "transform": "rotate(18deg)"
-      },
-      "30%": {
-        "transform": "rotate(-15deg)"
-      },
-      "45%": {
-        "transform": "rotate(10deg)"
-      },
-      "60%": {
-        "transform": "rotate(-6deg)"
-      },
-      "75%": {
-        "transform": "rotate(3deg)"
-      }
-    },
-    "@keyframes ns-mic-ring": {
-      "0%": {
-        "transform": "scale(1)",
-        "opacity": ".55"
-      },
-      "100%": {
-        "transform": "scale(1.4)",
-        "opacity": "0"
-      }
-    },
-    "@keyframes ns-drawl": {
-      "from": {
-        "stroke-dashoffset": "1"
-      },
-      "to": {
-        "stroke-dashoffset": "0"
-      }
-    },
-    "@keyframes ns-growy": {
-      "from": {
-        "transform": "scaleY(0)"
-      },
-      "to": {
-        "transform": "scaleY(1)"
-      }
-    },
-    "@keyframes ns-slidex": {
-      "from": {
-        "transform": "translateX(-7px)",
-        "opacity": "0"
-      },
-      "to": {
-        "transform": "none",
-        "opacity": "1"
-      }
-    },
-    "@keyframes ns-num-in": {
-      "from": {
-        "width": "0",
-        "opacity": "0"
-      },
-      "to": {
-        "width": "1ch",
-        "opacity": "1"
-      }
-    },
-    "@keyframes ns-num-out": {
-      "from": {
-        "width": "1ch",
-        "opacity": "1"
-      },
-      "to": {
-        "width": "0",
-        "opacity": "0"
-      }
-    },
-    "@keyframes ns-num-blur": {
-      "0%, 30%": {
-        "filter": "blur(1.4px)"
-      },
-      "100%": {
-        "filter": "none"
-      }
-    },
-    "@keyframes ns-num-blur-b": {
-      "0%, 30%": {
-        "filter": "blur(1.4px)"
-      },
-      "100%": {
-        "filter": "none"
-      }
-    },
-    "@keyframes ns-bar-load": {
-      "from": {
-        "width": "0"
-      },
-      "to": {
-        "width": "92%"
-      }
-    },
-    "@keyframes ns-bar-drain": {
-      "from": {
-        "width": "100%"
-      },
-      "to": {
-        "width": "0"
-      }
-    },
-    "@keyframes ns-toast": {
-      "from": {
-        "opacity": "0",
-        "transform": "translateY(24px) scale(.96)"
-      }
-    },
-    "@keyframes ns-draw-x": {
-      "from": {
-        "clip-path": "inset(0 100% 0 0)"
-      },
-      "to": {
-        "clip-path": "inset(0 0 0 0)"
-      }
-    },
-    "@keyframes ns-float-b": {
-      "0%": {
-        "transform": "translate(0,4px) rotate(0) scale(.3)",
-        "opacity": "0"
-      },
-      "25%": {
-        "opacity": "1"
-      },
-      "100%": {
-        "transform": "translate(0,-28px) rotate(var(--r)) scale(1)",
-        "opacity": "0"
-      }
-    },
-    "@keyframes ns-squish-b": {
-      "0%": {
-        "transform": "scale(1)"
-      },
-      "20%": {
-        "transform": "scale(1.3,.7)"
-      },
-      "45%": {
-        "transform": "scale(.84,1.2)"
-      },
-      "70%": {
-        "transform": "scale(1.08,.94)"
-      },
-      "100%": {
-        "transform": "scale(1)"
-      }
-    },
-    "@keyframes ns-slide-l": {
-      "from": {
-        "opacity": "0",
-        "transform": "translateX(24px)"
-      },
-      "to": {
-        "opacity": "1",
-        "transform": "none"
-      }
-    },
-    "@keyframes ns-slide-r": {
-      "from": {
-        "opacity": "0",
-        "transform": "translateX(-24px)"
-      },
-      "to": {
-        "opacity": "1",
-        "transform": "none"
-      }
-    },
-    "@keyframes ns-word": {
-      "from": {
-        "opacity": "0",
-        "filter": "blur(4px)",
-        "transform": "translateY(3px)"
-      },
-      "to": {
-        "opacity": "1",
-        "filter": "none",
-        "transform": "none"
-      }
-    },
-    "@keyframes ns-rec": {
-      "0%,100%": {
-        "opacity": "1"
-      },
-      "50%": {
-        "opacity": ".25"
-      }
-    },
-    "@keyframes ns-chip": {
-      "from": {
-        "transform": "scale(.5)",
-        "opacity": "0"
-      },
-      "to": {
-        "transform": "none",
-        "opacity": "1"
-      }
-    },
-    "@keyframes ns-digit": {
-      "from": {
-        "transform": "translateY(8px) scale(.7)",
-        "opacity": "0"
-      },
-      "to": {
-        "transform": "none",
-        "opacity": "1"
-      }
-    },
-    "@keyframes ns-wave": {
-      "0%,100%": {
-        "transform": "translateY(0)"
-      },
-      "50%": {
-        "transform": "translateY(-5px)"
-      }
-    },
-    "@keyframes ns-bubble": {
-      "from": {
-        "opacity": "0",
-        "transform": "translateY(12px) scale(.96)"
-      },
-      "to": {
-        "opacity": "1",
-        "transform": "none"
-      }
-    },
-    "@keyframes ns-pulse": {
-      "0%,100%": {
-        "opacity": "1"
-      },
-      "50%": {
-        "opacity": ".35"
-      }
-    },
-    "@keyframes ns-comet": {
-      "from": {
-        "transform": "translateX(-100%)"
-      },
-      "to": {
-        "transform": "translateX(320%)"
-      }
-    },
-    "@keyframes ns-bump": {
-      "0%": {
-        "transform": "scale(1)"
-      },
-      "35%": {
-        "transform": "scale(.93)"
-      },
-      "70%": {
-        "transform": "scale(1.03)"
-      },
-      "100%": {
-        "transform": "scale(1)"
-      }
-    },
-    "@keyframes ns-skel": {
-      "0%,100%": {
-        "opacity": ".45"
-      },
-      "50%": {
-        "opacity": "1"
-      }
-    },
-    "@keyframes ns-reveal": {
-      "from": {
-        "opacity": "0",
-        "filter": "blur(4px)",
-        "transform": "translateY(4px)"
-      },
-      "to": {
-        "opacity": "1",
-        "filter": "none",
-        "transform": "none"
-      }
-    },
-    "@keyframes ns-dash": {
-      "0%": {
-        "stroke-dasharray": "1 60",
-        "stroke-dashoffset": "0"
-      },
-      "50%": {
-        "stroke-dasharray": "38 60",
-        "stroke-dashoffset": "-10"
-      },
-      "100%": {
-        "stroke-dasharray": "1 60",
-        "stroke-dashoffset": "-56"
-      }
-    },
-    "@keyframes ns-halo": {
-      "0%": {
-        "transform": "scale(.7)",
-        "opacity": ".5"
-      },
-      "100%": {
-        "transform": "scale(1.5)",
-        "opacity": "0"
-      }
-    },
-    "@keyframes ns-cell-wave": {
-      "0%,100%": {
-        "transform": "scaleY(1)"
-      },
-      "40%": {
-        "transform": "scaleY(1.35)"
-      }
-    },
-    "@keyframes ns-ribbon-up": {
-      "from": {
-        "transform": "scaleY(.85)"
-      },
-      "to": {
-        "transform": "none"
-      }
-    },
-    "@keyframes ns-breathe": {
-      "0%,100%": {
-        "transform": "scale(1)"
-      },
-      "50%": {
-        "transform": "scale(1.04)"
-      }
-    },
-    "@keyframes ns-heart": {
-      "0%": {
-        "transform": "scale(0)",
-        "opacity": "0"
-      },
-      "15%": {
-        "transform": "scale(1.25)",
-        "opacity": "1"
-      },
-      "30%": {
-        "transform": "scale(.95)"
-      },
-      "45%,80%": {
-        "transform": "scale(1)",
-        "opacity": "1"
-      },
-      "100%": {
-        "transform": "scale(1.1) translateY(-20px)",
-        "opacity": "0"
-      }
-    },
-    "@keyframes ns-flash": {
-      "from": {
-        "background-color": "var(--accent)"
-      },
-      "to": {
-        "background-color": "transparent"
-      }
-    },
-    "@keyframes ns-bounce": {
-      "0%,80%,100%": {
-        "transform": "translateY(0)"
-      },
-      "40%": {
-        "transform": "translateY(-10px)"
-      }
-    },
-    "@keyframes ns-fresh": {
-      "0%": {
-        "background-color": "color-mix(in oklab, var(--chart-1) 12%, transparent)"
-      },
-      "100%": {
-        "background-color": "transparent"
-      }
-    },
-    "@keyframes ns-roll-up": {
-      "from": {
-        "transform": "translateY(0)"
-      },
-      "to": {
-        "transform": "translateY(-50%)"
-      }
-    },
-    "@keyframes ns-menu-fade": {
-      "from": {
-        "opacity": "0"
-      },
-      "to": {
-        "opacity": "1"
-      }
-    },
-    "@keyframes ns-menu-pop": {
-      "from": {
-        "transform": "scale(.94) translateY(-6px)"
-      },
-      "to": {
-        "transform": "none"
-      }
-    },
-    "@keyframes ns-menu-item": {
-      "from": {
-        "opacity": "0",
-        "transform": "translateY(-6px)"
-      },
-      "to": {
-        "opacity": "1",
-        "transform": "none"
-      }
-    },
-    "[data-notchset-chart]": {
-      "--c1": "oklch(from var(--chart-1) l calc(c * 0.88) h)",
-      "--c2": "oklch(from var(--chart-2) l calc(c * 0.88) h)",
-      "--c3": "oklch(from var(--chart-3) l calc(c * 0.88) h)",
-      "--c4": "oklch(from var(--chart-4) l calc(c * 0.88) h)",
-      "--c5": "oklch(from var(--chart-5) l calc(c * 0.88) h)"
+    ":where(:root, .dark, .light, [data-theme])": {
+      "--ns-canvas": "var(--background)",
+      "--ns-side": "var(--sidebar, var(--background))",
+      "--ns-panel": "var(--card)",
+      "--ns-raised": "var(--popover)",
+      "--ns-well": "var(--muted)",
+      "--ns-hover": "var(--accent)",
+      "--ns-sheet": "var(--sidebar, var(--card))",
+      "--ns-selected": "color-mix(in oklab, var(--accent) 70%, var(--foreground) 3%)",
+      "--ns-line": "var(--border)",
+      "--ns-line-soft": "color-mix(in oklab, var(--border) 55%, var(--card))",
+      "--ns-ink": "var(--foreground)",
+      "--ns-ink-2": "var(--muted-foreground)",
+      "--ns-ink-3": "color-mix(in oklab, var(--muted-foreground) 80%, var(--background))",
+      "--ns-ink-4": "color-mix(in oklab, var(--muted-foreground) 70%, var(--background))",
+      "--ns-signal": "var(--ring)",
+      "--ns-ok": "var(--success, #2f8f5f)",
+      "--ns-warn": "var(--warning, #9a5a12)",
+      "--ns-bad": "var(--destructive)",
+      "--ns-bad-ink": "color-mix(in oklab, var(--ns-bad) var(--ns-tint-ink), var(--ns-ink))",
+      "--ns-ok-ink": "color-mix(in oklab, var(--ns-ok) var(--ns-tint-ink), var(--ns-ink))",
+      "--ns-tint": "10%",
+      "--ns-range": "color-mix(in oklab, var(--ns-ink) 8%, transparent)",
+      "--ns-stack-on": "var(--ns-panel)",
+      "--ns-tint-ink": "62%",
+      "--ns-series": "var(--chart-series, #6d5bd0)",
+      "--ns-series-tint": "var(--chart-series-tint, 30%)",
+      "--ns-series-lilac": "var(--chart-series-lilac, #c084fc)",
+      "--ns-glow": "var(--chart-series-glow, 25%)",
+      "--ns-series-core": "var(--chart-series-core, var(--ns-series))",
+      "--ns-pulse": "var(--ns-ok)",
+      "--ns-wash-graphite": "color-mix(in oklab, var(--ns-canvas) 90%, #5a6275)",
+      "--ns-wash-sand": "color-mix(in oklab, var(--ns-canvas) 88%, #c8963c)",
+      "--ns-wash-sage": "color-mix(in oklab, var(--ns-canvas) 88%, #5f9a68)",
+      "--ns-wash-dusk": "color-mix(in oklab, var(--ns-canvas) 88%, #5b6ac8)",
+      "--ns-wash-clay": "color-mix(in oklab, var(--ns-canvas) 88%, #c8704c)",
+      "--ns-wash-ink": "color-mix(in oklab, var(--ns-ink) 92%, var(--ns-canvas))",
+      "--ns-orb-deep": "color-mix(in oklab, var(--ns-signal) 70%, black)",
+      "--ns-orb-core": "var(--ns-signal)",
+      "--ns-orb-body": "color-mix(in oklab, var(--ns-signal) 75%, white)",
+      "--ns-orb-lift": "color-mix(in oklab, var(--ns-signal) 45%, white)",
+      "--ns-orb-rim": "var(--ns-orb-lift)",
+      "--ns-orb-cool": "color-mix(in oklab, var(--ns-signal) 35%, white)",
+      "--ns-orb-warm": "color-mix(in oklab, var(--ns-signal) 30%, white)",
+      "--ns-orb-dawn": "color-mix(in oklab, var(--ns-signal) 12%, white)",
+      "--ns-orb-skin-hi": "color-mix(in oklab, var(--ns-signal) 15%, white)",
+      "--ns-orb-skin-mid": "color-mix(in oklab, var(--ns-signal) 60%, white)",
+      "--ns-orb-skin-lo": "color-mix(in oklab, var(--ns-signal) 85%, black)",
+      "--ns-orb-inner": "transparent",
+      "--ns-orb-limb": "color-mix(in oklab, var(--ns-signal) 30%, transparent)",
+      "--ns-orb-limb-from": "46%",
+      "--ns-orb-key": "1",
+      "--ns-orb-edge": "color-mix(in oklab, var(--ns-ink) 14%, transparent)",
+      "--ns-orb-grain": "0.34",
+      "--ns-orb-halo": "color-mix(in oklab, var(--ns-signal) 30%, transparent)",
+      "--ns-orb-ground": "color-mix(in oklab, var(--ns-signal) 22%, transparent)",
+      "--ns-state-todo": "var(--ns-ink-3)",
+      "--ns-state-doing": "var(--chart-state-doing, #d55181)",
+      "--ns-state-review": "var(--chart-state-review, #2a78d6)",
+      "--ns-state-done": "var(--chart-state-done, var(--ns-ok))",
+      "--ns-heat": "var(--ns-state-done)",
+      "--ns-cat-1": "var(--chart-cat-1, #2a78d6)",
+      "--ns-cat-2": "var(--chart-cat-2, #eb6834)",
+      "--ns-cat-3": "var(--chart-cat-3, #1baf7a)",
+      "--ns-cat-4": "var(--chart-cat-4, #eda100)",
+      "--ns-cat-5": "var(--chart-cat-5, #e87ba4)",
+      "--ns-cat-6": "var(--chart-cat-6, #008300)",
+      "--ns-warn-ink": "color-mix(in oklab, var(--ns-warn) var(--ns-tint-ink), var(--ns-ink))",
+      "--ns-band": "color-mix(in oklab, var(--ns-ink) 9%, transparent)",
+      "--ns-band-edge": "color-mix(in oklab, var(--ns-ink) 38%, transparent)",
+      "--ns-band-optimal": "color-mix(in oklab, var(--ns-ok) 24%, transparent)",
+      "--ns-standing-in": "var(--ns-ok)",
+      "--ns-standing-out": "var(--ns-warn)",
+      "--ns-standing-critical": "var(--ns-bad)",
+      "--ns-sleep-awake": "var(--ns-state-doing)",
+      "--ns-sleep-rem": "var(--ns-state-review)",
+      "--ns-sleep-light": "color-mix(in oklab, var(--ns-series) 45%, var(--ns-panel))",
+      "--ns-sleep-deep": "var(--ns-series)",
+      "--ns-glass": "var(--ns-panel)",
+      "--ns-glass-shadow": "var(--ns-shadow-float)",
+      "--ns-glass-blur": "0px",
+      "--ns-tile-shadow": "var(--ns-bezel)",
+      "--ns-radius-card": "var(--ns-radius-lg)",
+      "--ns-grain": "none",
+      "--ns-light-1": "var(--ns-orb-body)",
+      "--ns-light-2": "var(--ns-orb-cool)",
+      "--ns-light-3": "var(--ns-orb-warm)",
+      "--ns-light-strength": "0.7",
+      "--ns-light-spread": "0.95",
+      "--ns-flood-deep": "#4c4fb8",
+      "--ns-flood-mid": "#5d62c8",
+      "--ns-flood-light": "#aeb0ee",
+      "--ns-flood-pale": "#e6e5fb",
+      "--ns-flood-bloom": "rgb(255 255 255 / 0.3)",
+      "--ns-flood-dial-bloom": "rgb(255 255 255 / 0.34)",
+      "--ns-flood-ink": "#ffffff",
+      "--ns-flood-arc": "#a77ff0",
+      "--ns-flood-ink-low": "#1f1d4a",
+      "--ns-flood-pill-ink": "#1f1d4a",
+      "--ns-flood-shadow": "0 1px 0 rgb(255 255 255 / 0.35) inset, 0 18px 40px -22px rgb(40 36 120 / 0.35)",
+      "--ns-flood-sheen": "rgb(255 255 255 / 0.1)",
+      "--ns-flood-image": "linear-gradient(to bottom, var(--ns-flood-sheen), transparent 18%), radial-gradient(55% 60% at 68% 72%, var(--ns-flood-bloom), transparent 70%), linear-gradient(160deg, var(--ns-flood-deep) 0%, var(--ns-flood-mid) 44%, var(--ns-flood-light) 74%, var(--ns-flood-pale) 100%)",
+      "--ns-flood-wash": "radial-gradient(60% 70% at 35% 40%, var(--ns-flood-bloom), transparent 70%), linear-gradient(160deg, var(--ns-flood-light) 0%, var(--ns-flood-pale) 100%)",
+      "--ns-flood-aurora": "1",
+      "--ns-flood-glass": "0",
+      "--ns-flood-ribbon": "linear-gradient(90deg, rgb(142 162 244 / 0), rgb(185 160 246 / 0.8) 45%, rgb(231 220 255 / 0.9) 75%, rgb(255 255 255 / 0))",
+      "--ns-flood-ribbon-core": "linear-gradient(90deg, rgb(255 255 255 / 0), rgb(255 255 255 / 0.7) 60%, rgb(255 255 255 / 0.1))",
+      "--ns-flood-behind-1": "radial-gradient(closest-side, #8f86dc, rgb(143 134 220 / 0.3) 55%, transparent)",
+      "--ns-flood-behind-2": "radial-gradient(closest-side, rgb(112 104 176 / 0.8), transparent)",
+      "--ns-flood-pane": "linear-gradient(160deg, rgb(32 28 54 / 0.5), rgb(24 21 40 / 0.42) 60%, rgb(32 28 54 / 0.5))",
+      "--ns-flood-pane-edge": "inset 0 1px 0 rgb(255 255 255 / 0.22), inset 0 0 0 1px rgb(255 255 255 / 0.07), inset 0 0 26px 1px rgb(200 190 240 / 0.14)",
+      "--ns-flood-grain": "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.09 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>\")",
+      "--ns-prism-edge": "conic-gradient(from 210deg, var(--ns-flood-deep), var(--ns-flood-arc) 22%, rgb(255 255 255 / 0.95) 34%, var(--ns-flood-arc) 48%, color-mix(in oklab, var(--ns-flood-deep) 50%, transparent) 70%, var(--ns-flood-deep))",
+      "--ns-prism-tint": "radial-gradient(46% 62% at 100% 0%, rgb(255 196 214 / 0.13), rgb(255 230 190 / 0.08) 32%, rgb(190 240 226 / 0.07) 56%, rgb(190 214 255 / 0.05) 74%, transparent)",
+      "--ns-prism-sheen": "linear-gradient(100deg, transparent 28%, var(--ns-flood-arc) 42%, color-mix(in oklab, var(--ns-flood-arc) 55%, white) 50%, var(--ns-flood-arc) 58%, transparent 72%)",
+      "--ns-prism-glint": "linear-gradient(100deg, transparent 34%, color-mix(in oklab, var(--ns-flood-arc) 12%, transparent) 46%, rgb(255 255 255 / 0.14) 50%, color-mix(in oklab, var(--ns-flood-arc) 12%, transparent) 54%, transparent 66%)",
+      "--ns-deep": "var(--ns-ink)",
+      "--ns-deep-ink": "var(--ns-canvas)",
+      "--ns-deep-ink-2": "color-mix(in oklab, var(--ns-canvas) 68%, var(--ns-ink))",
+      "--ns-deep-line": "color-mix(in oklab, var(--ns-canvas) 16%, var(--ns-ink))",
+      "--ns-lit-edge": "inset 0 0 0 0 transparent",
+      "--ns-mesh": "30%",
+      "--ns-mesh-frost": "var(--ns-panel)",
+      "--ns-band-grade": "color-mix(in oklab, var(--ns-ink) 5%, transparent)",
+      "--ns-bezel": "0 0 0 1px var(--border)",
+      "--ns-lift": "0 0 0 1px var(--primary)",
+      "--ns-shadow-float": "0 0 0 1px var(--border), 0 18px 40px -12px rgb(0 0 0 / 0.25)",
+      "--ns-shadow-dialog": "0 0 0 1px var(--border), 0 30px 70px -20px rgb(0 0 0 / 0.4)",
+      "--ns-shadow-panel": "0 0 0 1px var(--border), 0 24px 48px -28px rgb(0 0 0 / 0.3)"
     },
     ":where(:root)": {
-      "--ns-control-compact": "32px",
-      "--ns-control-regular": "40px",
-      "--ns-control-roomy": "48px",
-      "--ns-control-field": "44px",
-      "--ns-cta-height": "46px",
-      "--ns-row-height": "52px",
-      "--ns-inset-compact": "12px",
-      "--ns-inset-regular": "18px",
-      "--ns-inset-roomy": "24px",
-      "--ns-type-note": "12px",
-      "--ns-type-label": "13px",
-      "--ns-type-copy": "14px",
-      "--ns-leading-note": "16px",
-      "--ns-leading-prose": "1.5",
-      "--ns-tracking-control": "-0.01em",
-      "--ns-shadow-layer": "0 18px 40px -16px rgba(0,0,0,.28), 0 2px 6px -2px rgba(0,0,0,.08)",
-      "--ns-ease-press": "cubic-bezier(.3,.7,.4,1.6)",
-      "--ns-ease-settle": "cubic-bezier(.2,1,.3,1)",
-      "--ns-ease-reshape": "cubic-bezier(.2,1.3,.3,1)",
-      "--ns-ease-pop": "cubic-bezier(.2,1.5,.4,1)",
-      "--ns-ease-rebound": "cubic-bezier(.2,1.6,.4,1)",
-      "--ns-time-press": "180ms",
-      "--ns-time-response": "200ms",
-      "--ns-time-color": "250ms",
-      "--ns-time-state": "300ms",
-      "--ns-time-reflow": "450ms",
-      "--ns-press-depth": ".96"
+      "--ns-toast-left": "24px",
+      "--ns-toast-bottom": "calc(12px + env(safe-area-inset-bottom, 0px))",
+      "--ns-sheet-bottom": "8px",
+      "--ns-font-body": "var(--font-inter, \"Inter\"), ui-sans-serif, system-ui, sans-serif",
+      "--ns-font-display": "var(--font-sans, \"Geist\"), var(--font-inter, \"Inter\"), ui-sans-serif, system-ui, sans-serif",
+      "--ns-font-mono": "var(--font-mono, \"Geist Mono\"), ui-monospace, SFMono-Regular, monospace",
+      "--ns-font-script": "\"Snell Roundhand\", \"Segoe Script\", \"Apple Chancery\", \"Brush Script MT\", cursive",
+      "--ns-text-meta": "12px",
+      "--ns-text-small": "12.5px",
+      "--ns-text-body": "13px",
+      "--ns-text-control": "13px",
+      "--ns-text-strong": "14px",
+      "--ns-text-sub": "16px",
+      "--ns-text-title": "18px",
+      "--ns-text-page": "22px",
+      "--ns-text-figure": "26px",
+      "--ns-text-hero": "32px",
+      "--ns-text-record": "44px",
+      "--ns-text-lede": "18px",
+      "--ns-text-headline": "clamp(28px, 1.25vw + 22px, 40px)",
+      "--ns-text-display": "clamp(40px, 3.2vw + 26px, 72px)",
+      "--ns-tracking-headline": "-0.035em",
+      "--ns-weight-regular": "400",
+      "--ns-weight-light": "300",
+      "--ns-weight-medium": "500",
+      "--ns-weight-strong": "600",
+      "--ns-leading": "1.45",
+      "--ns-tracking-display": "-0.02em",
+      "--ns-space-1": "4px",
+      "--ns-space-2": "8px",
+      "--ns-space-3": "12px",
+      "--ns-space-4": "16px",
+      "--ns-space-5": "20px",
+      "--ns-space-6": "24px",
+      "--ns-space-8": "32px",
+      "--ns-gutter": "24px",
+      "--ns-space-section": "clamp(72px, 6vw + 40px, 128px)",
+      "--ns-control-sm": "28px",
+      "--ns-control-pad": "12px",
+      "--ns-control": "32px",
+      "--ns-field": "32px",
+      "--ns-segment": "26px",
+      "--ns-chip": "26px",
+      "--ns-row": "42px",
+      "--ns-row-compact": "34px",
+      "--ns-header": "48px",
+      "--ns-menu-row": "34px",
+      "--ns-check": "16px",
+      "--ns-switch-w": "36px",
+      "--ns-switch-h": "22px",
+      "--ns-touch": "40px",
+      "--ns-panel-w": "420px",
+      "--ns-dialog-sm": "420px",
+      "--ns-dialog": "560px",
+      "--ns-dialog-lg": "720px",
+      "--ns-radius-sm": "6px",
+      "--ns-radius": "var(--radius, 8px)",
+      "--ns-radius-lg": "12px",
+      "--ns-radius-xl": "16px",
+      "--ns-radius-full": "999px",
+      "--ns-ease": "cubic-bezier(0.22, 1, 0.36, 1)",
+      "--ns-ease-in": "cubic-bezier(0.16, 1, 0.3, 1)",
+      "--ns-ease-panel": "cubic-bezier(0.32, 0.72, 0, 1)",
+      "--ns-ease-pop": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+      "--ns-time-color": "140ms",
+      "--ns-time-menu": "160ms",
+      "--ns-time-toast": "200ms",
+      "--ns-time-dialog": "240ms",
+      "--ns-time-panel": "260ms",
+      "--ns-time-page": "320ms",
+      "--ns-time-born": "1200ms",
+      "--ns-beat": "1000ms",
+      "--ns-menu-dy": "-4px"
     },
-    ":where(:root, .light, [data-theme=\"light\"], [data-mode=\"light\"])": {
-      "--ns-tint-panel": "14%",
-      "--ns-tint-card": "17%",
-      "--ns-tint-band": "4%",
-      "--ns-tint-band-strong": "8%"
+    "@media (pointer: coarse), (width < 960px)": {
+      ":where(:root)": {
+        "--ns-gutter": "16px",
+        "--ns-control": "40px",
+        "--ns-control-sm": "36px",
+        "--ns-control-pad": "16px",
+        "--ns-chip": "32px",
+        "--ns-text-control": "14px",
+        "--ns-field": "40px",
+        "--ns-segment": "36px",
+        "--ns-menu-row": "44px"
+      }
     },
-    ":where(.dark, [data-theme=\"dark\"], [data-mode=\"dark\"])": {
-      "--ns-tint-panel": "20%",
-      "--ns-tint-card": "24%",
-      "--ns-tint-band": "6%",
-      "--ns-tint-band-strong": "12%"
+    "@media (width < 600px)": {
+      ":where(:root)": {
+        "--ns-row": "40px",
+        "--ns-text-hero": "28px",
+        "--ns-text-record": "36px"
+      }
     },
-    "[data-motion=\"off\"] [data-notchset], [data-motion=\"off\"] [data-notchset] *, [data-motion=\"off\"] [data-notchset]::before, [data-motion=\"off\"] [data-notchset]::after, [data-motion=\"off\"] [data-notchset] *::before, [data-motion=\"off\"] [data-notchset] *::after, [data-notchset][data-motion=\"off\"], [data-notchset][data-motion=\"off\"] *, [data-notchset][data-motion=\"off\"]::before, [data-notchset][data-motion=\"off\"]::after, [data-notchset][data-motion=\"off\"] *::before, [data-notchset][data-motion=\"off\"] *::after": {
-      "transition-duration": "0s !important",
-      "transition-delay": "0s !important",
-      "animation-duration": "0s !important",
-      "animation-delay": "0s !important",
-      "animation-iteration-count": "1 !important"
+    "@keyframes ns-rise": {
+      "from": {
+        "opacity": "0",
+        "transform": "translateY(5px)"
+      }
     },
-    "@media (prefers-reduced-motion: reduce)": {
-      ":root [data-notchset],:root [data-notchset] *,:root [data-notchset]::before,:root [data-notchset]::after,:root [data-notchset] *::before,:root [data-notchset] *::after": {
-        "transition-duration": "0s !important",
-        "transition-delay": "0s !important",
-        "animation-duration": "0s !important",
-        "animation-delay": "0s !important",
-        "animation-iteration-count": "1 !important"
+    "@keyframes ns-fade": {
+      "from": {
+        "opacity": "0"
+      }
+    },
+    "@keyframes ns-island-in": {
+      "from": {
+        "opacity": "0",
+        "filter": "blur(4px)"
+      }
+    },
+    "@keyframes ns-ring-sweep": {
+      "0%": {
+        "box-shadow": "0 0 0 0 var(--ns-signal)"
+      },
+      "60%": {
+        "box-shadow": "0 0 0 2px var(--ns-signal), 0 0 0 10px color-mix(in oklab, var(--ns-signal) 18%, transparent)"
+      },
+      "100%": {
+        "box-shadow": "0 0 0 0 transparent"
+      }
+    },
+    "@keyframes ns-ring-trace": {
+      "from": {
+        "stroke-dashoffset": "1",
+        "opacity": "1"
+      },
+      "70%": {
+        "stroke-dashoffset": "0",
+        "opacity": "1"
+      },
+      "to": {
+        "stroke-dashoffset": "0",
+        "opacity": "0"
+      }
+    },
+    "@keyframes ns-menu-in": {
+      "from": {
+        "opacity": "0",
+        "transform": "translateY(var(--ns-menu-dy, -4px)) scale(0.97)"
       }
     },
     "@keyframes ns-dialog-in": {
       "from": {
         "opacity": "0",
-        "transform": "translateY(16px) scale(.94)"
+        "transform": "translateY(8px) scale(0.985)"
       }
     },
-    "@keyframes ns-ring-down": {
+    "@keyframes ns-panel-in": {
       "from": {
-        "stroke-dashoffset": "0"
+        "opacity": "0",
+        "transform": "translateX(18px)"
+      }
+    },
+    "@keyframes ns-sheet-up": {
+      "from": {
+        "transform": "translateY(100%)"
+      }
+    },
+    "@keyframes ns-toast-in": {
+      "from": {
+        "opacity": "0",
+        "transform": "translateY(10px)"
+      }
+    },
+    "@keyframes ns-born": {
+      "from": {
+        "box-shadow": "0 0 0 2px var(--ns-signal), 0 0 0 8px color-mix(in oklab, var(--ns-signal) 22%, transparent)"
+      }
+    },
+    "@keyframes ns-nudge": {
+      "20%": {
+        "translate": "-6px 0"
+      },
+      "45%": {
+        "translate": "5px 0"
+      },
+      "70%": {
+        "translate": "-3px 0"
+      }
+    },
+    "@keyframes ns-pop": {
+      "40%": {
+        "scale": "1.15"
+      }
+    },
+    "@keyframes ns-sheet-down": {
+      "to": {
+        "transform": "translateY(100%)"
+      }
+    },
+    "@keyframes ns-spin": {
+      "to": {
+        "transform": "rotate(360deg)"
+      }
+    },
+    "@keyframes ns-notch-turn": {
+      "0%": {
+        "rotate": "0deg",
+        "scale": "1"
+      },
+      "25%": {
+        "scale": "0.78"
+      },
+      "50%, 100%": {
+        "rotate": "90deg",
+        "scale": "1"
+      }
+    },
+    "@keyframes ns-notch-a": {
+      "0%": {
+        "scale": "1",
+        "opacity": "1"
+      },
+      "50%, 100%": {
+        "scale": "0.55",
+        "opacity": "0.45"
+      }
+    },
+    "@keyframes ns-notch-b": {
+      "0%": {
+        "scale": "0.55",
+        "opacity": "0.45"
+      },
+      "50%, 100%": {
+        "scale": "1",
+        "opacity": "1"
+      }
+    },
+    "@keyframes ns-shimmer": {
+      "to": {
+        "background-position": "-200% 0"
+      }
+    },
+    "@keyframes ns-live-pulse": {
+      "from": {
+        "box-shadow": "0 0 0 0 color-mix(in oklab, var(--ns-ok) 55%, transparent)"
       },
       "to": {
+        "box-shadow": "0 0 0 9px transparent"
+      }
+    },
+    "@keyframes ns-tick-draw": {
+      "from": {
         "stroke-dashoffset": "1"
       }
     },
-    "@keyframes ns-march-path": {
-      "to": {
-        "stroke-dashoffset": "-1"
+    "@keyframes ns-ink-draw": {
+      "from": {
+        "stroke-dashoffset": "1"
       }
     },
-    "@keyframes ns-fall": {
-      "0%": {
-        "transform": "translateY(-14px)",
-        "opacity": "0"
+    "@keyframes ns-orb-turn": {
+      "to": {
+        "rotate": "360deg"
+      }
+    },
+    "@keyframes ns-orb-breathe": {
+      "50%": {
+        "scale": "1.015"
+      }
+    },
+    "@keyframes ns-light-drift": {
+      "0%, 100%": {
+        "scale": "1",
+        "translate": "0 0"
       },
-      "35%, 70%": {
-        "transform": "none",
+      "50%": {
+        "scale": "1.06",
+        "translate": "2% -1.5%"
+      }
+    },
+    "@keyframes ns-flood-drift": {
+      "0%, 100%": {
+        "transform": "translate3d(0, 0, 0) scale(1)",
         "opacity": "1"
       },
-      "100%": {
-        "transform": "translateY(14px)",
-        "opacity": "0"
+      "35%": {
+        "transform": "translate3d(4%, 2.5%, 0) scale(1.05)",
+        "opacity": "0.78"
+      },
+      "70%": {
+        "transform": "translate3d(-2.5%, 4%, 0) scale(1.03)",
+        "opacity": "0.92"
       }
     },
-    "@keyframes ns-ring": {
-      "from": {
+    "@keyframes ns-beat": {
+      "0%": {
+        "transform": "scale(0.7)",
+        "opacity": "0"
+      },
+      "14%": {
         "transform": "scale(1)",
-        "opacity": ".55"
-      },
-      "to": {
-        "transform": "scale(1.9)",
-        "opacity": "0"
-      }
-    },
-    "@keyframes ns-burst": {
-      "from": {
-        "transform": "rotate(var(--a)) translateX(0) scale(1)",
         "opacity": "1"
-      },
-      "to": {
-        "transform": "rotate(var(--a)) translateX(28px) scale(0)",
-        "opacity": "0"
-      }
-    },
-    "@keyframes ns-grow-x": {
-      "from": {
-        "max-width": "0",
-        "opacity": "0"
-      },
-      "to": {
-        "max-width": "260px",
-        "opacity": "1"
-      }
-    },
-    "@keyframes ns-halo-dot": {
-      "from": {
-        "box-shadow": "0 0 0 3px var(--background), 0 0 0 3px color-mix(in oklab, var(--info, var(--chart-1)) 55%, transparent)"
-      },
-      "to": {
-        "box-shadow": "0 0 0 3px var(--background), 0 0 0 12px transparent"
-      }
-    },
-    "@keyframes ns-heart-pop": {
-      "0%": {
-        "transform": "scale(1)"
-      },
-      "30%": {
-        "transform": "scale(.7)"
-      },
-      "60%": {
-        "transform": "scale(1.28)"
       },
       "100%": {
-        "transform": "scale(1)"
-      }
-    },
-    "@keyframes ns-ring-burst": {
-      "from": {
-        "transform": "scale(.3)",
-        "opacity": ".9"
-      },
-      "to": {
         "transform": "scale(1.7)",
         "opacity": "0"
       }
     },
-    "@keyframes ns-part": {
-      "from": {
-        "transform": "translateY(0) scale(1)",
+    "@keyframes ns-beat-soft": {
+      "0%": {
+        "transform": "scaleY(1)",
+        "opacity": "0.62"
+      },
+      "14%": {
+        "transform": "scaleY(1.5)",
         "opacity": "1"
       },
-      "to": {
-        "transform": "translateY(-17px) scale(.2)",
-        "opacity": "0"
+      "55%, 100%": {
+        "transform": "scaleY(1)",
+        "opacity": "0.62"
       }
     },
-    "@keyframes ns-drop-in": {
-      "0%": {
-        "transform": "translateY(-7px) scale(.8)"
-      },
-      "55%": {
-        "transform": "translateY(1.5px) scale(1.06)"
-      },
-      "100%": {
-        "transform": "none"
-      }
-    },
-    "@keyframes ns-slide-from-right": {
+    "@keyframes ns-prism-sweep": {
       "from": {
-        "opacity": "0",
-        "transform": "translateX(16px)"
-      }
-    },
-    "@keyframes ns-slide-from-left": {
-      "from": {
-        "opacity": "0",
-        "transform": "translateX(-16px)"
-      }
-    },
-    "@keyframes ns-fill-x": {
-      "from": {
-        "transform": "scaleX(0)"
-      },
-      "to": {
-        "transform": "scaleX(1)"
-      }
-    },
-    "@keyframes ns-shrink-x": {
-      "from": {
-        "transform": "scaleX(1)"
-      },
-      "to": {
-        "transform": "scaleX(0)"
-      }
-    },
-    "@keyframes ns-toast-rise": {
-      "from": {
-        "opacity": "0",
-        "transform": "translateY(26px) scale(.9)"
-      }
-    },
-    "@keyframes ns-glow": {
-      "from": {
-        "box-shadow": "0 0 0 0 color-mix(in oklab, var(--glow, var(--success,var(--foreground))) 45%, transparent)"
-      },
-      "to": {
-        "box-shadow": "0 0 0 10px transparent"
-      }
-    },
-    "@keyframes ns-glow-b": {
-      "from": {
-        "box-shadow": "0 0 0 0 color-mix(in oklab, var(--glow, var(--success,var(--foreground))) 45%, transparent)"
-      },
-      "to": {
-        "box-shadow": "0 0 0 10px transparent"
-      }
-    },
-    "@keyframes ns-bump-up": {
-      "0%": {
-        "transform": "scale(1)"
-      },
-      "40%": {
-        "transform": "scale(1.18)"
-      },
-      "100%": {
-        "transform": "scale(1)"
-      }
-    },
-    "@keyframes ns-bump-up-b": {
-      "0%": {
-        "transform": "scale(1)"
-      },
-      "40%": {
-        "transform": "scale(1.18)"
-      },
-      "100%": {
-        "transform": "scale(1)"
-      }
-    },
-    "@keyframes ns-drop-in-face": {
-      "from": {
-        "opacity": "0",
-        "transform": "translateY(-10px) scale(.6)"
-      }
-    },
-    "@keyframes ns-draw-line": {
-      "from": {
-        "stroke-dashoffset": "1"
-      },
-      "to": {
-        "stroke-dashoffset": "0"
-      }
-    },
-    "@keyframes ns-halo-ring": {
-      "0%": {
-        "transform": "scale(.7)",
-        "opacity": ".5"
-      },
-      "100%": {
-        "transform": "scale(1.5)",
-        "opacity": "0"
-      }
-    },
-    "@keyframes ns-sway": {
-      "0%, 100%": {
-        "transform": "rotate(-14deg)"
-      },
-      "50%": {
-        "transform": "rotate(10deg)"
-      }
-    },
-    "@keyframes ns-scan-y": {
-      "0%": {
-        "transform": "translateY(-7px)",
-        "opacity": "0"
-      },
-      "20%, 80%": {
+        "transform": "translate3d(-80%, 0, 0)",
         "opacity": "1"
-      },
-      "100%": {
-        "transform": "translateY(7px)",
-        "opacity": "0"
-      }
-    },
-    "@keyframes ns-bob": {
-      "0%, 100%": {
-        "transform": "translateY(0) rotate(0)"
-      },
-      "30%": {
-        "transform": "translateY(-2.5px) rotate(-6deg)"
-      },
-      "70%": {
-        "transform": "translateY(-1px) rotate(5deg)"
-      }
-    },
-    "@keyframes ns-flip-x": {
-      "0%, 100%": {
-        "transform": "scaleX(1)"
-      },
-      "50%": {
-        "transform": "scaleX(0)"
-      }
-    },
-    "@keyframes ns-echo": {
-      "from": {
-        "transform": "scale(1)",
-        "opacity": ".6"
-      },
-      "to": {
-        "transform": "scale(2.6)",
-        "opacity": "0"
-      }
-    },
-    "@keyframes ns-plane": {
-      "0%": {
-        "transform": "translate(0, 0) rotate(-10deg) scale(.5)",
-        "opacity": "0"
-      },
-      "15%": {
-        "opacity": "1"
-      },
-      "100%": {
-        "transform": "translate(170px, -12px) rotate(12deg) scale(1)",
-        "opacity": "0"
-      }
-    },
-    "@keyframes ns-dot3": {
-      "0%, 100%": {
-        "opacity": ".25",
-        "transform": "translateY(0)"
-      },
-      "50%": {
-        "opacity": "1",
-        "transform": "translateY(-2px)"
-      }
-    },
-    "@keyframes ns-asm-0": {
-      "from": {
-        "transform": "translate(-9px, -7px) rotate(-40deg) scale(.3)",
-        "opacity": "0"
-      }
-    },
-    "@keyframes ns-asm-1": {
-      "from": {
-        "transform": "translate(9px, -8px) rotate(35deg) scale(.3)",
-        "opacity": "0"
-      }
-    },
-    "@keyframes ns-asm-2": {
-      "from": {
-        "transform": "translate(-11px, 2px) rotate(-25deg) scale(.3)",
-        "opacity": "0"
-      }
-    },
-    "@keyframes ns-asm-3": {
-      "from": {
-        "transform": "translate(10px, 3px) rotate(40deg) scale(.3)",
-        "opacity": "0"
-      }
-    },
-    "@keyframes ns-asm-4": {
-      "from": {
-        "transform": "translate(-6px, 9px) rotate(-30deg) scale(.3)",
-        "opacity": "0"
-      }
-    },
-    "@keyframes ns-row-in": {
-      "from": {
-        "opacity": "0",
-        "transform": "translateY(8px)"
-      },
-      "to": {
-        "opacity": "1",
-        "transform": "none"
-      }
-    },
-    "@keyframes ns-row-in-b": {
-      "from": {
-        "opacity": "0",
-        "transform": "translateY(8px)"
-      },
-      "to": {
-        "opacity": "1",
-        "transform": "none"
-      }
-    },
-    "@keyframes ns-shake-sm": {
-      "0%,100%": {
-        "transform": "translateX(0)"
-      },
-      "25%": {
-        "transform": "translateX(-4px)"
-      },
-      "50%": {
-        "transform": "translateX(3px)"
       },
       "75%": {
-        "transform": "translateX(-2px)"
-      }
-    },
-    "@keyframes ns-shake-sm-b": {
-      "0%,100%": {
-        "transform": "translateX(0)"
-      },
-      "25%": {
-        "transform": "translateX(-4px)"
-      },
-      "50%": {
-        "transform": "translateX(3px)"
-      },
-      "75%": {
-        "transform": "translateX(-2px)"
-      }
-    },
-    "@keyframes ns-slide-in-r": {
-      "from": {
-        "opacity": "0",
-        "transform": "translateX(28px)"
-      },
-      "to": {
-        "opacity": "1",
-        "transform": "none"
-      }
-    },
-    "@keyframes ns-slide-in-l": {
-      "from": {
-        "opacity": "0",
-        "transform": "translateX(-28px)"
-      },
-      "to": {
-        "opacity": "1",
-        "transform": "none"
-      }
-    },
-    "@keyframes ns-placeholder": {
-      "from": {
-        "height": "0",
-        "opacity": "0"
-      },
-      "to": {
-        "height": "var(--h)",
         "opacity": "1"
+      },
+      "to": {
+        "transform": "translate3d(80%, 0, 0)",
+        "opacity": "0"
       }
     },
-    "@keyframes ns-land": {
+    ":is([data-ns-asleep], [data-ns-asleep] *)": {
+      "animation-play-state": "paused !important"
+    },
+    "@keyframes ns-orb-notch": {
       "0%": {
-        "transform": "scale(1.04)"
+        "rotate": "0deg",
+        "scale": "1"
       },
-      "60%": {
-        "transform": "scale(.98)"
+      "22%": {
+        "scale": "0.86"
       },
-      "100%": {
-        "transform": "none"
+      "45%, 100%": {
+        "rotate": "90deg",
+        "scale": "1"
       }
     },
-    "@keyframes ns-land-b": {
-      "0%": {
-        "transform": "scale(1.04)"
-      },
-      "60%": {
-        "transform": "scale(.98)"
-      },
-      "100%": {
-        "transform": "none"
-      }
-    },
-    "@keyframes ns-word-rise": {
-      "from": {
-        "transform": "translateY(105%) rotate(4deg)",
-        "opacity": "0"
-      },
-      "to": {
-        "transform": "none",
-        "opacity": "1"
-      }
-    },
-    "@keyframes ns-digit-drop": {
-      "from": {
-        "transform": "translateY(-40%)",
-        "opacity": "0",
-        "filter": "blur(4px)"
-      },
-      "to": {
-        "transform": "none",
-        "opacity": "1",
-        "filter": "none"
-      }
-    },
-    "@keyframes ns-slot-pulse": {
-      "0%,100%": {
-        "opacity": ".35"
-      },
+    "@keyframes ns-orb-swell": {
       "50%": {
-        "opacity": "1"
+        "scale": "1.035"
       }
     },
-    "@keyframes ns-otp-digit": {
+    "@keyframes ns-orb-pulse": {
       "from": {
-        "opacity": "0",
-        "transform": "translateY(8px) scale(.6)"
+        "opacity": "0.85",
+        "scale": "1"
       },
       "to": {
-        "opacity": "1",
-        "transform": "none"
+        "opacity": "0",
+        "scale": "1.28"
       }
     },
-    "@keyframes ns-otp-wave": {
-      "0%,100%": {
-        "transform": "translateY(0)"
-      },
-      "40%": {
-        "transform": "translateY(-5px)"
+    "@keyframes ns-orb-lean": {
+      "50%": {
+        "translate": "0 3%"
       }
     },
-    "@keyframes ns-caret": {
-      "0%,45%": {
-        "opacity": "1"
+    "@keyframes ns-mark-fade": {
+      "from": {
+        "background-color": "color-mix(in oklab, var(--ns-signal) 22%, transparent)"
       },
-      "50%,95%": {
-        "opacity": "0"
+      "to": {
+        "background-color": "color-mix(in oklab, var(--ns-signal) 0%, transparent)"
+      }
+    },
+    "@keyframes ns-flip-in": {
+      "from": {
+        "opacity": "0",
+        "transform": "translateY(70%)"
+      }
+    },
+    "@keyframes ns-type": {
+      "from": {
+        "clip-path": "inset(0 100% 0 0)"
+      }
+    },
+    "@keyframes ns-word-in": {
+      "from": {
+        "opacity": "0.25"
+      }
+    },
+    "[data-ns-fill]": {
+      "background-color": "var(--ns-fill)",
+      "background-image": "linear-gradient(to left, transparent, color-mix(in oklab, var(--ns-panel) 40%, transparent))",
+      "transition": "box-shadow 150ms var(--ns-ease)"
+    },
+    "[data-ns-veil]": {
+      "background-image": "linear-gradient(to left, transparent, color-mix(in oklab, var(--ns-panel) 40%, transparent))"
+    },
+    "[data-ns-fill=\"column\"], [data-ns-veil=\"column\"]": {
+      "background-image": "linear-gradient(to bottom, transparent, color-mix(in oklab, var(--ns-panel) 40%, transparent))"
+    },
+    ":is([data-ns-glow-host]:hover, [data-ns-glow-host]:focus-visible) [data-ns-fill=\"\"], [data-ns-fill][data-ns-focus]": {
+      "box-shadow": "0 0 10px 1px color-mix(in oklab, var(--ns-fill) var(--ns-glow), transparent)"
+    },
+    "@keyframes ns-glow-pulse": {
+      "from": {
+        "box-shadow": "0 0 0 0 color-mix(in oklab, var(--ns-pulse) calc(var(--ns-glow) + 20%), transparent)"
       },
-      "100%": {
-        "opacity": "1"
+      "to": {
+        "box-shadow": "0 0 6px 8px transparent"
+      }
+    },
+    ":root[data-motion=\"reduced\"] [data-ns-moves]": {
+      "animation-name": "ns-fade !important"
+    },
+    ":root[data-motion=\"reduced\"] :is([data-ns-still], [data-ns-still] *)": {
+      "animation": "none !important"
+    },
+    ":root[data-motion=\"reduced\"] [data-ns-glide]": {
+      "transition": "none !important"
+    },
+    ":root[data-motion=\"reduced\"] [data-ns-stagger] > *": {
+      "animation-name": "ns-fade !important",
+      "animation-delay": "0s !important"
+    },
+    ".ns-notrans, .ns-notrans *": {
+      "transition": "none !important"
+    },
+    ":focus-visible": {
+      "--tw-outline-style": "solid"
+    },
+    "@keyframes ns-refuse": {
+      "from": {
+        "box-shadow": "0 0 0 1.5px var(--ns-bad), 0 0 0 6px color-mix(in oklab, var(--ns-bad) 20%, transparent)"
+      }
+    },
+    "[data-ns-landed]": {
+      "animation": "ns-born var(--ns-time-born) var(--ns-ease)"
+    },
+    "[data-ns-refused]": {
+      "animation": "ns-nudge 360ms var(--ns-ease), ns-refuse 900ms var(--ns-ease)"
+    },
+    "@media (prefers-reduced-motion: reduce)": {
+      ":root [data-ns-moves]": {
+        "animation-name": "ns-fade !important"
+      },
+      ":root :is([data-ns-still], [data-ns-still] *)": {
+        "animation": "none !important"
+      },
+      ":root [data-ns-glide]": {
+        "transition": "none !important"
+      },
+      ":root [data-ns-stagger] > *": {
+        "animation-name": "ns-fade !important",
+        "animation-delay": "0s !important"
+      },
+      ":root [data-ns-refused]": {
+        "animation": "ns-refuse 900ms var(--ns-ease)"
+      }
+    },
+    ":root[data-motion=\"reduced\"] [data-ns-refused]": {
+      "animation": "ns-refuse 900ms var(--ns-ease)"
+    },
+    "@keyframes ns-drain": {
+      "from": {
+        "scale": "1 1"
+      },
+      "to": {
+        "scale": "0 1"
+      }
+    },
+    "@keyframes ns-sweep": {
+      "from": {
+        "scale": "0 1"
       }
     }
   },
+  "files": [],
   "meta": {
     "tier": "free",
     "kind": "foundation",
-    "theme": "notchset"
+    "source": "system"
   }
 }

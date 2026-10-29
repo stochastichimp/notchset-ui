@@ -1,10 +1,13 @@
 # Accessibility
 
-- The right semantics: radiogroup for one-of-a-few, tabs for panels, switch for on/off settings,
-  checkbox for independent options. Label every control; a decorative mark is `aria-hidden`.
-- Keyboard reaches every outcome the pointer does. Arrow keys inside groups (mirrored in right-to-left),
-  Home/End to the ends, Escape closes, focus returns to the control that opened something.
-- Focus is always visible (the shared focus ring or the family's documented indicator).
-- Announce outcomes politely (saved, verified, failed) with a live region; never only with colour,
-  motion or sound.
-- Touch targets are at least 44px on coarse pointers. Text meets contrast on the project's tokens.
+- Every control has a name: a visible label, or `aria-label` (an `IconButton` requires `label`).
+- Focus is always visible: the foundation's outline in `--ns-signal`. Never remove it.
+- Keyboard first: everything a pointer does, a key does. Menus, selects and comboboxes follow the WAI-ARIA
+  patterns (arrows, Enter, Esc, type-ahead); dialogs trap focus and return it to their opener.
+- Status is said in words, not colour alone; a status dot has its word beside it.
+- Live changes are announced once: a toast, a saved or refused state, a figure that rolled.
+- Errors are tied to their field (`Field`'s `error`), marked invalid and read with it.
+- Touch targets: controls grow on touch screens (the foundation's coarse-pointer sizes); nothing a finger presses
+  is smaller than `--ns-touch`.
+- Reduced motion reaches the same final state with no movement.
+- Required means required: native `required`, never an asterisk alone.

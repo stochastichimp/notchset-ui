@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tick-bar",
+  "type": "registry:ui",
+  "title": "Tick bar",
+  "description": "How far toward a target, as a row of thin ticks filled up to the value, with the number written beside it. Done draws its share in the ok colour, and a raised tick marks the target once the scale runs past it.",
+  "categories": [
+    "charts"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/tick-bar.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/tick-bar.tsx",
+      "content": "// Notchset tick-bar 2.1.0 · https://notchset.dev/changelog\nimport * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * TickBar: how far toward a target, as a row of thin ticks filled up to the value. Calmer than a fat bar, and it\n * reads as \"how far, out of how much\" at a glance. Filled ticks are the series violet in the chart family's finish\n * (rounded, fading toward the base); `done` draws its share of the fill in the ok colour (won, against won + commit); `target` raises one tick where the goal sits when the bar's scale runs past it. The number is\n * always written: pass `figure` to write it beside the ticks, or write it nearby yourself. The ticks spread across\n * whatever width the bar is given, so it sits in a tile, a table cell or a header alike.\n */\ntype TickBarProps = {\n  value: number;\n  max: number;\n  /** What it measures, read out with the value (\"Won and committed against target\"). */\n  label: string;\n  /** The part of value that is already done, drawn in the ok colour from the start. */\n  done?: number | undefined;\n  /** Where the goal sits on the scale, when the scale runs past it. */\n  target?: number | undefined;\n  /** How the value is read out (\"$1.4M of $2M\"); defaults to the percent of max. */\n  valueText?: string | undefined;\n  /** The number, written after the ticks. */\n  figure?: React.ReactNode;\n  ticks?: number | undefined;\n  className?: string | undefined;\n};\n\nfunction TickBar({ value, max, label, done = 0, target, valueText, figure, ticks = 40, className }: TickBarProps) {\n  const per = max > 0 ? max / ticks : Infinity;\n  /* a tick is filled once the value covers half of it; and an endpoint means exactly that: anything above zero fills\n     at least one tick, anything short of max leaves at least one empty (1% never shows as nothing, 99% never full) */\n  const fill = (v: number) => (ticks < 2 ? Math.min(ticks, Math.round(v / per)) : v <= 0 ? 0 : v >= max ? ticks : Math.min(ticks - 1, Math.max(1, Math.round(v / per))));\n  const filled = fill(value);\n  const won = Math.min(filled, fill(done));\n  const goal = target != null && max > 0 && target < max ? Math.min(ticks - 1, Math.round(target / per) - 1) : -1;\n  return (\n    <span data-slot=\"tick-bar\" className={cn(\"flex min-w-0 items-center gap-2.5\", className)}>\n      <span\n        role=\"meter\"\n        aria-label={label}\n        aria-valuenow={value}\n        aria-valuemin={0}\n        aria-valuemax={max}\n        aria-valuetext={valueText ?? `${max > 0 ? Math.round((value / max) * 100) : 0}%`}\n        className=\"flex h-3 min-w-0 flex-1 items-end justify-between gap-px\"\n      >\n        {Array.from({ length: ticks }, (_, i) => (\n          <i\n            key={i}\n            className={cn(\n              \"block w-0.5 shrink-0 rounded-full [transition:background-color_var(--ns-time-color)]\",\n              i === goal ? \"h-3\" : \"h-2.5\",\n              i < won ? \"bg-[var(--ns-ok)]\" : i < filled ? \"bg-[var(--ns-series)]\" : i === goal ? \"bg-[var(--ns-ink-3)]\" : \"bg-[var(--ns-line)]\",\n            )}\n            {...(i < filled ? { \"data-ns-veil\": \"column\" } : {})}\n          />\n        ))}\n      </span>\n      {figure != null && <span className=\"shrink-0 text-[length:var(--ns-text-small)] font-[number:var(--ns-weight-medium)] text-[var(--ns-ink)] tabular-nums\">{figure}</span>}\n    </span>\n  );\n}\n\nexport { TickBar, type TickBarProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.1.0",
+    "lane": "app"
+  }
+}

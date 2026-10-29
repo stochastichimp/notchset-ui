@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "range-control",
+  "type": "registry:ui",
+  "title": "Range control",
+  "description": "Day, Week, Month, 6M, Year and YTD as one switch with the period's headline above it: \"Avg 6 h 51 · this week, +9 min against last week\". The figure rolls only when the period changes, still with less motion; a period the data can't reach is left out.",
+  "categories": [
+    "charts"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json",
+    "@notchset/rolling-number",
+    "@notchset/segmented-control"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/range-control.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/range-control.tsx",
+      "content": "// Notchset range-control 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport { cn } from \"@/lib/utils\";\nimport { RollingNumber } from \"@/components/ui/notchset/rolling-number\";\nimport { SegmentedControl } from \"@/components/ui/notchset/segmented-control\";\n\n/*\n * Range control: every trend's Day · Week · Month · 6M · Year · YTD, with the period's headline above it, \"Avg 6 h 51\n * · this week, +9 min against last week\". The figure rolls only when the period changes (RollingNumber, still with\n * less motion); the delta is plain words. A period the data can't show is left out, never shown empty.\n *\n *   <RangeControl value={p} onValueChange={setP} options={[\"day\",\"week\",\"month\",\"6m\",\"year\",\"ytd\"]} figure=\"6 h 51\" words=\"this week\" delta=\"+9 min against last week\" />\n *\n * The host computes the figures (Health's engine does it with periodStats); the piece says them and switches.\n */\ntype RangePeriod = \"day\" | \"week\" | \"month\" | \"6m\" | \"year\" | \"ytd\";\nconst LABELS: Record<RangePeriod, string> = { day: \"Day\", week: \"Week\", month: \"Month\", \"6m\": \"6M\", year: \"Year\", ytd: \"YTD\" };\n\ntype RangeControlProps = {\n  value: RangePeriod;\n  onValueChange: (p: RangePeriod) => void;\n  /** the periods this metric can show, in order */\n  options?: RangePeriod[] | undefined;\n  /** the period's figure, \"6 h 51\" */\n  figure: string;\n  /** its unit, small beside it */\n  unit?: string | undefined;\n  /** the label before it, \"Avg\" */\n  lead?: string | undefined;\n  /** \"this week\" */\n  words: string;\n  /** \"+9 min against last week\", or why there's none */\n  delta?: string | undefined;\n  /** which way the delta reads: ok (better), bad (worse) or neutral */\n  tone?: \"ok\" | \"bad\" | \"neutral\" | undefined;\n  /** names the switch for a screen reader */\n  label?: string | undefined;\n  className?: string | undefined;\n};\n\nfunction RangeControl({ value, onValueChange, options = [\"day\", \"week\", \"month\", \"6m\", \"year\", \"ytd\"], figure, unit, lead = \"Avg\", words, delta, tone = \"neutral\", label = \"Time range\", className }: RangeControlProps) {\n  return (\n    <div data-slot=\"range-control\" className={cn(\"flex min-w-0 flex-wrap items-end justify-between gap-x-6 gap-y-3\", className)}>\n      <p aria-live=\"polite\" className=\"m-0 flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-1\">\n        <span className=\"text-[length:var(--ns-text-small)] text-[var(--ns-ink-2)]\">{lead}</span>\n        <RollingNumber value={figure} className=\"font-[family-name:var(--ns-font-display)] text-[length:var(--ns-text-hero)] leading-none font-[number:var(--ns-weight-strong)] tracking-[-0.03em] text-[var(--ns-ink)]\" />\n        {unit && <span className=\"text-[length:var(--ns-text-small)] text-[var(--ns-ink-2)]\">{unit}</span>}\n        <span className=\"text-[length:var(--ns-text-small)] text-[var(--ns-ink-2)]\">\n          · {words}\n          {delta && (\n            <>\n              ,{\" \"}\n              <span data-tone={tone} className={cn(tone === \"ok\" ? \"text-[var(--ns-ok-ink)]\" : tone === \"bad\" ? \"text-[var(--ns-warn-ink)]\" : \"text-[var(--ns-ink-2)]\")}>\n                {delta}\n              </span>\n            </>\n          )}\n        </span>\n      </p>\n      <SegmentedControl size=\"sm\" label={label} value={value} onValueChange={onValueChange} options={options.map((p) => ({ value: p, label: LABELS[p] }))} />\n    </div>\n  );\n}\n\nexport { RangeControl, type RangeControlProps, type RangePeriod };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

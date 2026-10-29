@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "empty-state",
+  "type": "registry:ui",
+  "title": "Empty state",
+  "description": "What goes here and the one way to fill it. A page-sized one centres a title, a line and an action; inline, it is the quiet line inside a section (\"No notes yet\").",
+  "categories": [
+    "feedback"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/empty-state.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/empty-state.tsx",
+      "content": "// Notchset empty-state 2.0.0 · https://notchset.dev/changelog\nimport * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Empty state: what goes here and the one way to fill it. A page-sized one centres a title, a line and an\n * action; size=\"inline\" is the quiet line inside a section (\"No notes yet\").\n */\ntype EmptyStateProps = Omit<React.ComponentPropsWithoutRef<\"div\">, \"title\"> & {\n  title?: React.ReactNode;\n  icon?: React.ReactNode;\n  action?: React.ReactNode;\n  size?: \"page\" | \"inline\" | undefined;\n};\n\nfunction EmptyState({ title, icon, action, size = \"page\", className, children, ...props }: EmptyStateProps) {\n  if (size === \"inline\") {\n    return (\n      <div data-slot=\"empty-state\" data-size=\"inline\" className={cn(\"py-2.5 text-[length:var(--ns-text-small)] text-[var(--ns-ink-3)]\", className)} {...props}>\n        {children ?? title}\n      </div>\n    );\n  }\n  return (\n    <div\n      data-slot=\"empty-state\"\n      className={cn(\"flex flex-col items-center gap-2 px-6 py-[72px] text-center text-[var(--ns-ink-3)] [&>svg]:size-5\", className)}\n      {...props}\n    >\n      {icon}\n      {title && <b className=\"font-[family-name:var(--ns-font-display)] text-[15px] font-[number:var(--ns-weight-strong)] text-[var(--ns-ink)]\">{title}</b>}\n      {children && <p className=\"m-0 max-w-[42ch]\">{children}</p>}\n      {action && <div className=\"mt-2 flex gap-2\">{action}</div>}\n    </div>\n  );\n}\n\nexport { EmptyState, type EmptyStateProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

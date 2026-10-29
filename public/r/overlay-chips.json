@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "overlay-chips",
+  "type": "registry:ui",
+  "title": "Overlay chips",
+  "description": "Toggle chips under a trend: the one on shows its swatch, name and latest reading and takes it off again; the rest wait as quiet + chips. One overlay at a time, so the chart keeps one honest axis.",
+  "categories": [
+    "charts"
+  ],
+  "dependencies": [
+    "lucide-react@^1"
+  ],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/overlay-chips.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/overlay-chips.tsx",
+      "content": "// Notchset overlay-chips 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport { Plus, X } from \"lucide-react\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Overlay chips: add one second signal (resting HR, sleep, steps) to a trend's time axis. The one on shows its swatch,\n * name and latest value and takes it off again; the rest wait as quiet \"+ name\" chips. One at a time, so the chart\n * keeps one honest axis. Toggle buttons (aria-pressed) in a labelled group.\n *\n *   <OverlayChips options={[{ value: \"rhr\", label: \"Resting HR\", reading: \"55 bpm\" }, …]} value=\"rhr\" onValueChange={set} />\n */\ntype OverlayOption = {\n  value: string;\n  label: string;\n  reading?: string | undefined;\n};\ntype OverlayChipsProps = {\n  options: OverlayOption[];\n  value: string | null;\n  onValueChange: (v: string | null) => void;\n  label?: string | undefined;\n  className?: string | undefined;\n};\n\nconst chip =\n  \"inline-flex h-[var(--ns-control-sm)] cursor-pointer items-center gap-1.5 rounded-full px-3 text-[length:var(--ns-text-small)] whitespace-nowrap outline-hidden focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ns-signal)]\";\n\nfunction OverlayChips({ options, value, onValueChange, label = \"On the same axis\", className }: OverlayChipsProps) {\n  return (\n    <div role=\"group\" aria-label={label} data-slot=\"overlay-chips\" className={cn(\"flex min-w-0 flex-wrap items-center gap-2\", className)}>\n      <span aria-hidden className=\"mr-1 font-[family-name:var(--ns-font-mono)] text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)]\">\n        {label}\n      </span>\n      {options.map((o) => {\n        const on = o.value === value;\n        return (\n          <button\n            key={o.value}\n            type=\"button\"\n            aria-pressed={on}\n            aria-label={on ? `${o.label}${o.reading ? ` ${o.reading}` : \"\"} on the chart. Take it off` : `Add ${o.label} to the chart`}\n            onClick={() => onValueChange(on ? null : o.value)}\n            className={cn(chip, on ? \"bg-[var(--ns-hover)] text-[var(--ns-ink)] shadow-[inset_0_0_0_0.5px_var(--ns-line)]\" : \"text-[var(--ns-ink-2)] shadow-[inset_0_0_0_0.5px_var(--ns-line)] hover:text-[var(--ns-ink)]\")}\n          >\n            {on ? <i aria-hidden className=\"block h-px w-3 bg-[var(--ns-ink-2)]\" /> : <Plus aria-hidden className=\"size-3\" strokeWidth={2} />}\n            {o.label}\n            {on && o.reading && <span className=\"font-[family-name:var(--ns-font-display)] text-[var(--ns-ink)] tabular-nums\">{o.reading}</span>}\n            {on && <X aria-hidden className=\"size-3 opacity-60\" strokeWidth={2} />}\n          </button>\n        );\n      })}\n    </div>\n  );\n}\n\nexport { OverlayChips, type OverlayChipsProps, type OverlayOption };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

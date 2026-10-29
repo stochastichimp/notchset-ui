@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "skeleton",
+  "type": "registry:ui",
+  "title": "Skeleton",
+  "description": "The shape of text that is still loading, with a slow shimmer. Hidden from screen readers (the loading region says aria-busy); under reduced motion the shimmer stops and the shape stays.",
+  "categories": [
+    "feedback"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/skeleton.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/skeleton.tsx",
+      "content": "// Notchset skeleton 2.0.0 · https://notchset.dev/changelog\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Skeleton: the shape of text that is still loading, with a slow shimmer. Hidden from screen readers (the\n * region that is loading says so with aria-busy). Under reduced motion the shimmer stops and the shape stays.\n */\ntype SkeletonProps = { width?: number | string | undefined; height?: number | undefined; className?: string | undefined };\n\nfunction Skeleton({ width = \"100%\", height = 12, className }: SkeletonProps) {\n  return (\n    <span\n      data-slot=\"skeleton\"\n      data-ns-still=\"\"\n      aria-hidden\n      style={{ width, height }}\n      className={cn(\n        \"block max-w-full rounded-[5px] bg-[linear-gradient(90deg,var(--ns-line-soft),var(--ns-hover),var(--ns-line-soft))] bg-[length:200%_100%] [animation:ns-shimmer_1.2s_linear_infinite]\",\n        className,\n      )}\n    />\n  );\n}\n\nexport { Skeleton, type SkeletonProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

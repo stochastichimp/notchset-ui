@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "hover-momentum",
+  "type": "registry:ui",
+  "title": "Hover momentum",
+  "description": "A card that shows its recent activity only when you ask: hover or focus grows a small bar chart of the last days with its one line of meaning, and it folds away when you leave. Nothing new at rest.",
+  "categories": [
+    "motion"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/hover-momentum.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/hover-momentum.tsx",
+      "content": "// Notchset hover-momentum 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Hover momentum: a card that shows its recent activity only when you ask. At rest it's just the card; on hover or\n * keyboard focus it grows a small bar chart of the last days (one bar per day, the newest strongest) with its one\n * line of meaning (\"6 touches in 14 days\"), and folds away when you leave. Nothing new at rest, nothing to\n * dismiss. The card itself is the focus target, so the chart is one Tab away; on touch, a tap focuses it.\n *\n *   <HoverMomentum label=\"Raycast\" values={touchesByDay} summary=\"6 touches in 14 days, 2 this week\">\n *     <DealCardBody … />\n *   </HoverMomentum>\n */\ntype HoverMomentumProps = {\n  /** one value per day, oldest first */\n  values: number[];\n  /** what the card is, for screen readers (\"Raycast deal\") */\n  label: string;\n  /** the chart's meaning in words */\n  summary: string;\n  /** what the first and last bars stand for; by default the last bar is today and the first is as many days back as\n      there are bars after it (\"13 days ago\" for 14 values, \"4 days ago\" for 5) */\n  range?: [string, string] | undefined;\n  children: React.ReactNode;\n  className?: string | undefined;\n};\n\nconst daysAgo = (n: number) => (n <= 0 ? \"Today\" : n === 1 ? \"Yesterday\" : `${n} days ago`);\n\nfunction HoverMomentum({ values, label, summary, range: given, children, className }: HoverMomentumProps) {\n  const hi = Math.max(...values, 1);\n  /* one bar is only today, and no bars have no span to name */\n  const range: [string, string] | null = given ?? (values.length > 1 ? [daysAgo(values.length - 1), \"Today\"] : values.length ? [\"Today\", \"\"] : null);\n  return (\n    <div\n      data-slot=\"hover-momentum\"\n      tabIndex={0}\n      role=\"group\"\n      aria-label={`${label}. ${summary}`}\n      className={cn(\n        \"group/momentum rounded-[var(--ns-radius-lg)] bg-[var(--ns-raised)] p-3 shadow-[var(--ns-bezel)] outline-hidden [transition:box-shadow_var(--ns-time-color)] hover:shadow-[var(--ns-bezel),0_6px_18px_-8px_rgba(0,0,0,.18)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ns-signal)]\",\n        className,\n      )}\n    >\n      {children}\n      <div\n        aria-hidden\n        data-ns-glide=\"\"\n        className=\"grid grid-rows-[0fr] opacity-0 [transition:grid-template-rows_var(--ns-time-menu)_var(--ns-ease),opacity_var(--ns-time-menu)_var(--ns-ease)] group-hover/momentum:grid-rows-[1fr] group-hover/momentum:opacity-100 group-focus/momentum:grid-rows-[1fr] group-focus/momentum:opacity-100\"\n      >\n        <div className=\"min-h-0 overflow-hidden\">\n          <div className=\"mt-2.5 flex flex-col gap-1.5 border-t border-[var(--ns-line-soft)] pt-2.5\">\n            <span className=\"text-[length:var(--ns-text-meta)] text-[var(--ns-ink-2)]\">{summary}</span>\n            <span className=\"flex h-9 items-end gap-[3px]\">\n              {values.map((v, i) => (\n                <i\n                  key={i}\n                  data-ns-glide=\"\"\n                  style={{ height: `${v ? Math.max(14, Math.round((v / hi) * 100)) : 6}%`, transitionDelay: `${i * 12}ms` }}\n                  className={cn(\n                    \"block min-w-0 flex-1 origin-bottom scale-y-50 rounded-[2px] [transition:scale_var(--ns-time-dialog)_var(--ns-ease)] group-hover/momentum:scale-y-100 group-focus/momentum:scale-y-100\",\n                    v ? (i >= values.length - 3 ? \"bg-[var(--ns-ink-2)]\" : \"bg-[var(--ns-ink-3)] opacity-60\") : \"bg-[var(--ns-line)]\",\n                  )}\n                />\n              ))}\n            </span>\n            {range && (\n              <span className=\"flex justify-between text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)]\">\n                <span>{range[0]}</span>\n                <span>{range[1]}</span>\n              </span>\n            )}\n          </div>\n        </div>\n      </div>\n    </div>\n  );\n}\n\nexport { HoverMomentum, type HoverMomentumProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

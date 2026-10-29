@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "night-dot-row",
+  "type": "registry:ui",
+  "title": "Night dot row",
+  "description": "Seven nights as dots with each day and figure: hollow when below your usual, the chosen night ringed and lit. A radio group: arrow keys, Home and End move and choose, and each dot says its night in words.",
+  "categories": [
+    "charts"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/night-dot-row.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/night-dot-row.tsx",
+      "content": "// Notchset night-dot-row 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Night dot row: seven nights as dots, each with its day and figure. A night below your usual is hollow; the chosen\n * night is ringed and lit, and choosing one changes the whole page (the host listens). It is a radio group: arrow\n * keys move and choose, Home and End jump, and each dot says its night in words, so the row is its own table.\n *\n *   <NightDotRow nights={[{ id: \"19\", day: \"Mon 19\", value: \"7:04\", below: false }, …]} value=\"25\" onValueChange={setNight} />\n */\ntype Night = {\n  id: string;\n  /** \"Mon 19\" */\n  day: string;\n  /** \"7:04\", or null when nothing was recorded */\n  value: string | null;\n  /** below your usual: drawn hollow */\n  below?: boolean | undefined;\n};\ntype NightDotRowProps = {\n  nights: Night[];\n  value: string;\n  onValueChange: (id: string) => void;\n  label?: string | undefined;\n  className?: string | undefined;\n};\n\nfunction NightDotRow({ nights, value, onValueChange, label = \"Choose a night\", className }: NightDotRowProps) {\n  const refs = React.useRef<(HTMLButtonElement | null)[]>([]);\n  const at = Math.max(0, nights.findIndex((n) => n.id === value));\n  const go = (i: number) => {\n    const n = nights[(i + nights.length) % nights.length];\n    if (!n) return;\n    onValueChange(n.id);\n    refs.current[(i + nights.length) % nights.length]?.focus();\n  };\n  const onKey = (e: React.KeyboardEvent) => {\n    const k = e.key;\n    if (k === \"ArrowRight\" || k === \"ArrowDown\") go(at + 1);\n    else if (k === \"ArrowLeft\" || k === \"ArrowUp\") go(at - 1);\n    else if (k === \"Home\") go(0);\n    else if (k === \"End\") go(nights.length - 1);\n    else return;\n    e.preventDefault();\n  };\n  return (\n    <div data-slot=\"night-dot-row\" role=\"radiogroup\" aria-label={label} onKeyDown={onKey} className={cn(\"grid min-w-0 gap-1\", className)} style={{ gridTemplateColumns: `repeat(${nights.length}, minmax(0, 1fr))` }}>\n      {nights.map((n, i) => {\n        const on = i === at;\n        const none = n.value == null;\n        return (\n          <button\n            key={n.id}\n            ref={(el) => {\n              refs.current[i] = el;\n            }}\n            type=\"button\"\n            role=\"radio\"\n            aria-checked={on}\n            tabIndex={on ? 0 : -1}\n            aria-label={`${n.day}: ${none ? \"nothing recorded\" : `${n.value}${n.below ? \", below your usual\" : \"\"}`}`}\n            onClick={() => onValueChange(n.id)}\n            data-state={on ? \"on\" : \"off\"}\n            className={cn(\n              \"flex min-w-0 cursor-pointer flex-col items-center gap-1.5 group/night relative rounded-[10px] py-2 outline-hidden focus-visible:outline-2 focus-visible:outline-[var(--ns-signal)]\",\n            )}\n          >\n            <span className={cn(\"truncate text-[length:var(--ns-text-meta)] [transition:color_var(--ns-time-color)]\", on ? \"font-[number:var(--ns-weight-medium)] text-[var(--ns-ink)]\" : \"text-[var(--ns-ink-3)] group-hover/night:text-[var(--ns-ink-2)]\")}>{n.day}</span>\n            <i\n              aria-hidden\n              data-slot=\"night-dot\"\n              data-below={n.below ? \"\" : undefined}\n              className={cn(\n                \"block size-3 rounded-full\",\n                none ? \"border border-dashed border-[var(--ns-ink-3)]\" : n.below ? \"border-[1.5px] border-[var(--ns-series)] bg-transparent\" : \"bg-[var(--ns-series)] opacity-80\",\n                on && !none && \"opacity-100 shadow-[0_0_0_2.5px_var(--ns-canvas),0_0_0_4px_var(--ns-series),0_0_14px_4px_color-mix(in_oklab,var(--ns-series)_var(--ns-glow),transparent)]\",\n              )}\n            />\n            <span className={cn(\"font-[family-name:var(--ns-font-mono)] text-[length:var(--ns-text-meta)] tabular-nums\", on ? \"text-[var(--ns-ink)]\" : \"text-[var(--ns-ink-3)]\")}>{n.value ?? \"–\"}</span>\n            {/* the chosen night: a short notch under its figure, no box */}\n            <i aria-hidden className={cn(\"block h-0.5 w-4 rounded-full bg-[var(--ns-series)] [transition:opacity_var(--ns-time-color),transform_var(--ns-time-color)]\", on ? \"opacity-100\" : \"scale-x-50 opacity-0\")} />\n          </button>\n        );\n      })}\n    </div>\n  );\n}\n\nexport { NightDotRow, type Night, type NightDotRowProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

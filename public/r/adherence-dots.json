@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "adherence-dots",
+  "type": "registry:ui",
+  "title": "Adherence dots",
+  "description": "One row of seven dots per routine item: filled when it happened, outlined when it didn't, today dashed until it happens, and the count closing the row. A table carries every day in words for a screen reader.",
+  "categories": [
+    "display"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/adherence-dots.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/adherence-dots.tsx",
+      "content": "// Notchset adherence-dots 2.0.0 · https://notchset.dev/changelog\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Adherence dots: one row of seven quiet dots per routine item, filled on a day it happened, an outline on a day it\n * didn't, and today hollow and dashed until it happens; the count \"5/7\" closes the row. A table underneath for a\n * screen reader carries every day in words.\n *\n *   <AdherenceDots days={[\"M\",\"T\",\"W\",\"T\",\"F\",\"S\",\"S\"]} rows={[{ name: \"Walk 30 min\", done: [true, true, false, true, true, true, null] }]} />\n *\n * `null` is a day still to come (today, before it happens).\n */\ntype AdherenceRow = { name: string; done: (boolean | null)[] };\ntype AdherenceDotsProps = {\n  rows: AdherenceRow[];\n  days: string[];\n  /** names the section (and heads the rows, unless `head` says otherwise) */\n  title?: string | undefined;\n  /** the words over the item column; \"\" when the host's section already names it */\n  head?: string | undefined;\n  className?: string | undefined;\n};\n\nconst said = (v: boolean | null) => (v == null ? \"not yet\" : v ? \"done\" : \"missed\");\n\nfunction AdherenceDots({ rows, days, title = \"This week\", head = title, className }: AdherenceDotsProps) {\n  return (\n    <section data-slot=\"adherence-dots\" aria-label={title} className={cn(\"flex min-w-0 flex-col gap-1\", className)}>\n      <div aria-hidden className=\"grid grid-cols-[minmax(0,1fr)_auto_2.75rem] items-center gap-x-4 pb-1 text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)]\">\n        <span className=\"text-[var(--ns-ink)]\">{head}</span>\n        <span className=\"flex gap-2.5\">\n          {days.map((d, i) => (\n            <span key={i} className=\"w-2 text-center font-[family-name:var(--ns-font-mono)]\">\n              {d}\n            </span>\n          ))}\n        </span>\n        <span />\n      </div>\n      {rows.map((r) => {\n        const n = r.done.filter((v) => v != null).length;\n        const x = r.done.filter(Boolean).length;\n        return (\n          <div key={r.name} aria-hidden className=\"grid grid-cols-[minmax(0,1fr)_auto_2.75rem] items-center gap-x-4 border-b border-[var(--ns-line-soft)] py-2 last:border-b-0 text-[length:var(--ns-text-small)]\">\n            <span className=\"truncate text-[var(--ns-ink-2)]\">{r.name}</span>\n            <span className=\"flex gap-2.5\">\n              {r.done.map((v, i) => (\n                <i key={i} data-done={v == null ? \"later\" : v ? \"yes\" : \"no\"} className={cn(\"block size-2 rounded-full\", v == null ? \"border border-dashed border-[var(--ns-ink-3)]\" : v ? \"bg-[var(--ns-ink-2)]\" : \"border border-[var(--ns-line)]\")} />\n              ))}\n            </span>\n            <span className=\"text-right font-[family-name:var(--ns-font-mono)] text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)] tabular-nums\">\n              {x}/{n}\n            </span>\n          </div>\n        );\n      })}\n      <table className=\"sr-only\">\n        <caption>{title}, by day</caption>\n        <thead>\n          <tr>\n            <th scope=\"col\">Item</th>\n            {days.map((d, i) => (\n              <th key={i} scope=\"col\">\n                {d}\n              </th>\n            ))}\n            <th scope=\"col\">Done</th>\n          </tr>\n        </thead>\n        <tbody>\n          {rows.map((r) => (\n            <tr key={r.name}>\n              <th scope=\"row\">{r.name}</th>\n              {r.done.map((v, i) => (\n                <td key={i}>{said(v)}</td>\n              ))}\n              <td>\n                {r.done.filter(Boolean).length} of {r.done.filter((v) => v != null).length}\n              </td>\n            </tr>\n          ))}\n        </tbody>\n      </table>\n    </section>\n  );\n}\n\nexport { AdherenceDots, type AdherenceRow, type AdherenceDotsProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

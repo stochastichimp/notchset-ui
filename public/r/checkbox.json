@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "checkbox",
+  "type": "registry:ui",
+  "title": "Checkbox",
+  "description": "A 16px rounded square that fills with ink when checked, or with the ok colour for finishing a task (it pops once). Mixed shows a dash. Its children are its label, and on touch screens the hit area grows to 40px.",
+  "categories": [
+    "inputs"
+  ],
+  "dependencies": [
+    "@base-ui/react@^1"
+  ],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/checkbox.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/checkbox.tsx",
+      "content": "// Notchset checkbox 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { Checkbox as Base } from \"@base-ui/react/checkbox\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Checkbox: 16px, a rounded square with a 1.5px ink-3 edge that darkens on hover. Checked fills with ink;\n * tone=\"done\" fills with the ok colour, for finishing a task, and pops once when ticked. Mixed shows a dash.\n * Children become its label (the whole row toggles). On touch screens the hit area grows to 40px.\n */\ntype CheckboxProps = Omit<React.ComponentPropsWithoutRef<typeof Base.Root>, \"className\"> & {\n  tone?: \"ink\" | \"done\" | undefined;\n  className?: string | undefined;\n  children?: React.ReactNode;\n};\n\nfunction Checkbox({ tone = \"ink\", className, children, ...props }: CheckboxProps) {\n  const box = (\n    <Base.Root\n      data-slot=\"checkbox\"\n      className={cn(\n        \"relative grid size-[var(--ns-check)] shrink-0 cursor-pointer place-items-center rounded-[5px] shadow-[inset_0_0_0_1.5px_var(--ns-ink-3)] outline-hidden [transition:background-color_150ms,box-shadow_150ms]\",\n        \"hover:shadow-[inset_0_0_0_1.5px_var(--ns-ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ns-signal)] data-disabled:cursor-default data-disabled:opacity-45\",\n        \"pointer-coarse:after:absolute pointer-coarse:after:-inset-3 pointer-coarse:after:content-['']\",\n        tone === \"done\"\n          ? \"data-checked:bg-[var(--ns-ok)] data-checked:text-white data-checked:shadow-none data-checked:[animation:ns-pop_420ms_var(--ns-ease-pop)]\"\n          : \"data-checked:bg-[var(--ns-ink)] data-checked:text-[var(--ns-canvas)] data-checked:shadow-none\",\n        \"data-indeterminate:bg-[var(--ns-ink)] data-indeterminate:text-[var(--ns-canvas)] data-indeterminate:shadow-none\",\n        className,\n      )}\n      data-ns-still=\"\"\n      {...props}\n    >\n      <Base.Indicator\n        keepMounted\n        render={(p, state) => (\n          <span {...p} className=\"grid place-items-center data-unchecked:hidden\">\n            {state.indeterminate ? (\n              <svg viewBox=\"0 0 10 10\" className=\"size-2.5\" aria-hidden>\n                <path d=\"M2.5 5h5\" stroke=\"currentColor\" strokeWidth=\"1.75\" strokeLinecap=\"round\" />\n              </svg>\n            ) : (\n              <svg viewBox=\"0 0 10 10\" className=\"size-2.5\" aria-hidden>\n                <path d=\"M2.2 5.2 4.2 7.1 7.9 3\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.75\" strokeLinecap=\"round\" strokeLinejoin=\"round\" />\n              </svg>\n            )}\n          </span>\n        )}\n      />\n    </Base.Root>\n  );\n  if (!children) return box;\n  return (\n    <label data-slot=\"checkbox-label\" className=\"inline-flex cursor-pointer items-center gap-2.5 text-[var(--ns-ink)] has-data-disabled:cursor-default\">\n      {box}\n      <span className=\"min-w-0\">{children}</span>\n    </label>\n  );\n}\n\nexport { Checkbox, type CheckboxProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

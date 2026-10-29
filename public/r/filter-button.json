@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "filter-button",
+  "type": "registry:ui",
+  "title": "Filter button",
+  "description": "One facet of a list (Stage, Owner). Unused it is a dashed outline; once something is picked it turns solid and counts the picks. Its menu stays open while you tick several, with Clear at the bottom.",
+  "categories": [
+    "inputs"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json",
+    "@notchset/menu"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/filter-button.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/filter-button.tsx",
+      "content": "// Notchset filter-button 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\nimport { Menu, MenuCheckboxItem, MenuItem, MenuSeparator } from \"@/components/ui/notchset/menu\";\n\n/*\n * Filter button: one facet of a list (Stage, Owner). Unused, it is a dashed outline that says \"you can narrow\n * this\"; once something is picked it turns solid and counts the picks. It opens a menu of checkable options\n * that stays open while you tick several, with Clear at the bottom. The picks also show as chips under the bar.\n * Options can carry a count (how many rows the pick would leave); a menu with no options says so.\n */\ntype FilterOption = { value: string; label: string; icon?: React.ReactNode; count?: number };\ntype FilterButtonProps = {\n  label: string;\n  icon?: React.ReactNode;\n  options: FilterOption[];\n  value: string[];\n  onValueChange: (value: string[]) => void;\n  className?: string | undefined;\n};\n\nfunction FilterButton({ label, icon, options, value, onValueChange, className }: FilterButtonProps) {\n  const on = value.length > 0;\n  return (\n    <Menu\n      trigger={\n        <button\n          type=\"button\"\n          data-slot=\"filter-button\"\n          data-active={on || undefined}\n          aria-label={on ? `${label}: ${value.length} selected` : label}\n          className={cn(\n            \"inline-flex h-[var(--ns-control-sm)] shrink-0 cursor-pointer items-center gap-1.5 rounded-[var(--ns-radius)] border border-dashed border-[color-mix(in_oklab,var(--ns-ink-3)_45%,transparent)] bg-transparent px-[9px] text-[length:var(--ns-text-body)] text-[var(--ns-ink-2)] outline-hidden [transition:border-color_var(--ns-time-color),color_var(--ns-time-color),background-color_var(--ns-time-color)]\",\n            \"hover:bg-[var(--ns-hover)] hover:text-[var(--ns-ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ns-signal)] data-popup-open:bg-[var(--ns-hover)] [&_svg]:size-3.5\",\n            on && \"border-solid border-[var(--ns-ink-3)] text-[var(--ns-ink)]\",\n            className,\n          )}\n        >\n          {icon}\n          {label}\n          {on && <span className=\"rounded-[4px] bg-[var(--ns-selected)] px-1 py-px text-[length:var(--ns-text-meta)] font-[number:var(--ns-weight-medium)] text-[var(--ns-ink)] tabular-nums\">{value.length}</span>}\n        </button>\n      }\n    >\n      {options.length === 0 && <div className=\"px-[9px] py-2 text-[length:var(--ns-text-small)] text-[var(--ns-ink-3)]\">Nothing left with the other filters on</div>}\n      {options.map((o) => (\n        <MenuCheckboxItem\n          key={o.value}\n          icon={o.icon}\n          closeOnClick={false}\n          checked={value.includes(o.value)}\n          onCheckedChange={(c) => onValueChange(c ? [...value, o.value] : value.filter((v) => v !== o.value))}\n        >\n          <span className=\"flex w-full items-center\">\n          <span className=\"min-w-0 truncate\">{o.label}</span>\n          {o.count !== undefined && <span className=\"ml-auto pl-3 text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)] tabular-nums\">{o.count}</span>}\n          </span>\n        </MenuCheckboxItem>\n      ))}\n      {on && (\n        <>\n          <MenuSeparator />\n          <MenuItem onClick={() => onValueChange([])} className=\"text-[var(--ns-ink-2)]\">\n            Clear {label.toLowerCase()}\n          </MenuItem>\n        </>\n      )}\n    </Menu>\n  );\n}\n\nexport { FilterButton, type FilterButtonProps, type FilterOption };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

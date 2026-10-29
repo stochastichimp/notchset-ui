@@ -1,0 +1,46 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "select",
+  "type": "registry:ui",
+  "title": "Select",
+  "description": "Pick one of a short, known list. The list drops below the control and is a sheet on a phone. A field select sits in a form; a property select is the compact chip a side panel uses for a value changed in place.",
+  "categories": [
+    "inputs"
+  ],
+  "dependencies": [
+    "@base-ui/react@^1",
+    "lucide-react@^1"
+  ],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json",
+    "@notchset/field"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/select.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/select.tsx",
+      "content": "// Notchset select 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { Select as Base } from \"@base-ui/react/select\";\nimport { Check, ChevronDown, ChevronsUpDown } from \"lucide-react\";\nimport { cn } from \"@/lib/utils\";\nimport { fieldSurface } from \"@/components/ui/notchset/field\";\nimport { popupItem, popupPositioner, popupSurface } from \"@/lib/notchset/popup\";\nimport { usePortalContainer } from \"@/lib/notchset/portal\";\n\n/*\n * Select: pick one of a short, known list. The list drops below the control (it never jumps over it) and is\n * a bottom sheet on a phone. kind=\"field\" sits in a form, drawn like a text field; kind=\"property\" is the\n * compact raised chip a record's side panel uses for a value you change in place (Forecast: Commit ⇅).\n * More than ~10 options, or options people type to find: use Combobox.\n */\ntype SelectOption<V extends string> = { value: V; label: string; icon?: React.ReactNode; hint?: React.ReactNode; disabled?: boolean | undefined };\ntype SelectProps<V extends string> = {\n  options: SelectOption<V>[];\n  value: V | null;\n  onValueChange: (value: V) => void;\n  placeholder?: string | undefined;\n  kind?: \"field\" | \"property\" | undefined;\n  /** For a select with no visible label (a property row's term labels it visually: pass the same words). */\n  \"aria-label\"?: string | undefined;\n  \"aria-labelledby\"?: string | undefined;\n  disabled?: boolean | undefined;\n  className?: string | undefined;\n};\n\nfunction Select<V extends string>({ options, value, onValueChange, placeholder = \"Choose…\", kind = \"field\", disabled, className, ...aria }: SelectProps<V>) {\n  const portalContainer = usePortalContainer();\n  const chosen = options.find((o) => o.value === value);\n  return (\n    <Base.Root\n      items={options.map((o) => ({ value: o.value, label: o.label }))}\n      value={value}\n      onValueChange={(v) => v !== null && onValueChange(v as V)}\n      disabled={disabled}\n    >\n      <Base.Trigger\n        data-slot=\"select\"\n        data-kind={kind}\n        {...aria}\n        className={cn(\n          \"group inline-flex cursor-pointer items-center gap-2 text-left outline-hidden select-none [&_svg:not([data-slot=company-mark])]:size-3.5 [&_svg]:shrink-0\",\n          kind === \"field\"\n            ? cn(fieldSurface, \"h-[var(--ns-field)] hover:shadow-[inset_0_0_0_1px_var(--ns-ink-3)] data-popup-open:shadow-[inset_0_0_0_1px_var(--ns-ink-2),0_0_0_3px_color-mix(in_oklab,var(--ns-ink)_10%,transparent)] focus-visible:shadow-[inset_0_0_0_1px_var(--ns-ink-2),0_0_0_3px_color-mix(in_oklab,var(--ns-ink)_10%,transparent)]\")\n            : \"h-6 rounded-[7px] bg-[var(--ns-raised)] px-2 text-[length:var(--ns-text-body)] text-[var(--ns-ink)] shadow-[var(--ns-bezel)] hover:bg-[var(--ns-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ns-signal)] pointer-coarse:h-9 max-[960px]:h-9 data-disabled:opacity-45\",\n          className,\n        )}\n      >\n        <span className={cn(\"flex min-w-0 flex-1 items-center gap-2 truncate\", !chosen && \"text-[var(--ns-ink-3)]\")}>\n          {chosen?.icon}\n          {chosen ? chosen.label : placeholder}\n        </span>\n        <Base.Icon className=\"text-[var(--ns-ink-3)]\">\n          {kind === \"field\" ? <ChevronDown className=\"[transition:rotate_160ms_var(--ns-ease)] group-data-popup-open:rotate-180\" /> : <ChevronsUpDown className=\"!size-3\" />}\n        </Base.Icon>\n      </Base.Trigger>\n      <Base.Portal container={portalContainer}>\n        <Base.Positioner alignItemWithTrigger={false} sideOffset={4} collisionPadding={8} className={popupPositioner}>\n          <Base.Popup data-slot=\"select-popup\" data-ns-layer=\"\" data-ns-moves=\"\" className={popupSurface}>\n            <Base.List>\n              {options.map((o) => (\n                <Base.Item key={o.value} value={o.value} disabled={o.disabled} className={popupItem}>\n                  {o.icon}\n                  <Base.ItemText className=\"min-w-0 flex-1 truncate\">{o.label}</Base.ItemText>\n                  {o.hint && <span className=\"text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)]\">{o.hint}</span>}\n                  <Base.ItemIndicator className=\"ml-2 text-[var(--ns-ink)]\">\n                    <Check />\n                  </Base.ItemIndicator>\n                </Base.Item>\n              ))}\n            </Base.List>\n          </Base.Popup>\n        </Base.Positioner>\n      </Base.Portal>\n    </Base.Root>\n  );\n}\n\nexport { Select, type SelectOption, type SelectProps };\n"
+    },
+    {
+      "path": "registry/system/components/popup.ts",
+      "type": "registry:lib",
+      "target": "@lib/notchset/popup.ts",
+      "content": "// Notchset select 2.0.0 · https://notchset.dev/changelog\n/*\n * The one popup surface every list that opens from a control uses (select, combobox, recipient picker, and\n * menus in batch 3): the prototype's .menu. It drops just below its control, and on a phone it becomes a\n * bottom sheet with a grab handle and finger-sized rows. Kept as class strings so each primitive's own parts\n * wear the same look.\n */\n\n/** On the Positioner: above everything but dialogs; on a phone, pinned to the bottom edge as a sheet (above a tab bar\n    when the app sets --ns-sheet-bottom to its height). */\nexport const popupPositioner =\n  \"z-50 outline-hidden max-[600px]:!fixed max-[600px]:!inset-x-2 max-[600px]:!top-auto max-[600px]:!bottom-[calc(var(--ns-sheet-bottom)+env(safe-area-inset-bottom,0px))] max-[600px]:!left-2 max-[600px]:!w-auto max-[600px]:!transform-none\";\n\n/** On the Popup. */\nexport const popupSurface =\n  \"min-w-[max(var(--anchor-width,0px),180px)] max-h-[min(420px,70vh,var(--available-height,70vh))] overflow-auto overscroll-contain rounded-[var(--ns-radius-lg)] bg-[var(--ns-raised)] p-[5px] text-[length:var(--ns-text-body)] text-[var(--ns-ink)] shadow-[0_0_0_1px_var(--ns-line),var(--ns-shadow-float)] outline-hidden origin-[var(--transform-origin)] \" +\n  \"[animation:ns-menu-in_var(--ns-time-menu)_var(--ns-ease)] data-ending-style:opacity-0 data-ending-style:[transition:opacity_110ms_ease] \" +\n  \"max-[600px]:w-auto max-[600px]:min-w-0 max-[600px]:max-h-[70dvh] max-[600px]:rounded-[var(--ns-radius-xl)] max-[600px]:px-1.5 max-[600px]:pt-3.5 max-[600px]:pb-1.5 max-[600px]:[animation:ns-sheet-up_var(--ns-time-panel)_var(--ns-ease-panel)] \" +\n  \"max-[600px]:before:absolute max-[600px]:before:top-[5px] max-[600px]:before:left-1/2 max-[600px]:before:h-1 max-[600px]:before:w-9 max-[600px]:before:-translate-x-1/2 max-[600px]:before:rounded-full max-[600px]:before:bg-[var(--ns-line)] max-[600px]:before:content-['']\";\n\n/** On each item. Highlight (pointer or arrow keys) is the hover wash; the chosen item carries a check. */\nexport const popupItem =\n  \"flex w-full min-h-[var(--ns-menu-row)] cursor-default items-center gap-[9px] rounded-[7px] px-[9px] text-left outline-hidden select-none data-highlighted:bg-[var(--ns-hover)] data-disabled:opacity-45 [&_svg:not([data-slot=company-mark])]:size-3.5 [&_svg]:shrink-0\";\n\n/** The quiet line a list shows when nothing matches. */\nexport const popupEmpty = \"px-[9px] py-2 text-[length:var(--ns-text-small)] text-[var(--ns-ink-3)] empty:hidden\";\n"
+    },
+    {
+      "path": "registry/system/components/portal.ts",
+      "type": "registry:lib",
+      "target": "@lib/notchset/portal.ts",
+      "content": "// Notchset select 2.0.0 · https://notchset.dev/changelog\nimport * as React from \"react\";\n\n/*\n * Where overlays (dialogs, menus, popovers, tooltips, toasts, sheets) portal to. By default the document body; a\n * host that themes or scopes a region (a preview stage, a shadow root, a tile in another theme) wraps it in\n * PortalContainer with an element inside that scope, so its overlays keep the region's roles and light or dark.\n */\nconst PortalContainerContext = React.createContext<HTMLElement | null>(null);\n\nconst PortalContainer = PortalContainerContext.Provider;\n\n/** The element overlays portal into here, or undefined for the document body. */\nfunction usePortalContainer(): HTMLElement | undefined {\n  return React.useContext(PortalContainerContext) ?? undefined;\n}\n\nexport { PortalContainer, PortalContainerContext, usePortalContainer };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

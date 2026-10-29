@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "system-glyph",
+  "type": "registry:ui",
+  "title": "System glyph",
+  "description": "An empty ring is none, a half moon is half, a full disc is all: a shape, not a colour, always beside its count in words.",
+  "categories": [
+    "display"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/system-glyph.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/system-glyph.tsx",
+      "content": "// Notchset system-glyph 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * System glyph: a small circle that fills by the share of a body system's markers in Optimal: an empty ring is none,\n * a half moon is half, a full disc is all. A shape, not a colour (like StatusGlyph), always with its count in words\n * beside it (\"Heart · 4 of 6 optimal\").\n *\n *   <SystemGlyph share={4 / 6} />\n */\nfunction SystemGlyph({ share, size = 14, className }: { share: number; size?: number | undefined; className?: string | undefined }) {\n  const id = React.useId().replace(/[^a-zA-Z0-9]/g, \"\");\n  const r = size / 2 - 1;\n  const s = Math.max(0, Math.min(1, share));\n  return (\n    <svg aria-hidden data-slot=\"system-glyph\" width={size} height={size} viewBox={`0 0 ${size} ${size}`} className={cn(\"shrink-0\", className)}>\n      <defs>\n        <clipPath id={`c${id}`}>\n          <rect x={size / 2 - r} y={0} width={2 * r * s} height={size} />\n        </clipPath>\n      </defs>\n      <circle cx={size / 2} cy={size / 2} r={r} fill=\"var(--ns-ink)\" clipPath={`url(#c${id})`} />\n      <circle cx={size / 2} cy={size / 2} r={r} fill=\"none\" stroke=\"var(--ns-ink)\" strokeWidth={1} />\n    </svg>\n  );\n}\n\nexport { SystemGlyph };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

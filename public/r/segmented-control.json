@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "segmented-control",
+  "type": "registry:ui",
+  "title": "Segmented control",
+  "description": "Two to five views or modes of the same thing (List | Board). The chosen one is raised on a recessed well and one is always chosen. Arrow keys move between options; a count can sit beside a label.",
+  "categories": [
+    "inputs"
+  ],
+  "dependencies": [
+    "@base-ui/react@^1"
+  ],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/segmented-control.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/segmented-control.tsx",
+      "content": "// Notchset segmented-control 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { Toggle } from \"@base-ui/react/toggle\";\nimport { ToggleGroup } from \"@base-ui/react/toggle-group\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Segmented control: two to five views or modes of the same thing (List | Board, This quarter | This year).\n * The chosen one is raised on a recessed well; one is always chosen, so pressing it again does nothing.\n * Arrow keys move between options. A count can sit beside a label.\n */\ntype Option<V extends string> = { value: V; label: React.ReactNode; count?: number | undefined; icon?: React.ReactNode };\ntype SegmentedControlProps<V extends string> = {\n  options: Option<V>[];\n  value: V;\n  onValueChange: (value: V) => void;\n  /** Names the group for screen readers (\"View\"). */\n  label: string;\n  size?: \"default\" | \"sm\" | undefined;\n  className?: string | undefined;\n};\n\nfunction SegmentedControl<V extends string>({ options, value, onValueChange, label, size = \"default\", className }: SegmentedControlProps<V>) {\n  return (\n    <ToggleGroup\n      data-slot=\"segmented-control\"\n      aria-label={label}\n      value={[value]}\n      onValueChange={(next) => {\n        if (next[0]) onValueChange(next[0] as V);\n      }}\n      className={cn(\n        \"inline-flex shrink-0 items-center gap-0.5 rounded-[9px] bg-[var(--ns-well)] shadow-[inset_0_0_0_1px_var(--ns-line)]\",\n        size === \"sm\" ? \"p-0.5\" : \"p-[3px]\",\n        className,\n      )}\n    >\n      {options.map((o) => (\n        <Toggle\n          key={o.value}\n          value={o.value}\n          className={cn(\n            \"inline-flex h-[var(--ns-segment)] cursor-pointer items-center gap-1.5 rounded-[var(--ns-radius)] font-[family-name:var(--ns-font-body)] text-[length:var(--ns-text-small)] font-[number:var(--ns-weight-medium)] whitespace-nowrap text-[var(--ns-ink-3)] outline-hidden [transition:background-color_var(--ns-time-color),color_var(--ns-time-color),box-shadow_var(--ns-time-color)]\",\n            \"hover:text-[var(--ns-ink-2)] focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-[var(--ns-signal)] data-pressed:bg-[var(--ns-raised)] data-pressed:text-[var(--ns-ink)] data-pressed:shadow-[var(--ns-bezel)] [&_svg]:size-3.5\",\n            size === \"sm\" ? \"px-2\" : \"px-[11px]\",\n          )}\n        >\n          {o.icon}\n          {o.label}\n          {o.count !== undefined && <span className=\"font-[family-name:var(--ns-font-display)] text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)] tabular-nums\">{o.count}</span>}\n        </Toggle>\n      ))}\n    </ToggleGroup>\n  );\n}\n\nexport { SegmentedControl, type SegmentedControlProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "combobox",
+  "type": "registry:ui",
+  "title": "Combobox",
+  "description": "Pick one of a long list by typing: the first match is highlighted, so type then Enter picks it. It shows what is chosen when closed and says \"No matches\" rather than an empty box.",
+  "categories": [
+    "inputs"
+  ],
+  "dependencies": [
+    "@base-ui/react@^1",
+    "lucide-react@^1"
+  ],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json",
+    "@notchset/field"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/combobox.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/combobox.tsx",
+      "content": "// Notchset combobox 2.1.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { Combobox as Base } from \"@base-ui/react/combobox\";\nimport { Check, ChevronDown, Plus } from \"lucide-react\";\nimport { cn } from \"@/lib/utils\";\nimport { fieldSurface } from \"@/components/ui/notchset/field\";\nimport { popupEmpty, popupItem, popupPositioner, popupSurface } from \"@/lib/notchset/popup\";\nimport { usePortalContainer } from \"@/lib/notchset/portal\";\n\n/*\n * Combobox: pick one of a long list by typing (a company, an owner). The first match is highlighted, so\n * type-then-Enter picks it. Shows what is chosen when closed; says \"No matches\" rather than an empty box. With\n * `onCreate`, a name that matches nothing exactly is offered as the last item (\"Create “Loom”\"): the host makes\n * the record and returns its value, which is then chosen, so typing a new name never dead-ends.\n */\ntype ComboboxOption = { value: string; label: string; icon?: React.ReactNode; hint?: React.ReactNode };\ntype ComboboxProps = {\n  options: ComboboxOption[];\n  value: string | null;\n  onValueChange: (value: string | null) => void;\n  placeholder?: string | undefined;\n  \"aria-label\"?: string | undefined;\n  disabled?: boolean | undefined;\n  /** Makes a record from the typed name and returns its value (null when refused); offered when nothing matches exactly. */\n  onCreate?: ((name: string) => string | null | undefined) | undefined;\n  className?: string | undefined;\n};\nconst CREATE = \"\\u0000create\";\n\nfunction Combobox({ options, value, onValueChange, placeholder = \"Search…\", disabled, onCreate, className, ...aria }: ComboboxProps) {\n  const portalContainer = usePortalContainer();\n  const [typed, setTyped] = React.useState(\"\");\n  const chosen = options.find((o) => o.value === value) ?? null;\n  const name = typed.trim();\n  const offer = !!onCreate && !!name && !options.some((o) => o.label.toLowerCase() === name.toLowerCase());\n  return (\n    <Base.Root\n      items={offer ? [...options, { value: CREATE, label: name }] : options}\n      value={chosen}\n      onInputValueChange={(v) => setTyped(v)}\n      onValueChange={(o) => {\n        const x = o as ComboboxOption | null;\n        if (x?.value === CREATE) {\n          const made = onCreate!(x.label);\n          if (made) onValueChange(made);\n          return;\n        }\n        onValueChange(x?.value ?? null);\n      }}\n      itemToStringLabel={(o: ComboboxOption) => o.label}\n      isItemEqualToValue={(a: ComboboxOption, b: ComboboxOption) => a.value === b.value}\n      autoHighlight\n      disabled={disabled}\n    >\n      <Base.InputGroup data-slot=\"combobox\" className={cn(fieldSurface, \"flex h-[var(--ns-field)] items-center gap-2 pr-1.5\", className)}>\n        {chosen?.icon && <span className=\"flex shrink-0 [&_svg:not([data-slot=company-mark])]:size-3.5\">{chosen.icon}</span>}\n        <Base.Input placeholder={placeholder} {...aria} className=\"h-full min-w-0 flex-1 bg-transparent outline-hidden placeholder:text-[var(--ns-ink-3)]\" />\n        <Base.Trigger aria-label=\"Show options\" className=\"group grid size-6 cursor-pointer place-items-center rounded-[5px] text-[var(--ns-ink-3)] outline-hidden hover:text-[var(--ns-ink)]\">\n          <ChevronDown className=\"size-3.5 [transition:rotate_160ms_var(--ns-ease)] group-data-popup-open:rotate-180\" />\n        </Base.Trigger>\n      </Base.InputGroup>\n      <Base.Portal container={portalContainer}>\n        <Base.Positioner sideOffset={4} collisionPadding={8} className={popupPositioner}>\n          <Base.Popup data-slot=\"combobox-popup\" data-ns-moves=\"\" className={popupSurface}>\n            <Base.Empty className={popupEmpty}>No matches</Base.Empty>\n            <Base.List>\n              {(o: ComboboxOption) => (\n                <Base.Item key={o.value} value={o} className={popupItem}>\n                  {o.value === CREATE ? <Plus aria-hidden /> : o.icon}\n                  <span className=\"min-w-0 flex-1 truncate\">{o.value === CREATE ? `Create “${o.label}”` : o.label}</span>\n                  {o.hint && <span className=\"text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)]\">{o.hint}</span>}\n                  <Base.ItemIndicator className=\"ml-2\">\n                    <Check />\n                  </Base.ItemIndicator>\n                </Base.Item>\n              )}\n            </Base.List>\n          </Base.Popup>\n        </Base.Positioner>\n      </Base.Portal>\n    </Base.Root>\n  );\n}\n\nexport { Combobox, type ComboboxOption, type ComboboxProps };\n"
+    },
+    {
+      "path": "registry/system/components/popup.ts",
+      "type": "registry:lib",
+      "target": "@lib/notchset/popup.ts",
+      "content": "// Notchset combobox 2.1.0 · https://notchset.dev/changelog\n/*\n * The one popup surface every list that opens from a control uses (select, combobox, recipient picker, and\n * menus in batch 3): the prototype's .menu. It drops just below its control, and on a phone it becomes a\n * bottom sheet with a grab handle and finger-sized rows. Kept as class strings so each primitive's own parts\n * wear the same look.\n */\n\n/** On the Positioner: above everything but dialogs; on a phone, pinned to the bottom edge as a sheet (above a tab bar\n    when the app sets --ns-sheet-bottom to its height). */\nexport const popupPositioner =\n  \"z-50 outline-hidden max-[600px]:!fixed max-[600px]:!inset-x-2 max-[600px]:!top-auto max-[600px]:!bottom-[calc(var(--ns-sheet-bottom)+env(safe-area-inset-bottom,0px))] max-[600px]:!left-2 max-[600px]:!w-auto max-[600px]:!transform-none\";\n\n/** On the Popup. */\nexport const popupSurface =\n  \"min-w-[max(var(--anchor-width,0px),180px)] max-h-[min(420px,70vh,var(--available-height,70vh))] overflow-auto overscroll-contain rounded-[var(--ns-radius-lg)] bg-[var(--ns-raised)] p-[5px] text-[length:var(--ns-text-body)] text-[var(--ns-ink)] shadow-[0_0_0_1px_var(--ns-line),var(--ns-shadow-float)] outline-hidden origin-[var(--transform-origin)] \" +\n  \"[animation:ns-menu-in_var(--ns-time-menu)_var(--ns-ease)] data-ending-style:opacity-0 data-ending-style:[transition:opacity_110ms_ease] \" +\n  \"max-[600px]:w-auto max-[600px]:min-w-0 max-[600px]:max-h-[70dvh] max-[600px]:rounded-[var(--ns-radius-xl)] max-[600px]:px-1.5 max-[600px]:pt-3.5 max-[600px]:pb-1.5 max-[600px]:[animation:ns-sheet-up_var(--ns-time-panel)_var(--ns-ease-panel)] \" +\n  \"max-[600px]:before:absolute max-[600px]:before:top-[5px] max-[600px]:before:left-1/2 max-[600px]:before:h-1 max-[600px]:before:w-9 max-[600px]:before:-translate-x-1/2 max-[600px]:before:rounded-full max-[600px]:before:bg-[var(--ns-line)] max-[600px]:before:content-['']\";\n\n/** On each item. Highlight (pointer or arrow keys) is the hover wash; the chosen item carries a check. */\nexport const popupItem =\n  \"flex w-full min-h-[var(--ns-menu-row)] cursor-default items-center gap-[9px] rounded-[7px] px-[9px] text-left outline-hidden select-none data-highlighted:bg-[var(--ns-hover)] data-disabled:opacity-45 [&_svg:not([data-slot=company-mark])]:size-3.5 [&_svg]:shrink-0\";\n\n/** The quiet line a list shows when nothing matches. */\nexport const popupEmpty = \"px-[9px] py-2 text-[length:var(--ns-text-small)] text-[var(--ns-ink-3)] empty:hidden\";\n"
+    },
+    {
+      "path": "registry/system/components/portal.ts",
+      "type": "registry:lib",
+      "target": "@lib/notchset/portal.ts",
+      "content": "// Notchset combobox 2.1.0 · https://notchset.dev/changelog\nimport * as React from \"react\";\n\n/*\n * Where overlays (dialogs, menus, popovers, tooltips, toasts, sheets) portal to. By default the document body; a\n * host that themes or scopes a region (a preview stage, a shadow root, a tile in another theme) wraps it in\n * PortalContainer with an element inside that scope, so its overlays keep the region's roles and light or dark.\n */\nconst PortalContainerContext = React.createContext<HTMLElement | null>(null);\n\nconst PortalContainer = PortalContainerContext.Provider;\n\n/** The element overlays portal into here, or undefined for the document body. */\nfunction usePortalContainer(): HTMLElement | undefined {\n  return React.useContext(PortalContainerContext) ?? undefined;\n}\n\nexport { PortalContainer, PortalContainerContext, usePortalContainer };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.1.0",
+    "lane": "app"
+  }
+}

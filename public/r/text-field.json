@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-field",
+  "type": "registry:ui",
+  "title": "Text field and text area",
+  "description": "A Field with a native input or textarea in the system's well. Everything a native input takes passes through, so browsers and password managers keep working. Give it a label, or an aria-label.",
+  "categories": [
+    "inputs"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json",
+    "@notchset/field"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/text-field.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/text-field.tsx",
+      "content": "// Notchset text-field 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\nimport { Field, FieldControl, fieldSurface, type FieldProps } from \"@/components/ui/notchset/field\";\n\n/*\n * Text field and text area: a Field with a native input or textarea in the system's well. Everything a native\n * input takes passes through (type, autoComplete, inputMode, required), so browsers and password managers keep\n * working. Give a label; without one, pass aria-label.\n */\ntype Shared = Omit<FieldProps, \"children\" | \"className\"> & { className?: string | undefined; fieldClassName?: string | undefined };\ntype TextFieldProps = Shared & Omit<React.ComponentPropsWithoutRef<\"input\">, \"className\" | \"disabled\" | \"name\">;\ntype TextAreaProps = Shared & Omit<React.ComponentPropsWithoutRef<\"textarea\">, \"className\" | \"disabled\" | \"name\">;\n\nconst TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(function TextField(\n  { label, hint, error, disabled, name, className, fieldClassName, type = \"text\", ...props },\n  ref,\n) {\n  return (\n    <Field label={label} hint={hint} error={error} disabled={disabled} name={name} className={fieldClassName}>\n      <FieldControl ref={ref} type={type} data-slot=\"text-field\" className={cn(fieldSurface, \"h-[var(--ns-field)]\", className)} {...props} />\n    </Field>\n  );\n});\n\nconst TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(function TextArea(\n  { label, hint, error, disabled, name, className, fieldClassName, rows = 4, ...props },\n  ref,\n) {\n  return (\n    <Field label={label} hint={hint} error={error} disabled={disabled} name={name} className={fieldClassName}>\n      <FieldControl\n        render={<textarea ref={ref} rows={rows} />}\n        data-slot=\"text-area\"\n        className={cn(fieldSurface, \"block resize-y p-2.5 leading-[1.5]\", className)}\n        {...(props as React.ComponentPropsWithoutRef<\"input\">)}\n      />\n    </Field>\n  );\n});\n\nexport { TextArea, TextField, type TextAreaProps, type TextFieldProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

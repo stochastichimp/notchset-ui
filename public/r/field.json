@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "field",
+  "type": "registry:ui",
+  "title": "Field",
+  "description": "A label above a control, then a hint or the error, read together. An error marks the control invalid. It also gives every text control the same recessed well and the ink hairline on focus.",
+  "categories": [
+    "inputs"
+  ],
+  "dependencies": [
+    "@base-ui/react@^1"
+  ],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/field.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/field.tsx",
+      "content": "// Notchset field 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { Field as Base } from \"@base-ui/react/field\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Field: a label above a control, then a hint or the error. The label is tied to the control, the hint and\n * error are read with it, and an error marks the control invalid. Every input in the system sits in one.\n *\n * fieldSurface is the well every text control is drawn in (text field, text area, select, combobox, search):\n * a recessed well with a hairline, and on focus an ink hairline with a soft ink halo. Orange is never a focus\n * colour; it means \"where you are\". On touch screens text is 16px so phones do not zoom into the field.\n */\nexport const fieldSurface =\n  \"w-full min-w-0 rounded-[var(--ns-radius)] bg-[var(--ns-well)] px-2.5 font-[family-name:var(--ns-font-body)] text-[length:var(--ns-text-body)] text-[var(--ns-ink)] shadow-[inset_0_0_0_1px_var(--ns-line)] outline-hidden [transition:box-shadow_var(--ns-time-color)] pointer-coarse:text-[16px] [&[type=number]]:[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none \" +\n  \"placeholder:text-[var(--ns-ink-3)] \" +\n  \"focus:shadow-[inset_0_0_0_1px_var(--ns-ink-2),0_0_0_3px_color-mix(in_oklab,var(--ns-ink)_10%,transparent)] focus-within:shadow-[inset_0_0_0_1px_var(--ns-ink-2),0_0_0_3px_color-mix(in_oklab,var(--ns-ink)_10%,transparent)] \" +\n  \"aria-invalid:shadow-[inset_0_0_0_1px_var(--ns-bad)] data-invalid:shadow-[inset_0_0_0_1px_var(--ns-bad)] \" +\n  \"disabled:cursor-default disabled:opacity-45 data-disabled:opacity-45\";\n\ntype FieldProps = {\n  label?: React.ReactNode;\n  hint?: React.ReactNode;\n  /** Shown under the control and read with it; also marks the control invalid. */\n  error?: React.ReactNode;\n  disabled?: boolean | undefined;\n  name?: string | undefined;\n  className?: string | undefined;\n  children: React.ReactNode;\n};\n\nfunction Field({ label, hint, error, disabled, name, className, children }: FieldProps) {\n  return (\n    <Base.Root\n      data-slot=\"field\"\n      invalid={Boolean(error)}\n      disabled={disabled}\n      name={name}\n      className={cn(\"flex min-w-0 flex-col gap-1.5 text-[length:var(--ns-text-small)] text-[var(--ns-ink-2)]\", className)}\n    >\n      {label && <Base.Label className=\"w-fit\">{label}</Base.Label>}\n      {children}\n      {error ? (\n        <Base.Error match className=\"text-[length:var(--ns-text-meta)] text-[var(--ns-bad-ink)]\">\n          {error}\n        </Base.Error>\n      ) : hint ? (\n        <Base.Description className=\"text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)]\">{hint}</Base.Description>\n      ) : null}\n    </Base.Root>\n  );\n}\n\n/** The control slot of a Field: whatever element is rendered gets the label, hint and error wiring. */\nconst FieldControl = Base.Control;\n\nexport { Field, FieldControl, type FieldProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

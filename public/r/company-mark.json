@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "company-mark",
+  "type": "registry:ui",
+  "title": "Company mark",
+  "description": "A company's colour as a rounded square with its initial or its glyph. The colour is the company's own data, the one place a component takes a raw colour; the name sits beside it, so the mark is decoration.",
+  "categories": [
+    "display"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/company-mark.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/company-mark.tsx",
+      "content": "// Notchset company-mark 2.0.0 · https://notchset.dev/changelog\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Company mark: a company's colour as a rounded square with its initial (or its glyph, a 24×24 path). The\n * colour is the company's own data, not a theme role, so it is the one place a component takes a raw colour.\n * The name sits beside it, so the mark is decoration.\n */\ntype CompanyMarkProps = {\n  name: string;\n  color: string;\n  /** An SVG path on a 24×24 grid, drawn in white. Without one, the initial is shown. */\n  glyph?: string | undefined;\n  size?: number | undefined;\n  className?: string | undefined;\n};\n\nfunction CompanyMark({ name, color, glyph, size = 20, className }: CompanyMarkProps) {\n  const rx = ((24 * Math.round(size * 0.28)) / size).toFixed(1);\n  return (\n    <svg data-slot=\"company-mark\" width={size} height={size} viewBox=\"0 0 24 24\" aria-hidden className={cn(\"block shrink-0\", className)}>\n      <rect width=\"24\" height=\"24\" rx={rx} fill={color} />\n      {glyph ? (\n        <>\n          <rect x=\".5\" y=\".5\" width=\"23\" height=\"23\" rx={Math.max(0, Number(rx) - 0.5)} fill=\"none\" stroke=\"white\" strokeOpacity=\".12\" />\n          <path d={glyph} fill=\"white\" transform=\"translate(5.4 5.4) scale(.55)\" />\n        </>\n      ) : (\n        <text x=\"12\" y=\"16.2\" textAnchor=\"middle\" fontFamily=\"Geist, Inter, sans-serif\" fontWeight=\"600\" fontSize=\"12\" fill=\"white\">\n          {name.trim()[0]?.toUpperCase()}\n        </text>\n      )}\n    </svg>\n  );\n}\n\nexport { CompanyMark, type CompanyMarkProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

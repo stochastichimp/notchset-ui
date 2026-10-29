@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "icon-button",
+  "type": "registry:ui",
+  "title": "Icon button",
+  "description": "A square button holding one icon. Its label is required: it is the accessible name and the tooltip a pointer user sees, so the two can never disagree.",
+  "categories": [
+    "actions"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json",
+    "@notchset/button",
+    "@notchset/tooltip"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/icon-button.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/icon-button.tsx",
+      "content": "// Notchset icon-button 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { Button, type ButtonProps } from \"@/components/ui/notchset/button\";\nimport { Tooltip } from \"@/components/ui/notchset/tooltip\";\n\n/*\n * Icon button: a square Button holding one icon. `label` is required: it is the button's accessible name and\n * the tooltip a pointer user sees, so the two can never disagree.\n */\ntype IconButtonProps = Omit<ButtonProps, \"square\" | \"aria-label\"> & { label: string; tooltip?: boolean | undefined };\n\nconst IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton({ label, tooltip = true, ...props }, ref) {\n  const button = <Button ref={ref} square aria-label={label} data-slot=\"icon-button\" {...props} />;\n  return tooltip ? <Tooltip label={label}>{button}</Tooltip> : button;\n});\n\nexport { IconButton, type IconButtonProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

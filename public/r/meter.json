@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "meter",
+  "type": "registry:ui",
+  "title": "Meter",
+  "description": "How much of something is used or done, as a thin bar beside the number that says it. Progress fills in ink, or the ok colour for an achievement; usage warns from 75% and turns bad when full.",
+  "categories": [
+    "charts"
+  ],
+  "dependencies": [],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/meter.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/meter.tsx",
+      "content": "// Notchset meter 2.1.0 · https://notchset.dev/changelog\nimport type * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\n/*\n * Meter: how much of something is used or done, as a thin bar beside the number that says it. The number is\n * always written next to it; the bar is the glance. kind=\"progress\" fills in ink (or the ok colour when it is\n * an achievement); kind=\"usage\" warns from 75% and turns bad when full, so a limit is seen before it is hit.\n */\ntype MeterProps = {\n  value: number;\n  max: number;\n  /** What it measures, read out with the value (\"Seats used\"). */\n  label: string;\n  kind?: \"progress\" | \"usage\" | undefined;\n  /** Progress that is good news (won against target) fills in the ok colour. */\n  good?: boolean | undefined;\n  size?: \"sm\" | \"md\" | undefined;\n  className?: string | undefined;\n};\n\nfunction Meter({ value, max, label, kind = \"progress\", good = false, size = \"sm\", className }: MeterProps) {\n  const pct = max === Infinity || max <= 0 ? 0 : Math.min(100, (value / max) * 100);\n  const state = kind === \"usage\" ? (pct >= 100 ? \"full\" : pct >= 75 ? \"near\" : \"ok\") : good ? \"good\" : \"plain\";\n  /* what it means keeps its colour (full, near, good); a plain amount takes the series violet; every fill has the\n     chart family's finish (rounded, fading back toward its start) */\n  const fill = { full: \"var(--ns-bad)\", near: \"var(--ns-warn)\", ok: \"var(--ns-series)\", good: \"var(--ns-ok)\", plain: \"var(--ns-series)\" }[state];\n  return (\n    <span\n      data-slot=\"meter\"\n      data-state={state}\n      role=\"meter\"\n      aria-label={label}\n      aria-valuenow={value}\n      aria-valuemin={0}\n      aria-valuemax={max === Infinity ? undefined : max}\n      className={cn(\n        \"inline-block shrink-0 rounded-full bg-[var(--ns-line-soft)]\",\n        size === \"sm\" ? \"h-1 w-14\" : \"h-1.5 w-[120px] max-[600px]:w-20\",\n        className,\n      )}\n    >\n      <i data-ns-glide=\"\" data-ns-fill=\"\" className=\"block h-full rounded-full [transition:width_500ms_var(--ns-ease)]\" style={{ width: `${pct}%`, \"--ns-fill\": fill } as React.CSSProperties} />\n    </span>\n  );\n}\n\nexport { Meter, type MeterProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.1.0",
+    "lane": "app"
+  }
+}

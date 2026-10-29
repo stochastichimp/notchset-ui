@@ -1,14 +1,12 @@
-# Example: a team dashboard
+# Example: a sales dashboard
 
-Follows `app-pages.md` (shell, header, widths, states).
+Follows `app-pages.md` (shell, header, lists, states).
 
-1. Shell: stock shadcn Sidebar; content `max-w-[1200px]`, `gap-8` between sections.
-2. Page header: "Overview", one muted line with the date range, one primary action (Button "Invite").
-3. Metrics row: Metric Sparkline tiles (`grid gap-4 sm:grid-cols-2 lg:grid-cols-4`), each saying what
-   changed and over what period.
-4. Trend: a chart from the catalogue (Composed Chart or Focus Lines) in a box.
-5. Records: stock shadcn Table + Pagination with the collection states from `app-pages.md` (loading,
-   first use, filtered empty, load failure with Retry). Use Service Table only if the records are
-   services with health and latency.
-6. Activity: Nested Changelog or a list beside the table on wide screens, below it on phones.
+1. Shell: the `sidebar` and `top-bar` blocks; content on the gutter.
+2. Page header: "Home", one muted line with the period, one primary `Button` ("New deal").
+3. Figures: the `kpi-strip` block, each figure saying what changed and over what period.
+4. Pipeline: the `forecast-bar` block for the quarter, and `team-attainment` for each seller against quota.
+5. Work: the `needs-you` block for what needs the reader today, and `today-agenda` beside it on wide screens,
+   below it on phones.
+6. Records: the `data-table` block with the list states from `app-pages.md`.
 7. Check the page against `checklist.md`.

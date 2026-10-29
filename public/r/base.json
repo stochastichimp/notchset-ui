@@ -1,0 +1,32 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "base",
+  "type": "registry:base",
+  "title": "Notchset base",
+  "description": "A new project set up for Notchset: the theme and its fonts, the foundation every item needs, and the @notchset and @notchset-pro registries in components.json.",
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-theme.json",
+    "https://notchset.dev/r/notchset-foundation.json",
+    "https://notchset.dev/r/notchset-font-body.json",
+    "https://notchset.dev/r/notchset-font-sans.json",
+    "https://notchset.dev/r/notchset-font-mono.json"
+  ],
+  "config": {
+    "registries": {
+      "@notchset": "https://notchset.dev/r/{style}/{name}.json",
+      "@notchset-pro": {
+        "url": "https://notchset.dev/r/pro/{style}/{name}.json",
+        "headers": {
+          "Authorization": "Bearer ${NOTCHSET_TOKEN}"
+        }
+      }
+    }
+  },
+  "docs": "Notchset is set up. Add any free item with @notchset/<id>; Pro items install with @notchset-pro/<id> once NOTCHSET_TOKEN is in .env.local (https://notchset.dev/docs/pro).",
+  "meta": {
+    "tier": "free",
+    "kind": "base",
+    "theme": "notchset"
+  }
+}
