@@ -89,6 +89,8 @@ function Dialog({ open, onOpenChange, title, description, children, verb, noCanc
             }}
             onKeyDown={(e) => {
               if (e.key !== "Enter" || !verb) return;
+              /* a popup layer opened from a field is portalled out of the form but its keys still bubble here (React tree): they are not the form's */
+              if (!e.currentTarget.contains(e.target as Node)) return;
               const go = submits(e, !!verb.danger);
               /* a plain Enter never submits natively: only the cases above do, once */
               if (e.target instanceof HTMLInputElement) e.preventDefault();

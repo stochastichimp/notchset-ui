@@ -26,6 +26,10 @@ type RoutineChecklistItem = {
   note?: string | undefined;
   /** the coach's pick for today: marked, never louder than a word */
   pick?: boolean | undefined;
+  /** a change to this row is on its way to the server: the tick keeps showing what is stored (a dose is not "taken" until it is), and can't be pressed again meanwhile */
+  busy?: boolean | undefined;
+  /** the host's word on this row's save ("Saving…", "Not saved: offline. Retry"), in place of the sub-line */
+  status?: React.ReactNode;
 };
 type RoutineChecklistProps = {
   items: RoutineChecklistItem[];
@@ -48,7 +52,7 @@ function Row({ it, onToggle, onNote }: { it: RoutineChecklistItem; onToggle: Rou
   };
   return (
     <li data-slot="routine-item" data-done={it.done || undefined} className="grid grid-cols-[24px_3.25rem_minmax(0,1fr)_auto] items-start gap-x-3 border-0 border-b-[0.5px] border-[var(--ns-line)] py-3 last:border-b-0 max-[600px]:grid-cols-[24px_minmax(0,1fr)_auto]">
-      <Checkbox tone="done" checked={it.done} onCheckedChange={(v) => onToggle(it.id, !!v)} aria-label={`${it.title}${it.at ? ` at ${it.at}` : ""}: ${it.done ? "done" : "not done"}`} className="mt-0.5" />
+      <Checkbox tone="done" checked={it.done} disabled={it.busy} aria-busy={it.busy || undefined} onCheckedChange={(v) => onToggle(it.id, !!v)} aria-label={`${it.title}${it.at ? ` at ${it.at}` : ""}: ${it.done ? "done" : "not done"}`} className="mt-0.5" />
       <span className="pt-0.5 font-[family-name:var(--ns-font-mono)] text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)] tabular-nums max-[600px]:hidden">{it.at ?? ""}</span>
       <span className="flex min-w-0 flex-col gap-0.5">
         <span className={cn("text-[length:var(--ns-text-body)]", it.done ? "text-[var(--ns-ink-2)]" : "text-[var(--ns-ink)]")}>
@@ -69,11 +73,14 @@ function Row({ it, onToggle, onNote }: { it: RoutineChecklistItem; onToggle: Rou
             </Button>
           </form>
         ) : (
-          sub && <span className={cn("text-[length:var(--ns-text-small)]", it.note ? "text-[var(--ns-ink-2)]" : "text-[var(--ns-ink-3)]")}>{sub}</span>
+          (it.status ?? (sub && <span className={cn("text-[length:var(--ns-text-small)]", it.note ? "text-[var(--ns-ink-2)]" : "text-[var(--ns-ink-3)]")}>{sub}</span>))
         )}
       </span>
-      {onNote && !editing ? (
-        <Button size="sm" variant="ghost" onClick={() => setEditing(true)} aria-label={`${it.note ? "Edit the note" : "Add a note"} on ${it.title}`} className="-mt-1">
+      {onNote && !editing && !it.busy ? (
+        <Button size="sm" variant="ghost" onClick={() => {
+            setDraft(it.note ?? "");
+            setEditing(true);
+          }} aria-label={`${it.note ? "Edit the note" : "Add a note"} on ${it.title}`} className="-mt-1">
           {it.note ? "Edit note" : "Note"}
         </Button>
       ) : (

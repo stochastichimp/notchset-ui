@@ -4,7 +4,7 @@ import * as React from "react";
 import { Combobox as Base } from "@base-ui/react/combobox";
 import { Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { formatTime, parseTime } from "@/lib/notchset/dates";
+import { DEFAULT_LOCALE, formatTime, parseTime } from "@/lib/notchset/dates";
 import { fieldSurface } from "@/components/ui/notchset/field";
 import { popupEmpty, popupItem, popupPositioner, popupSurface } from "@/lib/notchset/popup";
 import { usePortalContainer } from "@/lib/notchset/portal";
@@ -22,6 +22,8 @@ type TimePickerProps = {
   /** One-press times shown as chips (minutes after midnight). */
   suggestions?: number[] | undefined;
   hour12?: boolean | undefined;
+  /** BCP 47 locale for time labels (and the 12/24-hour default); fixed so server and client render the same. Default "en-US". */
+  locale?: string | undefined;
   /** Minutes between listed times. */
   step?: number | undefined;
   className?: string | undefined;
@@ -29,10 +31,10 @@ type TimePickerProps = {
 
 type Slot = { minutes: number; label: string };
 
-function TimePicker({ value, onValueChange, suggestions = [], hour12, step = 15, className, ...aria }: TimePickerProps) {
+function TimePicker({ value, onValueChange, suggestions = [], hour12, locale = DEFAULT_LOCALE, step = 15, className, ...aria }: TimePickerProps) {
   const portalContainer = usePortalContainer();
-  const twelve = hour12 ?? new Intl.DateTimeFormat(undefined, { hour: "numeric" }).resolvedOptions().hour12 ?? false;
-  const fmt = (m: number) => formatTime(m, twelve);
+  const twelve = hour12 ?? new Intl.DateTimeFormat(locale, { hour: "numeric" }).resolvedOptions().hour12 ?? false;
+  const fmt = (m: number) => formatTime(m, twelve, locale);
   const [query, setQuery] = React.useState<string | null>(null);
   const typed = query === null ? null : parseTime(query);
   const all = React.useMemo(() => Array.from({ length: (24 * 60) / step }, (_, i) => i * step), [step]);

@@ -63,9 +63,10 @@ function ShareView({ view, link, people, access: levels, defaultTo = [], onSend,
     setSent([]);
     setCopied(false);
   }
-  const current = React.useRef(share);
+  /* a generation per share change: A, then B, then A again is a new A, so the first A's answer still lands nowhere */
+  const generation = React.useRef(0);
   useIsomorphicLayoutEffect(() => {
-    current.current = share;
+    generation.current += 1;
   }, [share]);
   /* a send belongs to the share it was made from, not to the panel: it outlives Close, its people and access are
      locked while it runs, and when it lands it only folds a panel that is still open, taking focus back to the
@@ -104,11 +105,20 @@ function ShareView({ view, link, people, access: levels, defaultTo = [], onSend,
       if (!a || a === document.body || !!root.current?.contains(a)) pill.current?.focus();
     });
   };
+  const copyGen = React.useRef(0);
+  const copyTimer = React.useRef<ReturnType<typeof setTimeout>>(undefined);
+  React.useEffect(() => {
+    copyGen.current += 1;
+    clearTimeout(copyTimer.current);
+  }, [share]);
+  React.useEffect(() => () => clearTimeout(copyTimer.current), []);
   const copy = async () => {
+    const mine = ++copyGen.current;
     try {
       if (!navigator.clipboard) throw new Error("no clipboard");
       await navigator.clipboard.writeText(link);
     } catch {
+      if (copyGen.current !== mine) return;
       /* not copied, so never "Copied": the link is selected to copy by hand */
       const el = linkText.current, sel = window.getSelection();
       if (el && sel) {
@@ -119,12 +129,14 @@ function ShareView({ view, link, people, access: levels, defaultTo = [], onSend,
       }
       return;
     }
+    if (!alive.current || copyGen.current !== mine) return;
     setCopied(true);
-    setTimeout(() => setCopied(false), 1800);
+    clearTimeout(copyTimer.current);
+    copyTimer.current = setTimeout(() => setCopied(false), 1800);
   };
   const send = async () => {
     if (!to.length || state === "busy") return;
-    const mine = share;
+    const mine = generation.current;
     setState("busy");
     let ok = true;
     try {
@@ -132,7 +144,7 @@ function ShareView({ view, link, people, access: levels, defaultTo = [], onSend,
     } catch {
       ok = false;
     }
-    if (!alive.current || current.current !== mine) return;
+    if (!alive.current || generation.current !== mine) return;
     if (!ok) return setState("failed");
     setState("idle");
     setSent(to);

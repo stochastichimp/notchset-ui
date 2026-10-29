@@ -14,14 +14,14 @@ import { Spinner } from "@/components/ui/notchset/spinner";
  */
 
 const base =
-  "relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap select-none font-[family-name:var(--ns-font-body)] font-[number:var(--ns-weight-medium)] leading-none tracking-[-0.005em] outline-hidden [-webkit-tap-highlight-color:transparent] [transition:background-color_var(--ns-time-color),color_var(--ns-time-color),box-shadow_var(--ns-time-color),filter_var(--ns-time-color),transform_120ms_var(--ns-ease),scale_120ms_var(--ns-ease)] not-disabled:active:scale-[0.97] motion-reduce:active:scale-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ns-signal)] disabled:cursor-default disabled:opacity-45 aria-busy:cursor-progress [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5";
+  "relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap select-none font-[family-name:var(--ns-font-body)] font-[number:var(--ns-weight-medium)] leading-none tracking-[-0.005em] outline-hidden [-webkit-tap-highlight-color:transparent] [transition:background-color_var(--ns-time-color),color_var(--ns-time-color),box-shadow_var(--ns-time-color),filter_var(--ns-time-color),transform_120ms_var(--ns-ease),scale_120ms_var(--ns-ease)] not-disabled:active:scale-[0.97] motion-reduce:active:scale-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ns-signal)] disabled:cursor-default disabled:opacity-45 aria-disabled:cursor-default aria-disabled:opacity-45 aria-disabled:active:scale-100 aria-busy:cursor-progress [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-3.5";
 
 const variants = {
-  secondary: "bg-[var(--ns-raised)] text-[var(--ns-ink)] shadow-[var(--ns-bezel)] hover:not-disabled:bg-[var(--ns-hover)]",
+  secondary: "bg-[var(--ns-raised)] text-[var(--ns-ink)] shadow-[var(--ns-bezel)] hover:not-disabled:not-aria-disabled:bg-[var(--ns-hover)]",
   primary:
-    "px-[max(var(--ns-control-pad),14px)] bg-[linear-gradient(180deg,color-mix(in_oklab,var(--primary)_88%,#fff),var(--primary))] text-[var(--primary-foreground)] shadow-[var(--ns-lift)] hover:not-disabled:brightness-[1.06]",
-  ghost: "bg-transparent text-[var(--ns-ink-3)] hover:not-disabled:bg-[var(--ns-hover)] hover:not-disabled:text-[var(--ns-ink)]",
-  danger: "bg-[color-mix(in_oklab,var(--ns-bad)_86%,black)] text-white hover:not-disabled:bg-[color-mix(in_oklab,var(--ns-bad)_80%,black)]",
+    "px-[max(var(--ns-control-pad),14px)] bg-[linear-gradient(180deg,color-mix(in_oklab,var(--primary)_88%,#fff),var(--primary))] text-[var(--primary-foreground)] shadow-[var(--ns-lift)] hover:not-disabled:not-aria-disabled:brightness-[1.06]",
+  ghost: "bg-transparent text-[var(--ns-ink-3)] hover:not-disabled:not-aria-disabled:bg-[var(--ns-hover)] hover:not-disabled:not-aria-disabled:text-[var(--ns-ink)]",
+  danger: "bg-[color-mix(in_oklab,var(--ns-bad)_86%,black)] text-white hover:not-disabled:not-aria-disabled:bg-[color-mix(in_oklab,var(--ns-bad)_80%,black)]",
 } as const;
 
 const sizes = {

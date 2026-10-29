@@ -2,6 +2,7 @@
 "use client";
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { useLessMotion } from "@/lib/notchset/physics";
 
 /*
  * Line figure: a hairline drawing that means something, in ink at about 70% and 1px, with its construction lines dotted
@@ -63,19 +64,6 @@ export const LINE_FIGURES = {
 } satisfies Record<string, LineShape[]>;
 export type LineFigureName = keyof typeof LINE_FIGURES;
 
-/** Less motion: the device's setting or the page's data-motion="reduced"; false on the server. */
-function useLessMotion() {
-  return React.useSyncExternalStore(
-    (f) => {
-      const q = matchMedia("(prefers-reduced-motion: reduce)");
-      q.addEventListener("change", f);
-      return () => q.removeEventListener("change", f);
-    },
-    () => matchMedia("(prefers-reduced-motion: reduce)").matches || document.documentElement.dataset.motion === "reduced",
-    () => false,
-  );
-}
-
 type LineFigureProps = {
   /** one of the figures that ship */
   figure?: LineFigureName | undefined;
@@ -106,22 +94,25 @@ function LineFigure({ figure = "receipt", shapes, label, still = false, classNam
     /* already on screen when it mounts: it stays as it is, nothing redraws in front of you */
     if (box.top < innerHeight && box.bottom > 0) return;
     setPhase("ready");
+    let raf = 0;
     const io = new IntersectionObserver((es) => {
       if (!es.some((e) => e.isIntersecting)) return;
       io.disconnect();
-      requestAnimationFrame(() => requestAnimationFrame(() => setPhase("drawn")));
+      raf = requestAnimationFrame(() => (raf = requestAnimationFrame(() => setPhase("drawn"))));
     }, { threshold: 0.4 });
     io.observe(el);
-    return () => io.disconnect();
+    return () => (io.disconnect(), cancelAnimationFrame(raf));
   }, [less]);
   const list = shapes ?? LINE_FIGURES[figure];
-  const hidden = phase === "ready";
+  /* less motion shows it whole at once, whatever it was waiting to draw */
+  const view = less ? "rest" : phase;
+  const hidden = view === "ready";
   let i = 0;
   return (
     <svg
       ref={ref}
       data-slot="line-figure"
-      data-phase={phase}
+      data-phase={view}
       viewBox="0 0 200 160"
       role={label ? "img" : undefined}
       aria-label={label}
@@ -137,10 +128,10 @@ function LineFigure({ figure = "receipt", shapes, label, still = false, classNam
         /* a solid stroke draws along its length; a construction line fades in under it */
         const style: React.CSSProperties = dotted
           ? { opacity: hidden ? 0 : 1, transition: "opacity 600ms ease" }
-          : phase === "rest"
+          : view === "rest"
             ? {}
             : { strokeDasharray: 1, strokeDashoffset: hidden ? 1 : 0, transition: `stroke-dashoffset 1200ms cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms` };
-        const props = { strokeWidth: dotted ? (still ? 0.75 : 0.5) : 1, vectorEffect: still ? "non-scaling-stroke" : undefined, strokeDasharray: dotted ? "1 2.5" : undefined, pathLength: dotted || phase === "rest" ? undefined : 1, style };
+        const props = { strokeWidth: dotted ? (still ? 0.75 : 0.5) : 1, vectorEffect: still ? "non-scaling-stroke" : undefined, strokeDasharray: dotted ? "1 2.5" : undefined, pathLength: dotted || view === "rest" ? undefined : 1, style };
         if (s.kind === "circle") return <circle key={k} cx={s.cx} cy={s.cy} r={s.r} {...props} />;
         if (s.kind === "ellipse") return <ellipse key={k} cx={s.cx} cy={s.cy} rx={s.rx} ry={s.ry} {...props} />;
         if (s.kind === "line") return <line key={k} x1={s.x1} y1={s.y1} x2={s.x2} y2={s.y2} {...props} />;

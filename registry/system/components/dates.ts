@@ -36,7 +36,9 @@ export function monthGrid(year: number, month: number, weekStartsOn = 1): Day[] 
   return Array.from({ length: 42 }, (_, i) => addDays(start, i));
 }
 
-export function weekdayNames(weekStartsOn = 1, locale?: string) {
+export const DEFAULT_LOCALE = "en-US";
+
+export function weekdayNames(weekStartsOn = 1, locale = DEFAULT_LOCALE) {
   const f = new Intl.DateTimeFormat(locale, { weekday: "narrow", timeZone: "UTC" });
   const full = new Intl.DateTimeFormat(locale, { weekday: "long", timeZone: "UTC" });
   // 2024-01-07 was a Sunday
@@ -46,16 +48,16 @@ export function weekdayNames(weekStartsOn = 1, locale?: string) {
   });
 }
 
-export function formatDay(d: Day, style: "short" | "medium" | "long" = "medium", locale?: string) {
+export function formatDay(d: Day, style: "short" | "medium" | "long" = "medium", locale = DEFAULT_LOCALE) {
   const opts: Intl.DateTimeFormatOptions =
     style === "short" ? { month: "short", day: "numeric" } : style === "medium" ? { month: "short", day: "numeric", year: "numeric" } : { weekday: "long", month: "long", day: "numeric", year: "numeric" };
   return new Intl.DateTimeFormat(locale, { ...opts, timeZone: "UTC" }).format(toUTC(d));
 }
-export const monthName = (m: number, style: "long" | "short" = "long", locale?: string) =>
+export const monthName = (m: number, style: "long" | "short" = "long", locale = DEFAULT_LOCALE) =>
   new Intl.DateTimeFormat(locale, { month: style, timeZone: "UTC" }).format(Date.UTC(2024, m, 1));
 
 /** "Nov 3 – Dec 31" (one year) or "Nov 3, 2026 – Jan 4, 2027". */
-export function formatRange(a: Day, b: Day, locale?: string) {
+export function formatRange(a: Day, b: Day, locale = DEFAULT_LOCALE) {
   return a.slice(0, 4) === b.slice(0, 4) ? `${formatDay(a, "short", locale)} – ${formatDay(b, "short", locale)}` : `${formatDay(a, "medium", locale)} – ${formatDay(b, "medium", locale)}`;
 }
 
@@ -71,7 +73,19 @@ const weekdayOf = (w: string) => (w.length >= 3 ? DAYNAMES.findIndex((d, i) => d
  * half the world reads them the other way round. A month and day with no year means this year; with `ahead`
  * (a close date, a due date: things still to come) it means the next time that date comes round, never the past.
  */
-export function parseDay(text: string, now: Day = today(), { ahead = false }: { ahead?: boolean } = {}): Day | null {
+export function parseDay(text: string, now: Day = today(), opts: { ahead?: boolean } = {}): Day | null {
+  /* typed digits are unbounded: a result outside the supported years (or a date the engine cannot build) is no date */
+  try {
+    const out = parseDayRaw(text, now, opts);
+    return out && inRange(out) ? out : null;
+  } catch {
+    return null;
+  }
+}
+const inRange = (d: Day) => /^\d{4}-\d{2}-\d{2}$/.test(d) && +d.slice(0, 4) >= MIN_YEAR;
+const MIN_YEAR = 1000;
+
+function parseDayRaw(text: string, now: Day, { ahead = false }: { ahead?: boolean }): Day | null {
   const s = text.trim().toLowerCase().replace(/,/g, " ").replace(/\s+/g, " ");
   if (!s) return null;
   if (s === "today" || s === "now") return now;
@@ -109,7 +123,7 @@ export function parseDay(text: string, now: Day = today(), { ahead = false }: { 
 }
 
 function valid(y: number, m: number, d: number): Day | null {
-  if (m < 0 || m > 11 || d < 1) return null;
+  if (m < 0 || m > 11 || d < 1 || y < MIN_YEAR || y > 9999) return null;
   const out = makeDay(y, m, d);
   return partsOf(out).m === m ? out : null;
 }
@@ -134,6 +148,6 @@ export function parseTime(text: string): number | null {
   return h * 60 + min;
 }
 
-export function formatTime(minutes: number, hour12: boolean, locale?: string) {
+export function formatTime(minutes: number, hour12: boolean, locale = DEFAULT_LOCALE) {
   return new Intl.DateTimeFormat(locale, { hour: "numeric", minute: "2-digit", hour12, timeZone: "UTC" }).format(Date.UTC(2024, 0, 1, 0, minutes));
 }

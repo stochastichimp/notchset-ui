@@ -103,6 +103,7 @@ function InlineEdit({ value, onCommit, label, display, placeholder = "Add", inpu
             setError(null);
           }}
           onKeyDown={(e) => {
+            if (e.nativeEvent.isComposing || e.keyCode === 229) return;
             if (e.key === "Enter") {
               e.preventDefault();
               void commit(true);

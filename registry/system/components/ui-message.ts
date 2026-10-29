@@ -2,11 +2,11 @@
 /*
  * The assistant's shared words and shapes (installs to lib/notchset/ui-message.ts with any piece that reads it).
  *
- * Messages are shaped like the AI SDK's UIMessage (an id, a role and parts: text, reasoning, tool-*, source-url,
- * file, data-*), defined here so a piece needs no runtime dependency: a buyer on the AI SDK passes its messages
+ * Messages are shaped like the AI SDK's UIMessage (an id, a role and parts: text, reasoning, tool-*, dynamic-tool,
+ * source-url, source-document, file, step-start, data-*), defined here so a piece needs no runtime dependency: a buyer on the AI SDK passes its messages
  * straight in. The figures every piece shows (what answered, how much of a window is used, when it resets) are
  * worked out here, once, so the usage meter, the composer's line and the plan card can never read two ways
- * (docs/design/LANGUAGE.md, "One name, one calculation").
+ * ("One name, one calculation").
  */
 
 /* ---------- messages ---------- */
@@ -26,12 +26,32 @@ export type ToolPart = {
 };
 export type SourceUrlPart = { type: "source-url"; sourceId: string; url: string; title?: string | undefined };
 export type FilePart = { type: "file"; mediaType: string; url: string; filename?: string | undefined };
+/** A tool the host registered at run time (the AI SDK's dynamic tool): named by `toolName`, not by its type. */
+export type DynamicToolPart = {
+  type: "dynamic-tool";
+  toolName: string;
+  toolCallId: string;
+  state: ToolState;
+  input?: unknown;
+  output?: unknown;
+  errorText?: string | undefined;
+  title?: string | undefined;
+  approval?: { id: string; approved?: boolean | undefined; reason?: string | undefined } | undefined;
+};
+export type SourceDocumentPart = { type: "source-document"; sourceId: string; mediaType: string; title: string; filename?: string | undefined };
+/** Where one model step began in a multi-step reply: a boundary the SDK writes, nothing to draw. */
+export type StepStartPart = { type: "step-start" };
+/** Provider-specific content and files the model reasoned with: carried through, not drawn. */
+export type CustomPart = { type: "custom"; kind: `${string}.${string}` };
+export type ReasoningFilePart = { type: "reasoning-file"; mediaType: string; url: string };
 export type DataPart = { type: `data-${string}`; id?: string | undefined; data: unknown };
-export type UIMessagePart = TextPart | ReasoningPart | ToolPart | SourceUrlPart | FilePart | DataPart;
+export type UIMessagePart = TextPart | ReasoningPart | ToolPart | DynamicToolPart | SourceUrlPart | SourceDocumentPart | FilePart | ReasoningFilePart | CustomPart | StepStartPart | DataPart;
 
 export type UIMessage<M = unknown> = { id: string; role: "system" | "user" | "assistant"; parts: UIMessagePart[]; metadata?: M | undefined };
 
 export const isToolPart = (p: UIMessagePart): p is ToolPart => p.type.startsWith("tool-");
+/** A tool call as one shape: a dynamic tool becomes `tool-<its name>`; anything else that is not a tool is null. */
+export const toolOf = (p: UIMessagePart): ToolPart | null => (isToolPart(p) ? p : p.type === "dynamic-tool" ? { ...p, type: `tool-${p.toolName}` } : null);
 export const textOf = (m: Pick<UIMessage, "parts">) =>
   m.parts
     .filter((p): p is TextPart => p.type === "text")

@@ -39,7 +39,7 @@ function OverlayChips({ options, value, onValueChange, label = "On the same axis
             key={o.value}
             type="button"
             aria-pressed={on}
-            aria-label={on ? `${o.label} on the chart. Take it off` : `Add ${o.label} to the chart`}
+            aria-label={on ? `${o.label}${o.reading ? ` ${o.reading}` : ""} on the chart. Take it off` : `Add ${o.label} to the chart`}
             onClick={() => onValueChange(on ? null : o.value)}
             className={cn(chip, on ? "bg-[var(--ns-hover)] text-[var(--ns-ink)] shadow-[inset_0_0_0_0.5px_var(--ns-line)]" : "text-[var(--ns-ink-2)] shadow-[inset_0_0_0_0.5px_var(--ns-line)] hover:text-[var(--ns-ink)]")}
           >

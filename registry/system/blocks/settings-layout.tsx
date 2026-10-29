@@ -72,7 +72,7 @@ function SettingsLayout({ nav, current, picked, backHref, title, description, ac
           </React.Fragment>
         ))}
       </nav>
-      {finding ? (
+      {finding && (
         <div className={cn("box-content flex min-w-0 flex-col px-[var(--ns-gutter)] pt-6 pb-16 max-[600px]:pt-2", SETTINGS_COLUMN)}>
           <p aria-live="polite" className="m-0 px-3 pb-2 text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)] tabular-nums">
             {found.length ? `${found.length} ${found.length === 1 ? "setting" : "settings"} for “${q.trim()}”` : `No setting matches “${q.trim()}”.`}
@@ -91,8 +91,9 @@ function SettingsLayout({ nav, current, picked, backHref, title, description, ac
             ))}
           </ul>
         </div>
-      ) : (
-      <div className={cn("box-content flex min-w-0 flex-col gap-5 px-[var(--ns-gutter)] pt-6 pb-16", SETTINGS_COLUMN, !picked && "max-[600px]:hidden")}>
+      )}
+      {/* kept mounted while searching (display none takes it out of the tab order and the reading order), so a draft in a section survives the search */}
+      <div className={cn("box-content min-w-0 flex-col gap-5 px-[var(--ns-gutter)] pt-6 pb-16", finding ? "hidden" : "flex", SETTINGS_COLUMN, !picked && "max-[600px]:hidden")}>
         <a href={backHref} className="-ml-1 hidden h-9 items-center gap-1 self-start rounded-[var(--ns-radius)] px-1 text-[var(--ns-ink-2)] no-underline outline-hidden focus-visible:outline-2 focus-visible:outline-[var(--ns-signal)] max-[600px]:inline-flex">
           <ChevronLeft aria-hidden className="size-4" />
           Settings
@@ -106,7 +107,6 @@ function SettingsLayout({ nav, current, picked, backHref, title, description, ac
         </header>
         {children}
       </div>
-      )}
     </div>
   );
 }

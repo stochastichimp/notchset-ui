@@ -4,13 +4,15 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { ChartHalo, ChartTable, ChartTableToggle, InkLine, useChartWidth } from "@/components/ui/notchset/chart";
 
+const useIsomorphicLayoutEffect = typeof window === "undefined" ? React.useEffect : React.useLayoutEffect;
+
 /*
  * Glucose day: a sensor's day, every 5 minutes, as one luminous line over the target band (a quiet wash, its edges
  * written at the left). Each meal is a grey dot on the line at the time it was eaten, its peak a series dot with the
- * meal and its rise written above ("Lunch +46"); a dose is a small grey diamond at the top with its name. Gaps where the sensor lost
+ * meal and its rise written above ("Lunch +46", or "+46" alone where it would run into the tag before it); a dose is a small grey diamond at the top with its name. Gaps where the sensor lost
  * signal stay open; a day still running stops at now, haloed. The table carries every hour and every meal.
  *
- *   <GlucoseDay label="Glucose, today" values={readings} band={{ low: 70, high: 140 }} format={(v) => `${v} mg/dL`}
+ *   <GlucoseDay label="Glucose, today" values={readings} band={{ low: 70, high: 140 }} format={(v) => `${Math.round(v)} mg/dL`}
  *     meals={[{ at: 98, label: "Breakfast", peak: { at: 104, value: 105, rise: "+19" } }]} doses={[{ at: 96, label: "Semaglutide 0.5 mg" }]} />
  */
 type GlucoseDayMeal = { at: number; label: string; peak?: { at: number; value: number; rise: string } | undefined; back?: string | undefined };
@@ -36,7 +38,7 @@ const clock = (slot: number, step: number) => {
   return `${String(Math.floor(m / 60) % 24).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`;
 };
 
-function GlucoseDay({ values, band, format = String, meals = [], doses = [], step = 5, label, height = 240, className }: GlucoseDayProps) {
+function GlucoseDay({ values, band, format = (v) => String(Math.round(v * 10) / 10), meals = [], doses = [], step = 5, label, height = 240, className }: GlucoseDayProps) {
   const [box, W] = useChartWidth<HTMLDivElement>(720);
   const [table, setTable] = React.useState(false);
   const n = Math.round((24 * 60) / step);
@@ -65,9 +67,38 @@ function GlucoseDay({ values, band, format = String, meals = [], doses = [], ste
   const hours = Array.from({ length: 24 }, (_, h) => {
     const i = Math.round((h * 60) / step);
     const v = values.slice(i, i + Math.round(60 / step)).filter((x): x is number => x != null);
-    return [`${String(h).padStart(2, "0")}:00`, v.length ? format(Math.round(v.reduce((a, b) => a + b, 0) / v.length)) : "—", [...meals.filter((m) => Math.floor((m.at * step) / 60) === h).map((m) => m.label), ...doses.filter((x) => Math.floor((x.at * step) / 60) === h).map((x) => x.label)].join(", ") || ""];
+    return [`${String(h).padStart(2, "0")}:00`, v.length ? format(v.reduce((a, b) => a + b, 0) / v.length) : "—", [...meals.filter((m) => Math.floor((m.at * step) / 60) === h).map((m) => m.label), ...doses.filter((x) => Math.floor((x.at * step) / 60) === h).map((x) => x.label)].join(", ") || ""];
   });
   const clampX = (x: number) => Math.min(W - 48, Math.max(L + 24, x));
+  /* peak tags that would run into the one before them (two meals close together on a phone) say their rise alone
+     ("+26"); the meal is still its grey dot, and the summary and the table name it. Widths come from the tags' mono
+     advance, measured once it's drawn. */
+  const tags = React.useRef<HTMLDivElement>(null);
+  const [advance, setAdvance] = React.useState(7.2);
+  const measure = React.useCallback(() => {
+    const s = tags.current?.querySelector<HTMLElement>("[data-peak]");
+    const a = s && s.textContent ? (s.getBoundingClientRect().width - 8) / s.textContent.length : 0;
+    if (a > 0) setAdvance((was) => (Math.abs(a - was) > 0.05 ? a : was));
+  }, []);
+  useIsomorphicLayoutEffect(measure);
+  /* the mono face can land after the first paint, and it sets the advance */
+  React.useEffect(() => {
+    document.fonts?.addEventListener?.("loadingdone", measure);
+    return () => document.fonts?.removeEventListener?.("loadingdone", measure);
+  }, [measure]);
+  const riseOnly = new Set<number>();
+  let prev: { right: number; top: number } | null = null;
+  for (const m of [...meals].filter((x) => x.peak).sort((a, b) => a.peak!.at - b.peak!.at)) {
+    const cx = clampX(X(m.peak!.at));
+    const top = Y(m.peak!.value) - 20;
+    const width = (text: string) => text.length * advance + 8;
+    let w = width(`${m.label} ${m.peak!.rise}`);
+    if (prev && Math.abs(top - prev.top) < 18 && cx - w / 2 < prev.right + 4) {
+      riseOnly.add(m.at);
+      w = width(m.peak!.rise);
+    }
+    prev = { right: cx + w / 2, top };
+  }
   return (
     <div data-slot="glucose-day" className={cn("flex min-w-0 flex-col gap-2", className)}>
       <div ref={box} role="img" aria-label={summary} className="relative min-w-0" style={{ height }}>
@@ -93,7 +124,7 @@ function GlucoseDay({ values, band, format = String, meals = [], doses = [], ste
           ))}
         </svg>
         {lastI >= 0 && lastI < n - 1 && <ChartHalo x={X(lastI)} y={Y(values[lastI]!)} />}
-        <div aria-hidden className="font-[family-name:var(--ns-font-mono)] text-[length:var(--ns-text-meta)] leading-none text-[var(--ns-ink-3)]">
+        <div ref={tags} aria-hidden className="font-[family-name:var(--ns-font-mono)] text-[length:var(--ns-text-meta)] leading-none text-[var(--ns-ink-3)]">
           {[band.high, band.low].map((v) => (
             <span key={v} className="absolute left-0 -translate-y-1/2 tabular-nums" style={{ top: Y(v) }}>
               {v}
@@ -102,8 +133,8 @@ function GlucoseDay({ values, band, format = String, meals = [], doses = [], ste
           {meals.map(
             (m) =>
               m.peak && (
-                <span key={`p${m.at}`} className="absolute -translate-x-1/2 rounded-[4px] bg-[var(--ns-canvas)] px-1 whitespace-nowrap text-[var(--ns-ink-2)]" style={{ left: clampX(X(m.peak.at)), top: Y(m.peak.value) - 20 }}>
-                  {m.label} {m.peak.rise}
+                <span key={`p${m.at}`} data-peak="" className="absolute -translate-x-1/2 rounded-[4px] bg-[var(--ns-canvas)] px-1 whitespace-nowrap text-[var(--ns-ink-2)]" style={{ left: clampX(X(m.peak.at)), top: Y(m.peak.value) - 20 }}>
+                  {riseOnly.has(m.at) ? m.peak.rise : `${m.label} ${m.peak.rise}`}
                 </span>
               ),
           )}

@@ -9,7 +9,7 @@ import { type Pt, areaPath, niceTicks, smoothPath, stepPath } from "@/lib/notchs
 
 /*
  * Chart: the parts every chart in the system is drawn with, so a burn-up, a week of bars, a cumulative flow and a
- * revenue line read as one family (docs/design/LANGUAGE.md §9, the violet glow: one focus element per chart).
+ * revenue line read as one family (the violet glow: one focus element per chart).
  *
  * - One hue. The measured series is drawn in --ns-series (a calm violet), a smooth 2px line (monotone, so a running
  *   total never dips between two points) with a soft glow under it and the area under it fading from that hue down to

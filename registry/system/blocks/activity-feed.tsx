@@ -5,6 +5,9 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Tabs } from "@/components/ui/notchset/tabs";
 
+/* useLayoutEffect warns during server rendering on React 18; the effect only measures, so the server can skip it. */
+const useIsomorphicLayoutEffect = typeof window === "undefined" ? React.useEffect : React.useLayoutEffect;
+
 /*
  * Activity feed (block 24): what happened on a record, newest first, grouped by day ("Upcoming", "Today",
  * "Oct 16"). Each entry is an icon for its kind, who did it, what, and the time; an email or a note carries
@@ -28,13 +31,31 @@ type ActivityFeedProps<F extends string> = {
 };
 
 function ActivityFeed<F extends string>({ items, filters, filter, onFilterChange, composer, empty, older, className }: ActivityFeedProps<F>) {
+  /*
+   * The tabs stay where they are when a filter shows fewer entries: the list keeps the tallest height it has had, so a
+   * block centred or bottom-aligned by its host never slides. A change of filter keeps the height; an entry really
+   * removed under the same filter lets it settle (the box measures itself, then rests on what it measured).
+   */
+  const [peak, setPeak] = React.useState(0);
+  const list = React.useRef<HTMLOListElement>(null);
+  const was = React.useRef({ filter, height: 0 });
+  useIsomorphicLayoutEffect(() => {
+    const el = list.current;
+    if (el) el.style.minHeight = "";
+    const h = el?.offsetHeight ?? 0;
+    if (el && peak) el.style.minHeight = `${peak}px`;
+    const same = was.current.filter === filter;
+    setPeak((p) => (h > p || (same && h < was.current.height) ? h : p));
+    was.current = { filter, height: h };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- peak is read to restore the box, never a trigger
+  }, [items, filter]);
   return (
     <section data-slot="activity-feed" aria-label="Activity" className={cn("flex min-w-0 flex-col gap-4", className)}>
       <div className="border-b border-[var(--ns-line-soft)] pb-2.5">
         <Tabs label="Activity kinds" value={filter} onValueChange={onFilterChange} tabs={filters} />
       </div>
       {composer}
-      <ol className="m-0 flex list-none flex-col p-0">
+      <ol ref={list} style={{ minHeight: peak || undefined }} className="m-0 flex list-none flex-col p-0">
         {items.length === 0 && <li className="py-2.5 text-[length:var(--ns-text-small)] text-[var(--ns-ink-3)]">{empty}</li>}
         {items.map((a, i) => {
           const head = a.day !== items[i - 1]?.day;

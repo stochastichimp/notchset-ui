@@ -3,7 +3,7 @@
 import * as React from "react";
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { addDays, addMonths, type Day, formatDay, makeDay, monthGrid, monthName, partsOf, sameMonth, today as todayOf, weekday, weekdayNames } from "@/lib/notchset/dates";
+import { DEFAULT_LOCALE, addDays, addMonths, type Day, formatDay, makeDay, monthGrid, monthName, partsOf, sameMonth, today as todayOf, weekday, weekdayNames } from "@/lib/notchset/dates";
 
 /*
  * Calendar: the grid the date pickers share (the prototype's .dpg). Days, then months, then years: press the
@@ -25,6 +25,8 @@ type CalendarProps = {
   min?: Day | undefined;
   max?: Day | undefined;
   weekStartsOn?: number | undefined;
+  /** BCP 47 locale for every date and time label; fixed so server and client render the same. */
+  locale?: string | undefined;
   /** For tests and demos; defaults to the reader's today. */
   today?: Day | undefined;
   className?: string | undefined;
@@ -36,7 +38,7 @@ const chosen = "bg-[var(--ns-ink)] text-[var(--ns-canvas)] hover:bg-[var(--ns-in
 const navBtn =
   "grid size-7 cursor-pointer place-items-center rounded-[7px] text-[var(--ns-ink-2)] shadow-[var(--ns-bezel)] bg-[var(--ns-raised)] outline-hidden hover:bg-[var(--ns-hover)] focus-visible:outline-2 focus-visible:outline-[var(--ns-signal)] pointer-coarse:size-9 [&_svg]:size-3.5";
 
-function Calendar({ value = null, range, onPick, onRangeChange, min, max, weekStartsOn = 1, today, className }: CalendarProps) {
+function Calendar({ value = null, range, onPick, onRangeChange, min, max, weekStartsOn = 1, locale = DEFAULT_LOCALE, today, className }: CalendarProps) {
   const now = today ?? todayOf();
   const anchor = (range ? range.end ?? range.start : value) ?? now;
   const [cursor, setCursor] = React.useState<Day>(anchor);
@@ -46,6 +48,8 @@ function Calendar({ value = null, range, onPick, onRangeChange, min, max, weekSt
   const moved = React.useRef(false);
   const { y, m } = partsOf(cursor);
   const out = (d: Day) => Boolean((min && d < min) || (max && d > max));
+  // the roving tab stop is always an allowed day: the cursor pulled inside min/max (an empty interval has none)
+  const stop = min && max && min > max ? cursor : min && cursor < min ? min : max && cursor > max ? max : cursor;
 
   React.useEffect(() => {
     if (!moved.current) return;
@@ -67,11 +71,11 @@ function Calendar({ value = null, range, onPick, onRangeChange, min, max, weekSt
   };
   const onKey = (e: React.KeyboardEvent) => {
     const k = e.key;
-    const wk = (weekday(cursor) - weekStartsOn + 7) % 7;
+    const wk = (weekday(stop) - weekStartsOn + 7) % 7;
     const to =
-      k === "ArrowLeft" ? addDays(cursor, -1) : k === "ArrowRight" ? addDays(cursor, 1) : k === "ArrowUp" ? addDays(cursor, -7) : k === "ArrowDown" ? addDays(cursor, 7)
-      : k === "PageUp" ? addMonths(cursor, e.shiftKey ? -12 : -1) : k === "PageDown" ? addMonths(cursor, e.shiftKey ? 12 : 1)
-      : k === "Home" ? addDays(cursor, -wk) : k === "End" ? addDays(cursor, 6 - wk) : null;
+      k === "ArrowLeft" ? addDays(stop, -1) : k === "ArrowRight" ? addDays(stop, 1) : k === "ArrowUp" ? addDays(stop, -7) : k === "ArrowDown" ? addDays(stop, 7)
+      : k === "PageUp" ? addMonths(stop, e.shiftKey ? -12 : -1) : k === "PageDown" ? addMonths(stop, e.shiftKey ? 12 : 1)
+      : k === "Home" ? addDays(stop, -wk) : k === "End" ? addDays(stop, 6 - wk) : null;
     if (to) {
       e.preventDefault();
       move(to);
@@ -86,8 +90,8 @@ function Calendar({ value = null, range, onPick, onRangeChange, min, max, weekSt
     <div data-slot="calendar" className={cn("flex w-[252px] flex-col gap-1.5 max-[600px]:w-full", className)}>
       <div className="flex items-center justify-between gap-2 px-0.5 pt-1 pb-2">
         {view === "days" ? (
-          <button type="button" onClick={() => setView("months")} aria-label={`${monthName(m)} ${y}. Choose month and year`} className="inline-flex cursor-pointer items-center gap-1 rounded-[6px] px-1.5 py-1 text-[length:var(--ns-text-body)] font-[number:var(--ns-weight-strong)] outline-hidden hover:bg-[var(--ns-hover)] focus-visible:outline-2 focus-visible:outline-[var(--ns-signal)]">
-            {`${monthName(m)} ${y}`}
+          <button type="button" onClick={() => setView("months")} aria-label={`${monthName(m, "long", locale)} ${y}. Choose month and year`} className="inline-flex cursor-pointer items-center gap-1 rounded-[6px] px-1.5 py-1 text-[length:var(--ns-text-body)] font-[number:var(--ns-weight-strong)] outline-hidden hover:bg-[var(--ns-hover)] focus-visible:outline-2 focus-visible:outline-[var(--ns-signal)]">
+            {`${monthName(m, "long", locale)} ${y}`}
             <ChevronDown className="size-3 text-[var(--ns-ink-3)]" aria-hidden />
           </button>
         ) : (
@@ -107,9 +111,9 @@ function Calendar({ value = null, range, onPick, onRangeChange, min, max, weekSt
       </div>
 
       {view === "days" && (
-        <div ref={grid} role="grid" aria-label={`${monthName(m)} ${y}`} onKeyDown={onKey} onMouseLeave={() => setHover(null)} className="flex flex-col gap-0.5">
+        <div ref={grid} role="grid" aria-label={`${monthName(m, "long", locale)} ${y}`} onKeyDown={onKey} onMouseLeave={() => setHover(null)} className="flex flex-col gap-0.5">
           <div role="row" className="grid grid-cols-7 gap-0.5">
-            {weekdayNames(weekStartsOn).map((w) => (
+            {weekdayNames(weekStartsOn, locale).map((w) => (
               <span key={w.long} role="columnheader" aria-label={w.long} className="text-center text-[length:var(--ns-text-meta)] leading-6 font-[number:var(--ns-weight-medium)] text-[var(--ns-ink-3)]">
                 {w.short}
               </span>
@@ -126,9 +130,9 @@ function Calendar({ value = null, range, onPick, onRangeChange, min, max, weekSt
                   <span key={d} role="gridcell" aria-selected={isOn || between} className={cn(band, band && col === 0 && "rounded-l-[var(--ns-radius)]", band && col === 6 && "rounded-r-[var(--ns-radius)]")}>
                     <button
                       type="button"
-                      tabIndex={d === cursor ? 0 : -1}
+                      tabIndex={d === stop ? 0 : -1}
                       disabled={out(d)}
-                      aria-label={formatDay(d, "long")}
+                      aria-label={formatDay(d, "long", locale)}
                       aria-current={d === now ? "date" : undefined}
                       onClick={() => pick(d)}
                       onMouseEnter={() => setHover(d)}
@@ -157,8 +161,8 @@ function Calendar({ value = null, range, onPick, onRangeChange, min, max, weekSt
             const first = makeDay(y, i, 1);
             const isOn = (value ?? range?.start ?? "").slice(0, 7) === first.slice(0, 7);
             return (
-              <button key={i} type="button" onClick={() => (setCursor(makeDay(y, i, Math.min(partsOf(cursor).d, 28))), setView("days"))} aria-label={`${monthName(i)} ${y}`} className={cn(cell, "h-10", isOn && chosen, now.slice(0, 7) === first.slice(0, 7) && !isOn && "shadow-[inset_0_0_0_1px_var(--ns-line)]")}>
-                {monthName(i, "short")}
+              <button key={i} type="button" onClick={() => (setCursor(makeDay(y, i, Math.min(partsOf(cursor).d, 28))), setView("days"))} aria-label={`${monthName(i, "long", locale)} ${y}`} className={cn(cell, "h-10", isOn && chosen, now.slice(0, 7) === first.slice(0, 7) && !isOn && "shadow-[inset_0_0_0_1px_var(--ns-line)]")}>
+                {monthName(i, "short", locale)}
               </button>
             );
           })}

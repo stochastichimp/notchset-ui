@@ -25,6 +25,17 @@ function SecretReveal({ value, label, note = "Copy it now and keep it somewhere 
   const [copied, setCopied] = React.useState<"" | "yes" | "select">("");
   const timer = React.useRef<ReturnType<typeof setTimeout>>(undefined);
   React.useEffect(() => () => clearTimeout(timer.current), []);
+  /* feedback belongs to the value it was asked for: a new value resets it, and an answer to an older request lands nowhere */
+  const generation = React.useRef(0);
+  const [seen, setSeen] = React.useState(value);
+  if (seen !== value) {
+    setSeen(value);
+    setCopied("");
+  }
+  React.useEffect(() => {
+    generation.current += 1;
+    clearTimeout(timer.current);
+  }, [value]);
   const select = () => {
     const r = document.createRange();
     if (!box.current) return;
@@ -34,10 +45,13 @@ function SecretReveal({ value, label, note = "Copy it now and keep it somewhere 
     s?.addRange(r);
   };
   const copy = async () => {
+    const mine = ++generation.current;
     try {
       await navigator.clipboard.writeText(value);
+      if (generation.current !== mine) return;
       setCopied("yes");
     } catch {
+      if (generation.current !== mine) return;
       select();
       setCopied("select");
     }

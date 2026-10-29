@@ -51,7 +51,7 @@ function WeekBars({ bars, label, avg, avgText, goal, goalText, ceiling, today = 
   /* a sparse axis keeps its labels at least 64px apart, whatever the width */
   const every = labelEvery > 1 ? Math.max(labelEvery, Math.ceil(64 / (bw + gap))) : 1;
   const vals = bars.map((b) => b.value).filter((v): v is number => v != null);
-  const top = ceiling ?? Math.max(floor + 1, ...vals, avg ?? 0) * 1.04;
+  const top = ceiling ?? Math.max(floor + 1, ...vals, avg ?? 0, goal ?? 0) * 1.04;
   const y = (v: number) => height - ((v - floor) / (top - floor)) * height;
   const x = (i: number) => i * (bw + gap);
   const text = (b: WeekBar) => (b.value == null ? "nothing recorded" : (b.text ?? String(b.value)));
@@ -95,12 +95,12 @@ function WeekBars({ bars, label, avg, avgText, goal, goalText, ceiling, today = 
             ),
           )}
           {goal != null && goalText && (
-            <span aria-hidden data-slot="week-bars-goal" className="absolute right-0 font-[family-name:var(--ns-font-mono)] text-[length:var(--ns-text-meta)] leading-none text-[var(--ns-ink-2)]" style={{ top: avg != null && avgText && y(goal) > y(avg) && y(goal) - y(avg) < 16 ? y(goal) + 4 : y(goal) - 14 }}>
+            <span aria-hidden data-slot="week-bars-goal" className="absolute right-0 font-[family-name:var(--ns-font-mono)] text-[length:var(--ns-text-meta)] leading-none text-[var(--ns-ink-2)]" style={{ top: avg != null && avgText && y(goal) > y(avg) && y(goal) - y(avg) < 16 ? y(goal) + 4 : Math.max(0, y(goal) - 14) }}>
               {goalText}
             </span>
           )}
           {avg != null && avgText && (
-            <span aria-hidden data-slot="week-bars-avg" className="absolute right-0 font-[family-name:var(--ns-font-mono)] text-[length:var(--ns-text-meta)] leading-none text-[var(--ns-ink-2)]" style={{ top: goal != null && goalText && y(avg) > y(goal) && y(avg) - y(goal) < 16 ? y(avg) + 4 : y(avg) - 14 }}>
+            <span aria-hidden data-slot="week-bars-avg" className="absolute right-0 font-[family-name:var(--ns-font-mono)] text-[length:var(--ns-text-meta)] leading-none text-[var(--ns-ink-2)]" style={{ top: goal != null && goalText && y(avg) > y(goal) && y(avg) - y(goal) < 16 ? y(avg) + 4 : Math.max(0, y(avg) - 14) }}>
               avg {avgText}
             </span>
           )}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "notchset-font-body",
+  "type": "registry:font",
+  "title": "Notchset sans font (Inter)",
+  "description": "Inter from Google Fonts as --font-inter.",
+  "font": {
+    "family": "Inter",
+    "provider": "google",
+    "import": "Inter",
+    "variable": "--font-inter",
+    "subsets": [
+      "latin"
+    ],
+    "dependency": "@fontsource-variable/inter"
+  },
+  "meta": {
+    "tier": "free",
+    "kind": "font",
+    "theme": "notchset"
+  }
+}

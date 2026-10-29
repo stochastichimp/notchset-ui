@@ -5,7 +5,7 @@ import { Popover } from "@base-ui/react/popover";
 import { CalendarRange } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Calendar, type Range } from "@/components/ui/notchset/calendar";
-import { type Day, formatRange, today as todayOf } from "@/lib/notchset/dates";
+import { DEFAULT_LOCALE, type Day, formatRange, today as todayOf } from "@/lib/notchset/dates";
 import { shortcutItem } from "@/components/ui/notchset/date-picker";
 import { popupPositioner, popupSurface } from "@/lib/notchset/popup";
 import { useReturnFocus } from "@/lib/notchset/return-focus";
@@ -27,17 +27,23 @@ type DateRangePickerProps = {
   placeholder?: string | undefined;
   min?: Day | undefined;
   max?: Day | undefined;
+  /** BCP 47 locale for every date and time label; fixed so server and client render the same. Default "en-US". */
+  locale?: string | undefined;
   today?: Day | undefined;
   className?: string | undefined;
 };
 
-function DateRangePicker({ value, onValueChange, presets = [], placeholder = "Pick dates", min, max, today, className, ...aria }: DateRangePickerProps) {
+/** a range is allowed when it runs forward and sits wholly inside min/max */
+const validRange = (r: { start: Day; end: Day }, min?: Day, max?: Day) => r.start <= r.end && !(min && r.start < min) && !(max && r.end > max);
+
+function DateRangePicker({ value, onValueChange, presets = [], placeholder = "Pick dates", min, max, locale = DEFAULT_LOCALE, today, className, ...aria }: DateRangePickerProps) {
   const portalContainer = usePortalContainer();
   const now = today ?? todayOf();
   const [open, setOpen] = React.useState(false);
   const returnFocus = useReturnFocus();
   const preset = value && presets.find((p) => p.start === value.start && p.end === value.end);
   const done = (r: DateRange) => {
+    if (!validRange(r, min, max)) return;
     onValueChange(r);
     setOpen(false);
   };
@@ -54,7 +60,7 @@ function DateRangePicker({ value, onValueChange, presets = [], placeholder = "Pi
         <CalendarRange />
         {value ? (
           <span className="tabular-nums">
-            {preset ? <>{preset.label} <span className="ml-1 font-[number:var(--ns-weight-regular)] text-[var(--ns-ink-3)]">{formatRange(value.start, value.end)}</span></> : formatRange(value.start, value.end)}
+            {preset ? <>{preset.label} <span className="ml-1 font-[number:var(--ns-weight-regular)] text-[var(--ns-ink-3)]">{formatRange(value.start, value.end, locale)}</span></> : formatRange(value.start, value.end, locale)}
           </span>
         ) : (
           <span className="text-[var(--ns-ink-3)]">{placeholder}</span>
@@ -64,7 +70,7 @@ function DateRangePicker({ value, onValueChange, presets = [], placeholder = "Pi
         <Popover.Positioner sideOffset={4} collisionPadding={8} align="end" className={popupPositioner}>
           <Popover.Popup data-slot="date-range-popup" data-ns-layer="" data-ns-moves="" finalFocus={returnFocus} className={cn(popupSurface, "flex gap-2 p-2 max-[600px]:flex-col")}>
             <Popover.Title className="sr-only">{aria["aria-label"] ?? "Pick a date range"}</Popover.Title>
-            <RangeBody key={value ? `${value.start}:${value.end}` : "none"} value={value} presets={presets} now={now} min={min} max={max} onDone={done} />
+            <RangeBody locale={locale} key={value ? `${value.start}:${value.end}` : "none"} value={value} presets={presets} now={now} min={min} max={max} onDone={done} />
           </Popover.Popup>
         </Popover.Positioner>
       </Popover.Portal>
@@ -72,7 +78,7 @@ function DateRangePicker({ value, onValueChange, presets = [], placeholder = "Pi
   );
 }
 
-function RangeBody({ value, presets, now, min, max, onDone }: { value: DateRange | null; presets: Preset[]; now: Day; min?: Day | undefined; max?: Day | undefined; onDone: (r: DateRange) => void }) {
+function RangeBody({ locale, value, presets, now, min, max, onDone }: { locale: string; value: DateRange | null; presets: Preset[]; now: Day; min?: Day | undefined; max?: Day | undefined; onDone: (r: DateRange) => void }) {
   const [draft, setDraft] = React.useState<Range>(value ?? { start: null, end: null });
   return (
     <>
@@ -80,10 +86,10 @@ function RangeBody({ value, presets, now, min, max, onDone }: { value: DateRange
         <>
           <div className="flex w-[200px] shrink-0 flex-col gap-0.5 max-[600px]:w-full">
             {presets.map((p) => (
-              <button key={p.label} type="button" aria-pressed={value?.start === p.start && value?.end === p.end} onClick={() => onDone({ start: p.start, end: p.end })} className={cn(shortcutItem, "py-1.5")}>
+              <button key={p.label} type="button" disabled={!validRange(p, min, max)} aria-pressed={value?.start === p.start && value?.end === p.end} onClick={() => onDone({ start: p.start, end: p.end })} className={cn(shortcutItem, "py-1.5 disabled:opacity-45")}>
                 <span className="flex min-w-0 flex-col gap-px">
                   <span className="font-[number:var(--ns-weight-medium)]">{p.label}</span>
-                  <span className="text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)] tabular-nums">{formatRange(p.start, p.end)}</span>
+                  <span className="text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)] tabular-nums">{formatRange(p.start, p.end, locale)}</span>
                 </span>
               </button>
             ))}
@@ -92,7 +98,7 @@ function RangeBody({ value, presets, now, min, max, onDone }: { value: DateRange
               <div aria-current="true" className={cn(shortcutItem, "cursor-default bg-[var(--ns-selected)] py-1.5 hover:bg-[var(--ns-selected)]")}>
                 <span className="flex min-w-0 flex-col gap-px">
                   <span className="font-[number:var(--ns-weight-medium)]">Custom</span>
-                  <span className="text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)] tabular-nums">{formatRange(value.start, value.end)}</span>
+                  <span className="text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)] tabular-nums">{formatRange(value.start, value.end, locale)}</span>
                 </span>
               </div>
             )}
@@ -103,6 +109,7 @@ function RangeBody({ value, presets, now, min, max, onDone }: { value: DateRange
       <div className="flex flex-col gap-1">
         <Calendar
           range={draft}
+          locale={locale}
           today={now}
           min={min}
           max={max}

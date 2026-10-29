@@ -31,8 +31,9 @@ function CheckList({ items, words, short, className }: CheckListProps) {
               <b className={cn("font-[number:var(--ns-weight-medium)]", INK[c.level])}>{c.label}</b>
               <small className="text-[length:var(--ns-text-small)] text-[var(--ns-ink-3)]">
                 {c.value}
-                {/* a passing check's tick already says it; only what needs someone is spelled out */}
-                {!short && c.level !== "pass" && ` · ${words?.[c.level] ?? WORDS[c.level]}`}
+                {/* the icon is hidden from a screen reader, so every level is also said in words: shown for what needs someone,
+                    spoken only for a pass (and in the short layout, where only the checks that need someone are listed) */}
+                {c.level !== "pass" && !short ? ` · ${words?.[c.level] ?? WORDS[c.level]}` : <span className="sr-only"> · {words?.[c.level] ?? WORDS[c.level]}</span>}
               </small>
             </span>
           </li>
@@ -43,7 +44,7 @@ function CheckList({ items, words, short, className }: CheckListProps) {
 }
 
 /** The rules a thing breaks, as small tags ("Up to 20% off", "Net 60"); "Within policy" when none. */
-function AskTags({ items, className }: { items: { key: string; value: string; level: CheckLevel }[]; className?: string | undefined }) {
+function AskTags({ items, words, className }: { items: { key: string; value: string; level: CheckLevel }[]; words?: Partial<Record<CheckLevel, string>> | undefined; className?: string | undefined }) {
   const asks = items.filter((c) => c.level !== "pass");
   if (!asks.length) return <span className={cn("text-[var(--ns-ink-3)]", className)}>Within policy</span>;
   return (
@@ -51,6 +52,7 @@ function AskTags({ items, className }: { items: { key: string; value: string; le
       {asks.map((c) => (
         <span key={c.key} className={cn("inline-flex h-[22px] items-center rounded-[6px] px-2 text-[length:var(--ns-text-meta)] font-[number:var(--ns-weight-medium)] whitespace-nowrap", c.level === "fail" ? "bg-[color-mix(in_oklab,var(--ns-bad)_var(--ns-tint),transparent)] text-[var(--ns-bad-ink)]" : "bg-[color-mix(in_oklab,var(--ns-warn)_var(--ns-tint),transparent)] text-[color-mix(in_oklab,var(--ns-warn)_var(--ns-tint-ink),var(--ns-ink))]")}>
           {c.value}
+          <span className="sr-only"> · {words?.[c.level] ?? WORDS[c.level]}</span>
         </span>
       ))}
     </span>

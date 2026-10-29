@@ -1,0 +1,34 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "help-menu",
+  "type": "registry:ui",
+  "title": "Help menu",
+  "description": "Help lives where people look for themselves: one config adds Help, with F1, and Contact support (mail or a page) to the account menu, and the same rows to a phone's account sheet. A part left unset isn't drawn.",
+  "categories": [
+    "navigation"
+  ],
+  "dependencies": [
+    "lucide-react@^1"
+  ],
+  "registryDependencies": [
+    "utils",
+    "https://notchset.dev/r/notchset-foundation.json",
+    "@notchset/bottom-sheet",
+    "@notchset/menu"
+  ],
+  "files": [
+    {
+      "path": "registry/system/components/help-menu.tsx",
+      "type": "registry:ui",
+      "target": "@ui/notchset/help-menu.tsx",
+      "content": "// Notchset help-menu 2.0.0 · https://notchset.dev/changelog\n\"use client\";\nimport * as React from \"react\";\nimport { CircleHelp, LifeBuoy } from \"lucide-react\";\nimport { SheetItem } from \"@/components/ui/notchset/bottom-sheet\";\nimport { MenuItem } from \"@/components/ui/notchset/menu\";\n\n/*\n * Help menu: Help lives where people already look for themselves, in the account menu beside Keyboard shortcuts.\n * One config adds \"Help\" (with F1) and \"Contact support\"; leave a part unset and its item isn't drawn.\n *\n *   const help: HelpConfig = { url: \"https://docs.example.com\", support: { email: \"help@example.com\" } };\n *   useHelpShortcut(help);\n *   <Menu trigger={me}>… <MenuItem>Keyboard shortcuts</MenuItem> <HelpMenuItems help={help} /> <MenuSeparator /> …</Menu>\n *\n * On a phone the account sheet takes HelpSheetItems. Point-of-use explanations are Explain (components/explain.tsx).\n */\n\nexport type HelpConfig = {\n  /** The help centre, opened in a new tab. */\n  url?: string | undefined;\n  /** Opens help in the app instead (a panel, a chat); wins over url. */\n  onOpen?: (() => void) | undefined;\n  /** Where Contact support goes: an address (opens mail) or a page. */\n  support?: { email?: string | undefined; url?: string | undefined } | undefined;\n  /** The key that opens Help; false binds none. Defaults to F1. */\n  shortcut?: \"F1\" | false | undefined;\n};\n\nconst open = (url: string) => {\n  if (typeof window !== \"undefined\") window.open(url, \"_blank\", \"noopener,noreferrer\");\n};\n\n/** What each item does, or undefined when the config leaves it out. */\nexport function helpActions(help: HelpConfig | undefined) {\n  const openHelp = help?.onOpen ?? (help?.url ? () => open(help.url!) : undefined);\n  const s = help?.support;\n  const contact = s?.url ? () => open(s.url!) : s?.email ? () => open(`mailto:${s.email}`) : undefined;\n  return { openHelp, contact };\n}\n\n/** Binds the Help key (F1) while mounted, when help is configured. */\nexport function useHelpShortcut(help: HelpConfig | undefined) {\n  const { openHelp } = helpActions(help);\n  const key = help?.shortcut ?? \"F1\";\n  const latest = React.useRef(openHelp);\n  React.useEffect(() => {\n    latest.current = openHelp;\n  });\n  const on = !!openHelp && key !== false;\n  React.useEffect(() => {\n    if (!on) return;\n    const down = (e: KeyboardEvent) => {\n      if (e.key !== key || e.isComposing || e.metaKey || e.ctrlKey || e.altKey) return;\n      e.preventDefault();\n      latest.current?.();\n    };\n    window.addEventListener(\"keydown\", down);\n    return () => window.removeEventListener(\"keydown\", down);\n  }, [on, key]);\n}\n\ntype HelpMenuItemsProps = {\n  help: HelpConfig | undefined;\n};\n\n/** Help and Contact support, for the account menu; nothing when the config leaves them out. */\nfunction HelpMenuItems({ help }: HelpMenuItemsProps) {\n  const { openHelp, contact } = helpActions(help);\n  const key = help?.shortcut ?? \"F1\";\n  return (\n    <>\n      {openHelp && (\n        <MenuItem data-slot=\"help-menu\" icon={<CircleHelp aria-hidden />} shortcut={key || undefined} onClick={openHelp}>\n          Help\n        </MenuItem>\n      )}\n      {contact && (\n        <MenuItem icon={<LifeBuoy aria-hidden />} onClick={contact}>\n          Contact support\n        </MenuItem>\n      )}\n    </>\n  );\n}\n\n/** The same two items as finger-sized rows, for a phone's account sheet. */\nfunction HelpSheetItems({ help, onDone }: HelpMenuItemsProps & { onDone?: (() => void) | undefined }) {\n  const { openHelp, contact } = helpActions(help);\n  return (\n    <>\n      {openHelp && (\n        <SheetItem icon={<CircleHelp aria-hidden />} onClick={() => (onDone?.(), openHelp())}>\n          Help\n        </SheetItem>\n      )}\n      {contact && (\n        <SheetItem icon={<LifeBuoy aria-hidden />} onClick={() => (onDone?.(), contact())}>\n          Contact support\n        </SheetItem>\n      )}\n    </>\n  );\n}\n\nexport { HelpMenuItems, HelpSheetItems, type HelpMenuItemsProps };\n"
+    }
+  ],
+  "meta": {
+    "kind": "component",
+    "source": "system",
+    "tier": "free",
+    "version": "2.0.0",
+    "lane": "app"
+  }
+}

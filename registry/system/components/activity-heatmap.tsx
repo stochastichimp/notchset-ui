@@ -39,7 +39,12 @@ function ActivityHeatmap({ weeks, labels, label, unit = (n) => `${n} ${n === 1 ?
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
-  const most = Math.max(1, ...weeks.flat().map((v) => v ?? 0));
+  /* the real busiest day (for the spoken summary) is not the colour denominator (never below 1, so a zero stays pale);
+     with no day known at all (no weeks, or only days still to come) there is nothing to read, so it is not a control */
+  const known = weeks.flat().filter((v): v is number => v != null);
+  const empty = known.length === 0;
+  const busiest = Math.max(0, ...known);
+  const most = Math.max(1, busiest);
   const level = (v: number | null) => (v == null ? -1 : v === 0 ? 0 : Math.min(4, Math.ceil((v / most) * 4)));
   /* a sequential green ramp, light to dark: the heat role (the Done green) mixed into the surface in four validated
      steps, light and dark (LANGUAGE.md §9) */
@@ -69,14 +74,15 @@ function ActivityHeatmap({ weeks, labels, label, unit = (n) => `${n} ${n === 1 ?
     <div data-slot="activity-heatmap" className={cn("flex min-w-0 flex-col gap-2", className)}>
       <div
         ref={grid}
-        role="slider"
-        tabIndex={0}
-        aria-label={`${label}. Arrow keys read each day.`}
-        aria-valuemin={0}
-        aria-valuemax={n * 5 - 1}
-        aria-valuenow={cur ? cur[0] * 5 + cur[1] : n * 5 - 1}
-        aria-valuetext={cur && at != null ? `${labels[cur[0]]?.[cur[1]] ?? ""}: ${unit(at)}` : `${n} weeks; the busiest day had ${unit(most)}`}
+        role={empty ? "img" : "slider"}
+        tabIndex={empty ? undefined : 0}
+        aria-label={empty ? `${label}. No activity recorded yet.` : `${label}. Arrow keys read each day.`}
+        aria-valuemin={empty ? undefined : 0}
+        aria-valuemax={empty ? undefined : n * 5 - 1}
+        aria-valuenow={empty ? undefined : cur ? cur[0] * 5 + cur[1] : n * 5 - 1}
+        aria-valuetext={empty ? undefined : cur && at != null ? `${labels[cur[0]]?.[cur[1]] ?? ""}: ${unit(at)}` : `${n} weeks; the busiest day had ${unit(busiest)}`}
         onKeyDown={(e) => {
+          if (empty) return;
           const d = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key] as [number, number] | undefined;
           if (e.key === "Escape") return setCur(null);
           if (!d) return;
@@ -101,7 +107,7 @@ function ActivityHeatmap({ weeks, labels, label, unit = (n) => `${n} ${n === 1 ?
               <i
                 key={`${w}-${d}`}
                 aria-hidden
-                onPointerEnter={() => v != null && setCur([w, d])}
+                onPointerEnter={() => v != null && !empty && setCur([w, d])}
                 className={cn("block rounded-[3px]", l < 0 ? "opacity-50 shadow-[inset_0_0_0_1px_var(--ns-line-soft)]" : l === 0 ? "bg-[var(--ns-well)] shadow-[inset_0_0_0_1px_var(--ns-line-soft)]" : "", on && "shadow-[0_0_0_1.5px_var(--ns-ink)]")}
                 style={{ gridColumn: w + 2, gridRow: d + 1, ...fill(l) }}
               />

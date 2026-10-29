@@ -35,6 +35,8 @@ type SignToCloseProps = {
   format: (v: number) => string;
   /** the host's save; reject (or resolve false) to refuse it */
   onSign?: ((sig: Signature) => Promise<boolean | void> | boolean | void) | undefined;
+  /** which deal this is; given another, the form starts open and the first deal's answer lands nowhere (left out, key the form by the deal) */
+  dealId?: string | undefined;
   /** a demo's "Sign again", which clears the signature and reopens the deal */
   replay?: boolean | undefined;
   className?: string | undefined;
@@ -54,12 +56,26 @@ function path(s: [number, number][]) {
   return `${d}L${lx} ${ly}`;
 }
 
-function SignToClose({ company, color, title, stage, lines, signer, format, onSign, replay = false, className }: SignToCloseProps) {
+function SignToClose({ company, color, title, stage, lines, signer, format, onSign, dealId, replay = false, className }: SignToCloseProps) {
   const [strokes, setStrokes] = React.useState<[number, number][][]>([]);
   const [typing, setTyping] = React.useState(false);
   const [typed, setTyped] = React.useState(signer);
   const [state, setState] = React.useState<"open" | "busy" | "won" | "failed">("open");
   const [traced, setTraced] = React.useState(0);
+  /* a generation per deal: a save still on its way for the deal before lands nowhere */
+  const [deal, setDeal] = React.useState(dealId);
+  const generation = React.useRef(0);
+  if (deal !== dealId) {
+    setDeal(dealId);
+    setStrokes([]);
+    setTyping(false);
+    setTyped(signer);
+    setState("open");
+    setTraced(0);
+  }
+  React.useEffect(() => {
+    generation.current += 1;
+  }, [dealId]);
   /* the one pointer drawing, if any: a second finger or pen draws nothing, and Clear, Undo, Type and Sign end the
      stroke in progress, so a later move can't add ink to a cleared pad or to a signature already sent */
   const pen = React.useRef<number | null>(null);
@@ -79,12 +95,14 @@ function SignToClose({ company, color, title, stage, lines, signer, format, onSi
     if (!ready || locked) return;
     end();
     setState("busy");
+    const mine = generation.current;
     let ok = true;
     try {
       ok = (await onSign?.(typing ? { kind: "typed", name: typed.trim() } : { kind: "drawn", strokes })) !== false;
     } catch {
       ok = false;
     }
+    if (generation.current !== mine) return;
     setState(ok ? "won" : "failed");
     if (ok) setTraced((n) => n + 1);
   };

@@ -1,6 +1,6 @@
 # Notchset: free React components and blocks for shadcn/ui
 
-97 components and 16 blocks for shadcn/ui and React, free under the MIT license: the open part of **Notchset**, complete application UI for shadcn/ui. The finished app templates (CRM, Task Management, Assistant, Health, and Launch) and the app blocks they're built from are Pro, at [notchset.dev/pricing](https://notchset.dev/pricing).
+101 components and 16 blocks for shadcn/ui and React, free under the MIT license: the open part of **Notchset**, complete application UI for shadcn/ui. The finished app templates (CRM, Task Management, Assistant + Launch site and Health) and the app blocks they're built from are Pro, at [notchset.dev/pricing](https://notchset.dev/pricing).
 
 [Website](https://notchset.dev) · [Components](https://notchset.dev/components) · [Docs](https://notchset.dev/docs/installation) · [Pricing](https://notchset.dev/pricing) · [llms.txt](https://notchset.dev/llms.txt) for AI agents
 
@@ -50,6 +50,7 @@ Components land in `components/ui/notchset/` as source you own; the first instal
 | [Breadcrumb and back](https://notchset.dev/components/breadcrumb) | Where a page sits, said once; one Back on a phone. | `npx shadcn@latest add https://notchset.dev/r/breadcrumb.json` |
 | [Button](https://notchset.dev/components/button) | The one action shape: secondary, primary, ghost, danger. | `npx shadcn@latest add https://notchset.dev/r/button.json` |
 | [Calendar](https://notchset.dev/components/calendar) | The month grid the date pickers share; months and years a press away. | `npx shadcn@latest add https://notchset.dev/r/calendar.json` |
+| [Capability](https://notchset.dev/components/capability) | Unsupported isn't drawn; unavailable is disabled with its reason. | `npx shadcn@latest add https://notchset.dev/r/capability.json` |
 | [Card](https://notchset.dev/components/card) | A section of a page on the panel surface. | `npx shadcn@latest add https://notchset.dev/r/card.json` |
 | [Chart](https://notchset.dev/components/chart) | The parts every chart is drawn with, in the ink style. | `npx shadcn@latest add https://notchset.dev/r/chart.json` |
 | [Checkbox](https://notchset.dev/components/checkbox) | A box you tick; tone done fills green and pops once. | `npx shadcn@latest add https://notchset.dev/r/checkbox.json` |
@@ -63,6 +64,7 @@ Components land in `components/ui/notchset/` as source you own; the first instal
 | [Dialog](https://notchset.dev/components/dialog) | One focused step that needs an answer before you go on. | `npx shadcn@latest add https://notchset.dev/r/dialog.json` |
 | [Draw history](https://notchset.dev/components/draw-history) | A lab value's standing bar over its draws as large dated dots on a calm line. | `npx shadcn@latest add https://notchset.dev/r/draw-history.json` |
 | [Empty state](https://notchset.dev/components/empty-state) | What goes here, and the one way to fill it. | `npx shadcn@latest add https://notchset.dev/r/empty-state.json` |
+| [Explain](https://notchset.dev/components/explain) | A quiet ? beside a hard term: what it means, counts and doesn't. | `npx shadcn@latest add https://notchset.dev/r/explain.json` |
 | [Field](https://notchset.dev/components/field) | A label above a control, then a hint or the error. | `npx shadcn@latest add https://notchset.dev/r/field.json` |
 | [Filter button](https://notchset.dev/components/filter-button) | One facet of a list: dashed until used, then solid with a count. | `npx shadcn@latest add https://notchset.dev/r/filter-button.json` |
 | [Flood tile](https://notchset.dev/components/flood-tile) | A page's one key figure, filled with the Signature. | `npx shadcn@latest add https://notchset.dev/r/flood-tile.json` |
@@ -70,6 +72,7 @@ Components land in `components/ui/notchset/` as source you own; the first instal
 | [Glance tile](https://notchset.dev/components/glance-tile) | One reading at a glance: a status, one small visual, a value, a way in. | `npx shadcn@latest add https://notchset.dev/r/glance-tile.json` |
 | [Glucose day](https://notchset.dev/components/glucose-day) | A glucose sensor's day over the target band, each meal's peak marked. | `npx shadcn@latest add https://notchset.dev/r/glucose-day.json` |
 | [Goal cumulative](https://notchset.dev/components/goal-cumulative) | A running total through the week against its goal line, last week as a ghost. | `npx shadcn@latest add https://notchset.dev/r/goal-cumulative.json` |
+| [Help menu](https://notchset.dev/components/help-menu) | Help (F1) and Contact support in the account menu, from one config. | `npx shadcn@latest add https://notchset.dev/r/help-menu.json` |
 | [Hover momentum](https://notchset.dev/components/hover-momentum) | A card's recent activity, only when you ask. | `npx shadcn@latest add https://notchset.dev/r/hover-momentum.json` |
 | [Hue mesh](https://notchset.dev/components/hue-mesh) | A tile lit by its identity hue, from one corner. | `npx shadcn@latest add https://notchset.dev/r/hue-mesh.json` |
 | [Icon button](https://notchset.dev/components/icon-button) | A square button with one icon and a required label. | `npx shadcn@latest add https://notchset.dev/r/icon-button.json` |
@@ -87,6 +90,7 @@ Components land in `components/ui/notchset/` as source you own; the first instal
 | [Night dot row](https://notchset.dev/components/night-dot-row) | Seven nights as dots; choose one and the page follows. | `npx shadcn@latest add https://notchset.dev/r/night-dot-row.json` |
 | [Night ribbon](https://notchset.dev/components/night-ribbon) | A night's stages stacked by depth, the longest deep stretch lit. | `npx shadcn@latest add https://notchset.dev/r/night-ribbon.json` |
 | [Night tags](https://notchset.dev/components/night-tags) | What was tagged on a night, with one cited finding. | `npx shadcn@latest add https://notchset.dev/r/night-tags.json` |
+| [Operation](https://notchset.dev/components/operation) | Saving, saved, or why not, with Retry: one lifecycle per change. | `npx shadcn@latest add https://notchset.dev/r/operation.json` |
 | [Orb](https://notchset.dev/components/orb) | The assistant's lamp: what it is doing, with a word under it. | `npx shadcn@latest add https://notchset.dev/r/orb.json` |
 | [Overlay chips](https://notchset.dev/components/overlay-chips) | Add one second signal to a trend's time axis, never a second axis. | `npx shadcn@latest add https://notchset.dev/r/overlay-chips.json` |
 | [Person card](https://notchset.dev/components/person-card) | Who someone is, on hover or focus of their face or name. | `npx shadcn@latest add https://notchset.dev/r/person-card.json` |
@@ -161,8 +165,18 @@ Components land in `components/ui/notchset/` as source you own; the first instal
 ## What's here
 
 - `registry/`: the source of every free item, with the foundation, the theme and the shared helpers it uses.
-- `public/r/`: the same items as shadcn registry JSON, ready to serve from your own host.
+- `public/r/`: the same items as shadcn registry JSON (see Self-hosting before serving them yourself).
 - `registry.json`: the shadcn registry manifest.
+- `MIGRATION.md`: moving from the 1.x registry (the `v1` tag), starting with Button's variants.
+
+## Self-hosting
+
+The JSON in `public/r/` is not self-contained. Its items depend on each other through the `@notchset` namespace and on the foundation at an absolute `https://notchset.dev/r/` URL, so installing it from your own origin needs two things, or the CLI fetches those dependencies from notchset.dev:
+
+1. Register the namespace to your origin in `components.json`: `{ "registries": { "@notchset": "https://your-origin.example/r/{name}.json" } }`.
+2. Point the absolute foundation URL at your origin too: `sed -i 's#https://notchset.dev/r/#https://your-origin.example/r/#g' public/r/*.json`.
+
+Serve a snapshot as a whole: mixing files from one release with a foundation from another is not supported.
 
 This repository is published from the Notchset site on every release, so changes land on the site first. Issues and ideas are welcome.
 

@@ -19,13 +19,15 @@ type SearchFieldProps = Omit<React.ComponentPropsWithoutRef<"input">, "onChange"
 };
 
 const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(function SearchField(
-  { value, onValueChange, shortcut, size = "dense", className, placeholder = "Search", "aria-label": ariaLabel, onKeyDown, ...props },
+  { value, onValueChange, shortcut, size = "dense", className, placeholder = "Search", "aria-label": ariaLabel, onKeyDown, disabled, readOnly, ...props },
   forwarded,
 ) {
   const inner = React.useRef<HTMLInputElement>(null);
   React.useImperativeHandle(forwarded, () => inner.current!);
+  /* a disabled or read-only field can't be changed from anywhere: not by typing, Esc, the clear button or the shortcut */
+  const locked = !!disabled || !!readOnly;
   React.useEffect(() => {
-    if (!shortcut) return;
+    if (!shortcut || disabled) return;
     const onKey = (e: KeyboardEvent) => {
       const t = e.target as HTMLElement;
       if (e.key !== shortcut || e.metaKey || e.ctrlKey || e.altKey || t.closest("input,textarea,select,[contenteditable=true]")) return;
@@ -34,7 +36,7 @@ const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(functio
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [shortcut]);
+  }, [shortcut, disabled]);
   return (
     <span
       data-slot="search-field"
@@ -50,16 +52,18 @@ const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(functio
         ref={inner}
         type="search"
         value={value}
+        disabled={disabled}
+        readOnly={readOnly}
         placeholder={placeholder}
         aria-label={ariaLabel ?? (typeof placeholder === "string" ? placeholder : "Search")}
         onChange={(e) => onValueChange(e.target.value)}
         onKeyDown={(e) => {
           onKeyDown?.(e);
-          if (e.key === "Escape" && value) {
+          if (e.key === "Escape" && value && !locked) {
             e.preventDefault();
             e.stopPropagation();
             onValueChange("");
-          } else if (e.key === "Escape") inner.current?.blur();
+          } else if (e.key === "Escape" && !value) inner.current?.blur();
         }}
         className="min-w-0 flex-1 bg-transparent text-[length:var(--ns-text-body)] text-[var(--ns-ink)] outline-hidden placeholder:text-[var(--ns-ink-3)] pointer-coarse:text-[16px] [&::-webkit-search-cancel-button]:hidden"
         {...props}
@@ -68,11 +72,13 @@ const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(functio
         <button
           type="button"
           aria-label="Clear search"
+          disabled={locked}
           onClick={() => {
+            if (locked) return;
             onValueChange("");
             inner.current?.focus();
           }}
-          className="-mr-1 grid size-5 cursor-pointer place-items-center rounded-[5px] text-[var(--ns-ink-3)] outline-hidden hover:bg-[var(--ns-hover)] hover:text-[var(--ns-ink)] focus-visible:outline-2 focus-visible:outline-[var(--ns-signal)] pointer-coarse:size-8"
+          className="-mr-1 grid size-5 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 place-items-center rounded-[5px] text-[var(--ns-ink-3)] outline-hidden hover:bg-[var(--ns-hover)] hover:text-[var(--ns-ink)] focus-visible:outline-2 focus-visible:outline-[var(--ns-signal)] pointer-coarse:size-8"
         >
           <X className="size-3" aria-hidden />
         </button>

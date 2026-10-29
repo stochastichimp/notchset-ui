@@ -164,6 +164,11 @@ function CommandSearch({ commands: all, placeholder, scope, seeAll, onRun }: { c
   const groups = [...new Set(found.map((c) => c.group))];
   const ordered = groups.flatMap((g) => found.filter((c) => c.group === g));
   const current = ordered[Math.min(active, ordered.length - 1)];
+  /* focus stays in the input, so the list follows the active option: the one Enter would run is always the one in view */
+  const currentId = current ? `${listId}-${current.id}` : undefined;
+  React.useEffect(() => {
+    if (currentId) document.getElementById(currentId)?.scrollIntoView?.({ block: "nearest" });
+  }, [currentId]);
 
   return (
     <>

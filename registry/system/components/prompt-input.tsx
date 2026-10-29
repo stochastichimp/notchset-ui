@@ -186,7 +186,7 @@ const PromptInput = React.forwardRef<HTMLTextAreaElement, PromptInputProps>(func
           {model}
           <span className="ml-auto" />
           {voice}
-          {running && !text ? (
+          {running && !text && !withFiles ? (
             <IconButton size="sm" label="Stop" onClick={onStop} aria-keyshortcuts="Escape">
               <Square aria-hidden className="size-3 fill-current" />
             </IconButton>

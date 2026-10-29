@@ -21,14 +21,17 @@ type RadioCardsProps<V extends string> = {
 
 function RadioCards<V extends string>({ options, value, onValueChange, label, columns = 1, className }: RadioCardsProps<V>) {
   const ref = React.useRef<HTMLDivElement>(null);
+  /* the cards by position, so a value is never built into a selector */
+  const cards = React.useRef<(HTMLButtonElement | null)[]>([]);
   const move = (e: React.KeyboardEvent) => {
     const d = e.key === "ArrowDown" || e.key === "ArrowRight" ? 1 : e.key === "ArrowUp" || e.key === "ArrowLeft" ? -1 : 0;
     if (!d) return;
     e.preventDefault();
-    const i = options.findIndex((o) => o.value === value);
-    const n = options[(i + d + options.length) % options.length]!;
-    onValueChange(n.value);
-    ref.current?.querySelector<HTMLElement>(`[data-value="${n.value}"]`)?.focus();
+    /* with nothing chosen the first card is the one in the tab order, so that is where a key starts */
+    const i = Math.max(0, options.findIndex((o) => o.value === value));
+    const k = (i + d + options.length) % options.length;
+    onValueChange(options[k]!.value);
+    cards.current[k]?.focus();
   };
   return (
     <div ref={ref} role="radiogroup" aria-label={label} onKeyDown={move} data-slot="radio-cards" className={cn("grid gap-2", columns === 2 ? "grid-cols-2 max-[480px]:grid-cols-1" : "grid-cols-1", className)}>
@@ -37,6 +40,7 @@ function RadioCards<V extends string>({ options, value, onValueChange, label, co
         return (
           <button
             key={o.value}
+            ref={(el) => void (cards.current[i] = el)}
             type="button"
             role="radio"
             data-value={o.value}

@@ -17,6 +17,8 @@ export type Column<R> = {
   key: string;
   label: string;
   align?: "start" | "end" | undefined;
+  /** Beside the header's name (an Explain "?"), on a header that doesn't sort. */
+  after?: React.ReactNode | undefined;
   /** Shown with the sort hint on the header ("Sort by close · …"). */
   hint?: string | undefined;
   sortable?: boolean | undefined;
@@ -50,6 +52,9 @@ type DataTableProps<R> = {
 };
 
 const cellPad = "px-3.5 first:pl-[var(--ns-gutter)] last:pr-[var(--ns-gutter)]";
+
+/* a press on any control a cell holds belongs to that control, not to the row (data-cell-control opts any element out) */
+const INTERACTIVE = "button,a,input,textarea,select,label,summary,[contenteditable]:not([contenteditable=false]),[role=checkbox],[role=button],[role=link],[role=switch],[role=menuitem],[role=option],[role=combobox],[role=textbox],[role=slider],[data-cell-control]";
 
 function DataTable<R>({ rows, rowKey, rowLabel, columns, sort, onSort, selected, onSelect, onSelectAll, phoneSelect, onOpen, activeIndex, empty, className }: DataTableProps<R>) {
   const activeRow = React.useRef<HTMLTableRowElement>(null);
@@ -89,7 +94,10 @@ function DataTable<R>({ rows, rowKey, rowLabel, columns, sort, onSort, selected,
             ) : (
               <th key={c.key} className={cn(cellPad, c.align === "end" && "text-end!", edge(c))}>
                 {/* laid out as a sortable header's label is, so every header in the row shares one baseline */}
-                <span className="-my-0.5 inline-flex items-center py-0.5 align-middle">{c.label}</span>
+                <span className="-my-0.5 inline-flex items-center gap-1 py-0.5 align-middle">
+                  {c.label}
+                  {c.after}
+                </span>
               </th>
             ),
           )}
@@ -110,7 +118,8 @@ function DataTable<R>({ rows, rowKey, rowLabel, columns, sort, onSort, selected,
                 /* a press inside a popup a cell opened (portaled out of the row, like an inline Deny) reaches the row
                    through React, not the page: it never opens the row */
                 if (!e.currentTarget.contains(e.target as Node)) return;
-                if ((e.target as HTMLElement).closest("button,a,input,[role=checkbox],[data-cell-control]")) return;
+                const hit = (e.target as HTMLElement).closest(INTERACTIVE);
+                if (hit && e.currentTarget.contains(hit)) return;
                 onOpen?.(r);
               }}
               className={cn(

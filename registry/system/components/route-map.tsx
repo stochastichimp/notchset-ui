@@ -131,19 +131,19 @@ const metres = (a: LatLng, b: LatLng) => {
   return 2 * R * Math.asin(Math.sqrt(x));
 };
 
+/* The ref is a callback, so the measuring follows the element itself: a map that first renders empty and then gets points measures the box it now draws. */
 function useSize(fallback: number) {
-  const ref = React.useRef<HTMLDivElement>(null);
+  const [el, setEl] = React.useState<HTMLDivElement | null>(null);
   const [size, setSize] = React.useState<[number, number]>([fallback, 0]);
   useIsomorphicLayoutEffect(() => {
-    const el = ref.current;
     if (!el) return;
     const read = () => setSize([Math.round(el.clientWidth) || fallback, Math.round(el.clientHeight)]);
     const ro = new ResizeObserver(read);
     ro.observe(el);
     read();
     return () => ro.disconnect();
-  }, [fallback]);
-  return [ref, size] as const;
+  }, [el, fallback]);
+  return [setEl, size] as const;
 }
 
 function RouteMap({ points, label, tiles, basemap, kmMarks = true, record, live, beat, height, fill, className }: RouteMapProps) {
@@ -194,7 +194,8 @@ function RouteMap({ points, label, tiles, basemap, kmMarks = true, record, live,
       })()
     : null;
   const attribution = tiles?.attribution ?? basemap?.attribution;
-  const placed: [number, number, number, number][] = [];
+  /* the boxes a map label keeps clear of: the kilometre marks and the two ends, then each label as it's placed */
+  const placed: [number, number, number, number][] = [...kms.map((m): [number, number, number, number] => [m.at[0], m.at[1], 9, 9]), [start[0], start[1], 10, 10], [end[0], end[1], 10, 10]];
   const shown = new Set<string>();
   /* road widths in px: their real width at this zoom, never thinner than a hairline street or wider than a boulevard */
   const road = base ? { arterial: Math.max(3, Math.min(13, 20 * base.k)), street: Math.max(1.6, Math.min(8, 10 * base.k)) } : { arterial: 0, street: 0 };

@@ -5,7 +5,7 @@ import { Popover } from "@base-ui/react/popover";
 import { CalendarDays, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/notchset/calendar";
-import { addDays, type Day, formatDay, parseDay, today as todayOf, weekday } from "@/lib/notchset/dates";
+import { DEFAULT_LOCALE, addDays, type Day, formatDay, parseDay, today as todayOf, weekday } from "@/lib/notchset/dates";
 import { fieldSurface } from "@/components/ui/notchset/field";
 import { popupPositioner, popupSurface } from "@/lib/notchset/popup";
 import { useReturnFocus } from "@/lib/notchset/return-focus";
@@ -36,6 +36,8 @@ type DatePickerProps = {
       January). On by default when the earliest allowed date is today or later. */
   ahead?: boolean | undefined;
   kind?: "field" | "property" | undefined;
+  /** BCP 47 locale for every date and time label; fixed so server and client render the same. Default "en-US". */
+  locale?: string | undefined;
   today?: Day | undefined;
   /** How the chosen date reads on the trigger ("Yesterday", "Fri"), when the app has its own words for dates. */
   display?: ((value: Day) => React.ReactNode) | undefined;
@@ -57,7 +59,7 @@ export function defaultShortcuts(now: Day): Shortcut[] {
 export const shortcutItem =
   "flex min-h-[var(--ns-menu-row)] w-full cursor-pointer items-center gap-3 rounded-[7px] px-[9px] text-left text-[length:var(--ns-text-body)] text-[var(--ns-ink)] outline-hidden hover:bg-[var(--ns-hover)] focus-visible:bg-[var(--ns-hover)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--ns-signal)] aria-pressed:bg-[var(--ns-selected)]";
 
-function DatePicker({ value, onValueChange, placeholder = "Add a date", shortcuts, min, max, clearable, ahead: aheadProp, kind = "field", today, display, tone, className, ...aria }: DatePickerProps) {
+function DatePicker({ value, onValueChange, placeholder = "Add a date", shortcuts, min, max, clearable, ahead: aheadProp, kind = "field", locale = DEFAULT_LOCALE, today, display, tone, className, ...aria }: DatePickerProps) {
   const portalContainer = usePortalContainer();
   const now = today ?? todayOf();
   const ahead = aheadProp ?? (min !== undefined && min >= now);
@@ -82,7 +84,7 @@ function DatePicker({ value, onValueChange, placeholder = "Add a date", shortcut
           )}
         >
           <CalendarDays />
-          <span className={cn("truncate", !value && "text-[var(--ns-ink-3)]")}>{value ? (display ? display(value) : formatDay(value)) : placeholder}</span>
+          <span className={cn("truncate", !value && "text-[var(--ns-ink-3)]")}>{value ? (display ? display(value) : formatDay(value, "medium", locale)) : placeholder}</span>
         </Popover.Trigger>
         {clearable && value && (
           <button type="button" aria-label="Clear the date" onClick={() => onValueChange(null)} className="grid size-6 shrink-0 cursor-pointer place-items-center rounded-[5px] text-[var(--ns-ink-3)] outline-hidden hover:bg-[var(--ns-hover)] hover:text-[var(--ns-ink)] focus-visible:outline-2 focus-visible:outline-[var(--ns-signal)] pointer-coarse:size-9">
@@ -94,7 +96,7 @@ function DatePicker({ value, onValueChange, placeholder = "Add a date", shortcut
         <Popover.Positioner sideOffset={4} collisionPadding={8} align="start" className={popupPositioner}>
           <Popover.Popup data-slot="date-picker-popup" data-ns-layer="" data-ns-moves="" finalFocus={returnFocus} initialFocus={false} className={cn(popupSurface, "flex gap-2 p-2 max-[600px]:flex-col")}>
             <Popover.Title className="sr-only">{aria["aria-label"] ?? "Pick a date"}</Popover.Title>
-            <DateBody key={value ?? "none"} value={value} now={now} shortcuts={shortcuts ?? defaultShortcuts(now)} min={min} max={max} ahead={ahead} onPick={pick} />
+            <DateBody locale={locale} key={value ?? "none"} value={value} now={now} shortcuts={shortcuts ?? defaultShortcuts(now)} min={min} max={max} ahead={ahead} onPick={pick} />
           </Popover.Popup>
         </Popover.Positioner>
       </Popover.Portal>
@@ -103,7 +105,7 @@ function DatePicker({ value, onValueChange, placeholder = "Add a date", shortcut
 }
 
 /** Mounted only while open, so the typed text starts empty each time. */
-function DateBody({ value, now, shortcuts, min, max, ahead, onPick }: { value: Day | null; now: Day; shortcuts: Shortcut[]; min?: Day | undefined; max?: Day | undefined; ahead: boolean; onPick: (d: Day) => void }) {
+function DateBody({ value, locale, now, shortcuts, min, max, ahead, onPick }: { value: Day | null; locale: string; now: Day; shortcuts: Shortcut[]; min?: Day | undefined; max?: Day | undefined; ahead: boolean; onPick: (d: Day) => void }) {
   const [typed, setTyped] = React.useState("");
   const parsed = typed.trim() ? parseDay(typed, now, { ahead }) : null;
   const allowed = parsed && !(min && parsed < min) && !(max && parsed > max) ? parsed : null;
@@ -116,9 +118,11 @@ function DateBody({ value, now, shortcuts, min, max, ahead, onPick }: { value: D
           value={typed}
           onChange={(e) => setTyped(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === "Enter" && allowed) {
+            /* Enter is the field's whatever it holds: a date it can't use stays typed for correcting, and never reaches a dialog's verb */
+            if (e.key === "Enter") {
               e.preventDefault();
-              onPick(allowed);
+              e.stopPropagation();
+              if (allowed) onPick(allowed);
             }
           }}
           aria-label="Type a date"
@@ -127,17 +131,17 @@ function DateBody({ value, now, shortcuts, min, max, ahead, onPick }: { value: D
           className={cn(fieldSurface, "mb-1 h-[var(--ns-field)]")}
         />
         <span id={readId} aria-live="polite" className="min-h-4 px-[9px] pb-1 text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)]">
-          {!typed.trim() ? 'Like "nov 3" or "next fri"' : allowed ? <>↵ {formatDay(allowed, "long")}</> : parsed ? "Outside the dates you can pick" : "Not a date yet"}
+          {!typed.trim() ? 'Like "nov 3" or "next fri"' : allowed ? <>↵ {formatDay(allowed, "long", locale)}</> : parsed ? "Outside the dates you can pick" : "Not a date yet"}
         </span>
         {shortcuts.map((s) => (
           <button key={s.label} type="button" aria-pressed={s.day === value} disabled={Boolean((min && s.day < min) || (max && s.day > max))} onClick={() => onPick(s.day)} className={cn(shortcutItem, "disabled:opacity-45")}>
             <span className="flex-1">{s.label}</span>
-            <span className="text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)] tabular-nums">{formatDay(s.day, "short")}</span>
+            <span className="text-[length:var(--ns-text-meta)] text-[var(--ns-ink-3)] tabular-nums">{formatDay(s.day, "short", locale)}</span>
           </button>
         ))}
       </div>
       <div className="w-px shrink-0 self-stretch bg-[var(--ns-line-soft)] max-[600px]:h-px max-[600px]:w-auto" />
-      <Calendar value={value} today={now} min={min} max={max} onPick={onPick} className="p-1" />
+      <Calendar value={value} locale={locale} today={now} min={min} max={max} onPick={onPick} className="p-1" />
     </>
   );
 }
